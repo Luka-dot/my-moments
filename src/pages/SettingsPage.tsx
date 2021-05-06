@@ -7,22 +7,20 @@ import {
 } from '@ionic/react';
 import React from 'react';
 
-import {Link} from 'react-router-dom';
-
-const HomePage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Settings page</IonTitle>
+          <IonTitle>Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        Go to <Link to='/home'>Home</Link>
+        Just a settings page text.
       </IonContent>
     </IonPage>
   );
 };
 
-export default HomePage;
+export default SettingsPage;
 

@@ -1,27 +1,35 @@
 import {
   IonContent,
   IonHeader,
+  IonList,
   IonPage,
   IonTitle,
   IonToolbar,
+  IonItem,
+  IonButton,
 } from '@ionic/react';
 import React from 'react';
-import {Link} from 'react-router-dom';
 
-const SettingsPage: React.FC = () => {
+import { entries } from '../dummyData';
+
+const HomePage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Home page</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        Go to <Link to='/settings' >Settings</Link>
+        <IonList>
+        {entries.map((entry) => 
+            <IonItem button key={entry.id} routerLink={`/entries/${entry.id}`} >{entry.title}</IonItem>
+          )}
+        </IonList>
       </IonContent>
     </IonPage>
   );
 };
 
-export default SettingsPage;
+export default HomePage;
 
