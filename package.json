@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "ionic serve",
+    "start": "ionic serve --env-file",
     "build": "ionic build"
   },
   "dependencies": {
     "@capacitor/android": "2.4.7",
     "@capacitor/core": "2.4.7",
     "@capacitor/ios": "2.4.7",
+    "@firebase/auth": "^0.16.5",
     "@ionic/react": "^5.6.0",
     "@ionic/react-router": "^5.6.0",
+    "dotenv": "^9.0.0",
+    "find-config": "^1.0.0",
+    "firebase": "^8.5.0",
     "ionicons": "^5.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
