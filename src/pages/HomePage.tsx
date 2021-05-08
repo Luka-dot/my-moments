@@ -7,10 +7,10 @@ import {
   IonToolbar,
   IonItem,
   IonButton,
-} from '@ionic/react';
-import React from 'react';
+} from "@ionic/react";
+import React from "react";
 
-import { entries } from '../dummyData';
+import { entries } from "../dummyData";
 
 const HomePage: React.FC = () => {
   return (
@@ -22,9 +22,15 @@ const HomePage: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-        {entries.map((entry) => 
-            <IonItem button key={entry.id} routerLink={`/entries/${entry.id}`} >{entry.title}</IonItem>
-          )}
+          {entries.map((entry) => (
+            <IonItem
+              button
+              key={entry.id}
+              routerLink={`/my/entries/${entry.id}`}
+            >
+              {entry.title}
+            </IonItem>
+          ))}
         </IonList>
       </IonContent>
     </IonPage>
@@ -32,4 +38,3 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
-
