@@ -6,24 +6,27 @@ import { Redirect, Route } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import AppTabs from "./AppTabs";
+import { AuthContext } from "./Auth";
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route path="/login">
-            <LoginPage loggedIn={loggedIn} onLogin={() => setLoggedIn(true)} />
-          </Route>
-          <Route path="/my">
-            <AppTabs loggedIn={loggedIn} />
-          </Route>
+      <AuthContext.Provider value={{ loggedIn }}>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route path="/login">
+              <LoginPage onLogin={() => setLoggedIn(true)} />
+            </Route>
+            <Route path="/my">
+              <AppTabs />
+            </Route>
 
-          <Redirect exact path="/" to="/my/entries" />
-        </IonRouterOutlet>
-      </IonReactRouter>
+            <Redirect exact path="/" to="/my/entries" />
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </AuthContext.Provider>
     </IonApp>
   );
 };

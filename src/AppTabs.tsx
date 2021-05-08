@@ -18,12 +18,10 @@ import { Route, Redirect } from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
 import HomePage from "./pages/HomePage";
 import EntryPage from "./pages/EntryPage";
+import { useAuth } from "./Auth";
 
-interface Props {
-  loggedIn: boolean;
-}
-
-const AppTab: React.FC<Props> = ({ loggedIn }) => {
+const AppTab: React.FC = () => {
+  const { loggedIn } = useAuth();
   if (!loggedIn) {
     return <Redirect to="/login" />;
   }
