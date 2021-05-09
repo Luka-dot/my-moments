@@ -9,7 +9,6 @@ import {
 import {
   home as homeIcon,
   settings as settingsIcon,
-  logInOutline as loginIcon,
   construct,
 } from "ionicons/icons";
 import React from "react";

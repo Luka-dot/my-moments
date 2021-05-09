@@ -14,7 +14,6 @@ import {
   IonCol,
 } from "@ionic/react";
 import React from "react";
-import { auth } from "../firebase";
 
 const AccountPage: React.FC = () => {
   return (
