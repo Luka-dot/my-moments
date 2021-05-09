@@ -10,17 +10,15 @@ import {
 import React, { useState, useEffect } from "react";
 
 import { firestore } from "../firebase";
+import { Entry, toEntry } from "../Models";
 
 const HomePage: React.FC = () => {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState<Entry[]>([]);
 
   useEffect(() => {
     const entriesRef = firestore.collection("Entries");
     entriesRef.get().then((snapshot) => {
-      const entries = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const entries = snapshot.docs.map(toEntry); // same as (doc) => toEntry(doc)
       setEntries(entries);
     });
   }, []);
