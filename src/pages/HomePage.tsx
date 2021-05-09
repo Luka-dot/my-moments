@@ -7,11 +7,24 @@ import {
   IonToolbar,
   IonItem,
 } from "@ionic/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import { entries } from "../dummyData";
+import { firestore } from "../firebase";
 
 const HomePage: React.FC = () => {
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const entriesRef = firestore.collection("Entries");
+    entriesRef.get().then((snapshot) => {
+      const entries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setEntries(entries);
+    });
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
