@@ -20,6 +20,7 @@ import HomePage from "./pages/HomePage";
 import EntryPage from "./pages/EntryPage";
 import AccountPage from "./pages/AccountPage";
 import { useAuth } from "./Auth";
+import AddEntryPage from "./pages/AddEntryPage";
 
 const AppTab: React.FC = () => {
   const { loggedIn } = useAuth();
@@ -36,8 +37,11 @@ const AppTab: React.FC = () => {
           <AccountPage />
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
-        <Route exact path="/my/entries/:id">
+        <Route exact path="/my/entries/view/:id">
           <EntryPage />
+        </Route>
+        <Route exact path="/my/entries/add">
+          <AddEntryPage />
         </Route>
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
