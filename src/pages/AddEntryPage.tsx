@@ -13,9 +13,10 @@ import {
   IonTextarea,
   IonTitle,
   IonToolbar,
+  isPlatform,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
-import { CameraResultType, Plugins } from "@capacitor/core";
+import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
 import { useAuth } from "../Auth";
 
@@ -58,11 +59,19 @@ const AddEntryPage: React.FC = () => {
   };
 
   const handlePictureClick = async () => {
-    //  fileInputRef.current.click();
-    const photo = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
-    });
-    setPictureUrl(photo.webPath);
+    if (isPlatform("capacitor")) {
+      try {
+        const photo = await Camera.getPhoto({
+          resultType: CameraResultType.Uri,
+          source: CameraSource.Prompt,
+          width: 600,
+        });
+        setPictureUrl(photo.webPath);
+      } catch (error) {
+        console.log("user cancel photo.");
+      }
+    }
+    fileInputRef.current.click();
   };
 
   const handleSave = async () => {
@@ -71,7 +80,7 @@ const AddEntryPage: React.FC = () => {
       .doc(userId)
       .collection("entries");
     const entryData = { date, title, pictureUrl, description };
-    if (pictureUrl.startsWith("blob:")) {
+    if (!pictureUrl.startsWith("/assets")) {
       entryData.pictureUrl = await savePicture(pictureUrl, userId);
     }
     const entryRef = await entriesRef.add(entryData);
