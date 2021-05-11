@@ -14,12 +14,14 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import { useAuth } from "../Auth";
 
 import { firestore } from "../firebase";
 
 const AddEntryPage: React.FC = () => {
   const { userId } = useAuth() as any;
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -30,7 +32,7 @@ const AddEntryPage: React.FC = () => {
       .collection("entries");
     const entryData = { title, description };
     const entryRef = await entriesRef.add(entryData);
-    console.log(entryRef);
+    history.goBack();
   };
 
   return (

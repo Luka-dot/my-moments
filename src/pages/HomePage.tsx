@@ -26,10 +26,7 @@ const HomePage: React.FC = () => {
       .collection("users")
       .doc(userId)
       .collection("entries");
-    entriesRef.get().then((snapshot) => {
-      const entries = snapshot.docs.map(toEntry); // same as (doc) => toEntry(doc)
-      setEntries(entries);
-    });
+    return entriesRef.onSnapshot(({ docs }) => setEntries(docs.map(toEntry)));
   }, [userId]);
 
   return (
