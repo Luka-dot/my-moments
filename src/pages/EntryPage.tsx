@@ -60,11 +60,12 @@ const EntryPage: React.FC = () => {
               <IonIcon icon={trashIcon} slot="icon-only" />
             </IonButton>
           </IonButtons>
-          <IonTitle>Entry for {entry?.title}</IonTitle>
+          <IonTitle>Entry for {formatDate(entry?.date)}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <h4>{formatDate(entry?.date)}</h4>
+        <h4>{entry?.title}</h4>
+        <img src={entry?.pictureUrl} alt={entry?.title} />
         <p>{entry?.description}</p>
       </IonContent>
     </IonPage>

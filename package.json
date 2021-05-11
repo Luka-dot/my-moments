@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ionic serve --env-file",
+    "start:android": "ionic capacitor run android --livereload --external",
     "build": "ionic build"
   },
   "dependencies": {
