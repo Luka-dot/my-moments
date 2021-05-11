@@ -29,7 +29,9 @@ const HomePage: React.FC = () => {
       .collection("users")
       .doc(userId)
       .collection("entries");
-    return entriesRef.onSnapshot(({ docs }) => setEntries(docs.map(toEntry)));
+    return entriesRef
+      .orderBy("date", "desc")
+      .onSnapshot(({ docs }) => setEntries(docs.map(toEntry)));
   }, [userId]);
 
   return (
