@@ -5,17 +5,14 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonItem,
   IonFab,
   IonFabButton,
   IonIcon,
-  IonLabel,
-  IonThumbnail,
-  IonImg,
 } from "@ionic/react";
 import { add as addIcon } from "ionicons/icons";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../Auth";
+import EntriesItem from '../components/EntriesItem';
 
 import { firestore } from "../firebase";
 import { Entry, toEntry } from "../Models";
@@ -45,21 +42,7 @@ const HomePage: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-          {entries.map((entry) => (
-            <IonItem
-              button
-              key={entry.id}
-              routerLink={`/my/entries/view/${entry.id}`}
-            >
-              <IonThumbnail slot="end">
-                <IonImg src={entry.pictureUrl} />
-              </IonThumbnail>
-              <IonLabel>
-                <h3>{entry.title}</h3>
-                <h4>{formatDate(entry.date)}</h4>
-              </IonLabel>
-            </IonItem>
-          ))}
+          <EntriesItem entries={entries} />
         </IonList>
         <IonFab vertical="bottom" horizontal="end">
           <IonFabButton routerLink="/my/entries/add">
