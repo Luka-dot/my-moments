@@ -42,7 +42,6 @@ const EntryPage: React.FC = () => {
 
   const handleDelete = async () => {
     setDeleting(true)
-    console.log('modal triggered ', deleteing)
     const entryRef = firestore
       .collection("users")
       .doc(userId)
