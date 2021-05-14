@@ -9,9 +9,5 @@
       "launchAutoHide": false
     }
   },
-  "cordova": {},
-  "server": {
-    "url": "http://172.21.96.1:8100",
-    "cleartext": true
-  }
+  "cordova": {}
 }

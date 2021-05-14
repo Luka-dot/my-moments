@@ -83,7 +83,7 @@ const AddEntryPage: React.FC = () => {
     if (!pictureUrl.startsWith("/assets")) {
       entryData.pictureUrl = await savePicture(pictureUrl, userId);
     }
-    const entryRef = await entriesRef.add(entryData);
+    await entriesRef.add(entryData);
     history.goBack();
   };
 

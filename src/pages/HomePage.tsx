@@ -17,8 +17,6 @@ import EntriesItem from '../components/EntriesItem';
 import { firestore } from "../firebase";
 import { Entry, toEntry } from "../Models";
 
-import { formatDate } from "../utils/helpers";
-
 const HomePage: React.FC = () => {
   const { userId } = useAuth() as any;
   const [entries, setEntries] = useState<Entry[]>([]);

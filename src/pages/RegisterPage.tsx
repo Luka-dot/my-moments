@@ -15,23 +15,39 @@ import {
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useAuth } from "../Auth";
-import { auth } from "../firebase";
+import { auth, createUserProfileDocument } from "../firebase";
 
 const RegisterPage: React.FC = () => {
   const { loggedIn } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newUser, setNewUser] = useState({
+    email: '',
+    password: '',
+    userName: ''
+  })
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [userName, setUserName] = useState('');
   const [status, setStatus] = useState({ loading: false, error: false });
 
   const handleRegister = async () => {
+    const { email, password, userName } = newUser;
+    console.log('state when creatung ', email, password, userName)
     try {
       setStatus({ loading: true, error: false });
-      await auth.createUserWithEmailAndPassword(email, password);
+      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+
+      await createUserProfileDocument(user, { userName });
+
     } catch (error) {
       setStatus({ loading: false, error: true });
       console.log("error ", error);
     }
   };
+
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setNewUser({ ...newUser, [name]: value });
+  }
 
   if (loggedIn) {
     return <Redirect to="/my/entries" />;
@@ -48,17 +64,28 @@ const RegisterPage: React.FC = () => {
           <IonItem>
             <IonLabel position="stacked">Email</IonLabel>
             <IonInput
+              name="email"
               type="email"
-              value={email}
-              onIonChange={(event) => setEmail(event.detail.value)}
+              value={newUser.email}
+              onIonChange={(e) => handleInputChange(e)}
             />
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
+              name="password"
               type="password"
-              value={password}
-              onIonChange={(event) => setPassword(event.detail.value)}
+              value={newUser.password}
+              onIonChange={(e) => handleInputChange(e)}
+            />
+          </IonItem>
+          <IonItem>
+            <IonLabel position="stacked">User Name</IonLabel>
+            <IonInput
+              name='userName'
+              type="text"
+              value={newUser.userName}
+              onIonChange={(e) => handleInputChange(e)}
             />
           </IonItem>
         </IonList>

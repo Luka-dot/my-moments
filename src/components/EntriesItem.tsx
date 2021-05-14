@@ -1,20 +1,9 @@
 import {
-    IonContent,
-    IonHeader,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
     IonItem,
-    IonFab,
-    IonFabButton,
-    IonIcon,
     IonLabel,
     IonThumbnail,
     IonImg,
 } from "@ionic/react";
-import { add as addIcon } from "ionicons/icons";
-import React, { useState, useEffect } from "react";
 import { formatDate } from '../utils/helpers';
 import { Entry } from '../Models';
 
@@ -22,12 +11,12 @@ interface EntriesProps {
     entries: Entry[]
 }
 
-const EntriesItem = (props: EntriesProps) => {
+const EntriesItem = ({ entries }: EntriesProps) => {
 
     return (
         <div>
             {
-                props.entries.map((entry) => (
+                entries.map((entry) => (
                     <IonItem
                         button
                         key={entry.id}
