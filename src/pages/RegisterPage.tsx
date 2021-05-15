@@ -11,32 +11,77 @@ import {
   IonInput,
   IonText,
   IonLoading,
+  isPlatform,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useAuth } from "../Auth";
-import { auth, createUserProfileDocument } from "../firebase";
+import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
+import { auth, createUserProfileDocument2, firestore, storage } from "../firebase";
+
+const { Camera } = Plugins;
+
+async function savePicture(blobUrl, userId) {
+  console.log(blobUrl, userId)
+  const pictureRef = storage.ref(`/users/${userId}/pictures/${Date.now()}`);
+  const response = await fetch(blobUrl);
+  const blob = await response.blob();
+  const snapshot = await pictureRef.put(blob);
+  const url = snapshot.ref.getDownloadURL();
+  URL.revokeObjectURL(blobUrl);
+  return url;
+}
 
 const RegisterPage: React.FC = () => {
   const { loggedIn } = useAuth();
   const [newUser, setNewUser] = useState({
     email: '',
     password: '',
-    userName: ''
-  })
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userName, setUserName] = useState('');
+    userName: '',
+    pictureUrl: "/assets/placeholder.png",
+  });
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files.length > 0) {
+      const file = event.target.files.item(0);
+      const pictureU = URL.createObjectURL(file);
+      setNewUser({ ...newUser, pictureUrl: pictureU });
+    }
+  };
+
+  const handlePictureClick = async () => {
+    if (isPlatform("capacitor")) {
+      try {
+        const photo = await Camera.getPhoto({
+          resultType: CameraResultType.Uri,
+          source: CameraSource.Prompt,
+          width: 600,
+        });
+        setNewUser({ ...newUser, pictureUrl: photo.webPath });
+      } catch (error) {
+        console.log("user cancel photo.");
+      }
+    }
+    fileInputRef.current.click();
+  };
+
   const [status, setStatus] = useState({ loading: false, error: false });
+  const fileInputRef = useRef<HTMLInputElement>();
 
   const handleRegister = async () => {
-    const { email, password, userName } = newUser;
-    console.log('state when creatung ', email, password, userName)
+    const { email, password, userName, pictureUrl } = newUser;
+
     try {
       setStatus({ loading: true, error: false });
       const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
-      await createUserProfileDocument(user, { userName });
+      if (!pictureUrl.startsWith("/assets")) {
+        console.log('picture ', newUser.pictureUrl)
+        console.log('user ', user.uid)
+        newUser.pictureUrl = await savePicture(pictureUrl, user.uid);
+      }
+
+      await createUserProfileDocument2(user, { newUser });
 
     } catch (error) {
       setStatus({ loading: false, error: true });
@@ -86,6 +131,23 @@ const RegisterPage: React.FC = () => {
               type="text"
               value={newUser.userName}
               onIonChange={(e) => handleInputChange(e)}
+            />
+          </IonItem>
+          <IonItem>
+            <IonLabel position="stacked">Picture</IonLabel>
+            <br></br>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleOnChange}
+              hidden
+              ref={fileInputRef}
+            />
+            <img
+              src={newUser.pictureUrl}
+              alt=""
+              style={{ cursor: "pointer" }}
+              onClick={handlePictureClick}
             />
           </IonItem>
         </IonList>

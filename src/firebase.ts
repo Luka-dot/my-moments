@@ -31,17 +31,52 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 //     await userrrRef.add(profileData);
     
     const snapShot = await userRef.get()
-    console.log('snapshot ', snapShot)
+
     if (!snapShot.exists) {
-      const { userName, email } = userAuth;
+ //     const { userName, email } = userAuth;
       const createdAt = new Date();
+//      const { userName, email, pictureUrl } = additionalData.newUser;
+
       try {
-        await firestore.doc(`profiles/${userAuth.uid}/details/${Date.now()}`).set({
-          userName,
-          email,
-          createdAt,
-          ...additionalData
+        await firestore.collection(`users/${userAuth.uid}/profile`).add({
+          userName: additionalData.newUser.userName,
+          email: additionalData.newUser.email,
+          createdAt: createdAt,
+          pictureUrl: additionalData.newUser.pictureUrl
         });
+      } catch (error) {
+        console.log('error creating user', error.message);
+      }
+    }
+  
+    return userRef;
+  };
+export const createUserProfileDocument2 = async (userAuth, additionalData) => {
+    if (!userAuth) return;
+  
+   const userRef = await firestore.doc(`users/${userAuth.uid}`);
+//    const userrrRef = await firestore.collection('users').doc(userAuth.uid)
+//    .collection('profiles');
+
+//    const profileData ={ userId: userAuth.uid, email: userAuth.email, userName: userAuth.userName }
+//     console.log('profile Data ', profileData);
+
+//     await userrrRef.add(profileData);
+    
+    const snapShot = await userRef.get()
+
+    if (!snapShot.exists) {
+ //     const { userName, email } = userAuth;
+      const createdAt = new Date();
+//      const { userName, email, pictureUrl } = additionalData.newUser;
+
+      try {
+        await userRef.set({
+          userName: additionalData.newUser.userName,
+          email: additionalData.newUser.email,
+          createdAt: createdAt,
+          pictureUrl: additionalData.newUser.pictureUrl
+        })
       } catch (error) {
         console.log('error creating user', error.message);
       }

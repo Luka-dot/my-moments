@@ -44,6 +44,20 @@ const AppTab: React.FC = () => {
           <AddEntryPage />
         </Route>
       </IonRouterOutlet>
+      <IonTabBar slot="top">
+        <IonTabButton tab="home" href="/my/entries">
+          <IonIcon icon={homeIcon} />
+          <IonLabel>Home</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="settings" href="/my/settings">
+          <IonIcon icon={settingsIcon} />
+          <IonLabel>Settings</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="login" href="/my/account">
+          <IonIcon icon={construct} />
+          <IonLabel>Account</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
       <IonTabBar slot="bottom">
         <IonTabButton tab="home" href="/my/entries">
           <IonIcon icon={homeIcon} />
