@@ -23,10 +23,11 @@ import { useAuth } from "./Auth";
 import AddEntryPage from "./pages/AddEntryPage";
 
 const AppTab: React.FC = () => {
-  const { loggedIn } = useAuth();
+  const { loggedIn, userName } = useAuth();
   if (!loggedIn) {
     return <Redirect to="/login" />;
   }
+  console.log(loggedIn, userName)
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -44,20 +45,6 @@ const AppTab: React.FC = () => {
           <AddEntryPage />
         </Route>
       </IonRouterOutlet>
-      <IonTabBar slot="top">
-        <IonTabButton tab="home" href="/my/entries">
-          <IonIcon icon={homeIcon} />
-          <IonLabel>Home</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="settings" href="/my/settings">
-          <IonIcon icon={settingsIcon} />
-          <IonLabel>Settings</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="login" href="/my/account">
-          <IonIcon icon={construct} />
-          <IonLabel>Account</IonLabel>
-        </IonTabButton>
-      </IonTabBar>
       <IonTabBar slot="bottom">
         <IonTabButton tab="home" href="/my/entries">
           <IonIcon icon={homeIcon} />

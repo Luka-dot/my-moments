@@ -1,18 +1,20 @@
 import { IonApp, IonLoading } from "@ionic/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import AppTabs from "./AppTabs";
-import { AuthContext, useAuthInit } from "./Auth";
+import { AuthContext, useAuthInit, useDeatilsInit } from "./Auth";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 
 const App: React.FC = () => {
   const { loading, auth } = useAuthInit();
+  // const deatils = useDeatilsInit(auth.userId)
 
   console.log(auth)
+  // console.log(userName, pictureUrl)
 
   if (loading) {
     return <IonLoading isOpen />;
