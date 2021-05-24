@@ -21,3 +21,6 @@ export function toEntry(doc): Entry {
 export function toAccount(doc): Account {
     return { id: doc.id, ...doc.data() };
 };
+export function toAccountDet(doc): any {
+    return { ...doc.data() };
+};

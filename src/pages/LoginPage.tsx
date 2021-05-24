@@ -12,28 +12,27 @@ import {
   IonText,
   IonLoading,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { useAuth } from "../Auth";
-import { auth } from "../firebase";
+import { connect } from "react-redux";
+// import { useAuth } from "../Auth";
+// import { auth } from "../firebase";
 
-const LoginPage: React.FC = () => {
-  const { loggedIn } = useAuth();
+import { logInUser } from '../actions/AuthActions';
+
+const LoginPage: React.FC = ({ logInUser, userLoggedIn, auth }: any) => {
+  //  const { loggedIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState({ loading: false, error: false });
 
-  const handleLogin = async () => {
-    try {
-      setStatus({ loading: true, error: false });
-      await auth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      setStatus({ loading: false, error: true });
-      console.log("error ", error);
-    }
+  const handleLogin = () => {
+    logInUser();
   };
 
-  if (loggedIn) {
+  console.log('login check ', userLoggedIn)
+
+  if (userLoggedIn === true) {
     return <Redirect to="/my/entries" />;
   }
   return (
@@ -80,4 +79,11 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+const mapStateToProps = (state) => {
+  return ({
+    user: state.auth.user,
+    userLoggedIn: state.auth.loggedIn,
+  })
+}
+
+export default connect(mapStateToProps, { logInUser })(LoginPage);

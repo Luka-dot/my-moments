@@ -17,7 +17,6 @@ import { firestore } from "../firebase";
 import { Modal } from '../shared/Modal';
 import { useAuth } from '../Auth';
 import { toAccount, Account } from '../Models';
-import { formatDate } from '../utils/helpers';
 
 const SettingsPage: React.FC = () => {
   const [loggingout, setLoggingout] = useState(false);
@@ -39,7 +38,7 @@ const SettingsPage: React.FC = () => {
     </IonPage>
   };
 
-  const { userName, pictureUrl, createdAt } = accountHolder;
+  const { userName, pictureUrl } = accountHolder;
 
   const logOutHandler = () => {
     auth.signOut()

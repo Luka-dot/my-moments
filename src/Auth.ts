@@ -8,6 +8,7 @@ interface Auth {
     userId?: String;
     userName?: string;
     pictureUrl?: string;
+    userDetailRef?: any; 
 }
 interface AuthInit {
     auth?: Auth;
@@ -38,25 +39,23 @@ export function useAuthInit(): AuthInit {
       return authInit
 };
 
-export function useDeatilsInit(id): Auth {
+export function useDeatilsInit(userDetailsRef): Auth {
     const [userDetails, setuserDetails] = useState<Auth>({
         loggedIn: false,
     });
     
-      useEffect(() => {
-        const entryRef = firestore
-      .collection("users")
-      .doc(id)
-    entryRef.get().then((doc) => {
+  
+       
+    userDetailsRef.get().then((doc) => {
       setuserDetails(toAccount(doc) as any);
-    });
+    
 
         // firebase.auth().onAuthStateChanged((user) => {
         // return firebaseAuth.onAuthStateChanged((firebaseUser) => {
         //     const auth = firebaseUser ? { loggedIn: true, userId: firebaseUser.uid } : { loggedIn: false };
         //     setuserDetails({ loggedIn: true });
         // });
-      }, []);
+      });
 
       return userDetails
 };

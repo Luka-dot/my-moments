@@ -1,29 +1,33 @@
 import { IonApp, IonLoading } from "@ionic/react";
-import React, { useEffect } from "react";
+import React, { } from "react";
+import { Provider } from "react-redux";
+import store from './store';
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import LoginPage from "./pages/LoginPage";
 import AppTabs from "./AppTabs";
-import { AuthContext, useAuthInit, useDeatilsInit } from "./Auth";
+import { AuthContext, useAuthInit } from "./Auth";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 
-const App: React.FC = () => {
+const App: React.FC = (props: any) => {
   const { loading, auth } = useAuthInit();
-  // const deatils = useDeatilsInit(auth.userId)
-
-  console.log(auth)
-  // console.log(userName, pictureUrl)
+  //const { data } = useAuthInit2(auth);
 
   if (loading) {
     return <IonLoading isOpen />;
   }
 
+  console.log(auth)
+  console.log(props)
+  //  logInStarted(auth)
+
   return (
     <IonApp>
       <AuthContext.Provider value={auth}>
-        <IonReactRouter>
+        <IonReactRouter >
           <Switch>
             <Route path="/login">
               <LoginPage />
@@ -45,4 +49,12 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   logInStarted: user => dispatch(logInStarted(user))
+// });
+
+export default connect(null, null)(App);

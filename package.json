@@ -14,14 +14,20 @@
     "@firebase/auth": "^0.16.5",
     "@ionic/react": "^5.6.0",
     "@ionic/react-router": "^5.6.0",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux": "^3.6.0",
     "dotenv": "^9.0.0",
     "find-config": "^1.0.0",
     "firebase": "^8.5.0",
     "ionicons": "^5.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.7",
