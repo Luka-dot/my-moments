@@ -13,48 +13,44 @@ import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 
 const App: React.FC = (props: any) => {
-  const { loading, auth } = useAuthInit();
+  // const { loading, auth } = useAuthInit();
   //const { data } = useAuthInit2(auth);
-
-  if (loading) {
-    return <IonLoading isOpen />;
-  }
-
-  console.log(auth)
-  console.log(props)
+  const { loggedIn, user } = props.currentUser;
   //  logInStarted(auth)
 
   return (
     <IonApp>
-      <AuthContext.Provider value={auth}>
-        <IonReactRouter >
-          <Switch>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route path="/register">
-              <RegisterPage />
-            </Route>
-            <Route path="/my">
-              <AppTabs />
-            </Route>
+      <IonReactRouter >
+        <Switch>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+          <Route path="/my">
+            <AppTabs />
+          </Route>
+          {loggedIn ?
             <Redirect exact path="/" to="/my/entries" />
-            <Route>
-              <NotFoundPage />
-            </Route>
-          </Switch>
-        </IonReactRouter>
-      </AuthContext.Provider>
+            :
+            <Redirect to="/login" />
+          }
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
+      </IonReactRouter>
     </IonApp>
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = (state) => ({
+  currentUser: state.auth,
 });
 
 // const mapDispatchToProps = dispatch => ({
 //   logInStarted: user => dispatch(logInStarted(user))
 // });
 
-export default connect(null, null)(App);
+export default connect(mapStateToProps, null)(App);

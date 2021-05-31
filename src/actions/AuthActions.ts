@@ -10,11 +10,11 @@ import { auth } from '../firebase';
 //     })
 // }
 
-export const logInUser = () => async dispatch => {
+export const logInUser = (email, password) => async dispatch => {
 
     try {
-        const returnCredentials = await auth.signInWithEmailAndPassword('test@test.com', '123456')
-        console.log('loggedInCredentials :', returnCredentials)
+        const returnCredentials = await auth.signInWithEmailAndPassword("test@test.com", "123456")
+     
         dispatch ({
             type: LOG_IN,
             payload: returnCredentials.user,

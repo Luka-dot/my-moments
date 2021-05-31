@@ -21,13 +21,17 @@ import EntryPage from "./pages/EntryPage";
 import AccountPage from "./pages/AccountPage";
 import { useAuth } from "./Auth";
 import AddEntryPage from "./pages/AddEntryPage";
+import { connect } from "react-redux";
 
-const AppTab: React.FC = () => {
-  const { loggedIn, userName } = useAuth();
+const AppTab: React.FC = (props: any) => {
+  const { loggedIn } = props.currentUser;
+
+  console.log('atttabs ', props)
+
   if (!loggedIn) {
     return <Redirect to="/login" />;
   }
-  console.log(loggedIn, userName)
+
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -63,4 +67,8 @@ const AppTab: React.FC = () => {
   );
 };
 
-export default AppTab;
+const mapStateToProps = (state) => ({
+  currentUser: state.auth,
+});
+
+export default connect(mapStateToProps, null)(AppTab);

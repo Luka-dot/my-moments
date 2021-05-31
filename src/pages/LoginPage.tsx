@@ -20,19 +20,18 @@ import { connect } from "react-redux";
 
 import { logInUser } from '../actions/AuthActions';
 
-const LoginPage: React.FC = ({ logInUser, userLoggedIn, auth }: any) => {
+const LoginPage: React.FC = (props: any) => {
   //  const { loggedIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState({ loading: false, error: false });
 
   const handleLogin = () => {
-    logInUser();
+    props.logInUser(email, password);
   };
 
-  console.log('login check ', userLoggedIn)
-
-  if (userLoggedIn === true) {
+  if (props.user.loggedIn === true) {
+    console.log('redirect')
     return <Redirect to="/my/entries" />;
   }
   return (
@@ -81,7 +80,7 @@ const LoginPage: React.FC = ({ logInUser, userLoggedIn, auth }: any) => {
 
 const mapStateToProps = (state) => {
   return ({
-    user: state.auth.user,
+    user: state.auth,
     userLoggedIn: state.auth.loggedIn,
   })
 }

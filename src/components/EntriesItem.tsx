@@ -4,19 +4,22 @@ import {
     IonThumbnail,
     IonImg,
 } from "@ionic/react";
+import React, { useState, useEffect } from "react";
 import { formatDate } from '../utils/helpers';
 import { Entry } from '../Models';
+import { connect } from "react-redux";
 
 interface EntriesProps {
     entries: Entry[]
 }
 
-const EntriesItem = ({ entries }: EntriesProps) => {
+const EntriesItem = (props: any) => {
+    const mem = props.memories.memories
 
     return (
         <div>
             {
-                entries.map((entry) => (
+                mem.map((entry) => (
                     <IonItem
                         button
                         key={entry.id}
@@ -36,4 +39,8 @@ const EntriesItem = ({ entries }: EntriesProps) => {
     );
 };
 
-export default EntriesItem;
+const mapStateToProps = (state) => ({
+    memories: state.memories
+});
+
+export default connect(mapStateToProps, null)(EntriesItem);

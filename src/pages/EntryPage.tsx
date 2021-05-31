@@ -29,6 +29,8 @@ const EntryPage: React.FC = () => {
   const [entry, setEntry] = useState<Entry>();
   const [deleteing, setDeleting] = useState(false);
 
+  console.log('entry page loading')
+
   useEffect(() => {
     const entryRef = firestore
       .collection("users")
