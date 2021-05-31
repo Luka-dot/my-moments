@@ -17,36 +17,36 @@ import { useAuth } from "../Auth";
 import { formatDate } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
+import { connect } from "react-redux";
 
 interface RouterParams {
   id: string;
 }
 
-const EntryPage: React.FC = () => {
-  const { userId } = useAuth() as any;
+const EntryPage: React.FC = (props: any) => {
   const history = useHistory();
   const { id } = useParams<RouterParams>();
   const [entry, setEntry] = useState<Entry>();
   const [deleteing, setDeleting] = useState(false);
 
-  console.log('entry page loading')
+  console.log('entry page loading ', props.currentUserId)
 
   useEffect(() => {
     const entryRef = firestore
       .collection("users")
-      .doc(userId)
+      .doc(props.currentUserId)
       .collection("entries")
       .doc(id);
     entryRef.get().then((doc) => {
       setEntry(toEntry(doc));
     });
-  }, [id, userId]);
+  }, [props.currentUserId]);
 
   const handleDelete = async () => {
     setDeleting(true)
     const entryRef = firestore
       .collection("users")
-      .doc(userId)
+      .doc(props.currentUserId)
       .collection("entries")
       .doc(id);
     await entryRef.delete();
@@ -89,4 +89,10 @@ const EntryPage: React.FC = () => {
   );
 };
 
-export default EntryPage;
+const mapStateToProps = (state) => ({
+  currentUser: state.auth,
+  currentUserId: state.auth.user.uid,
+  memories: state.memories.memories
+});
+
+export default connect(mapStateToProps)(EntryPage);
