@@ -17,11 +17,12 @@ import { firestore } from "../firebase";
 import { Modal } from '../shared/Modal';
 import { useAuth } from '../Auth';
 import { toAccount, Account } from '../Models';
+import { connect } from "react-redux";
 
-const SettingsPage: React.FC = () => {
+const SettingsPage: React.FC = (props: any) => {
   const [loggingout, setLoggingout] = useState(false);
   const [accountHolder, setAccountHolder] = useState<Account>();
-  const { userId } = useAuth() as any;
+  const userId = props.currentUserId;
 
   useEffect(() => {
     const entryRef = firestore
@@ -63,7 +64,7 @@ const SettingsPage: React.FC = () => {
       />
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>User: {userName}</IonCardTitle>
+          <IonCardTitle>User: {props.currentUser.email}</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
           <img src={pictureUrl} alt={userName} />
@@ -78,4 +79,9 @@ const SettingsPage: React.FC = () => {
   );
 };
 
-export default SettingsPage;
+const mapStateToProps = (state) => ({
+  currentUserId: state.auth.user.uid,
+  currentUser: state.auth.user
+});
+
+export default connect(mapStateToProps, null)(SettingsPage);

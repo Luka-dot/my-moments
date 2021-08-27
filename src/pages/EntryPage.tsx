@@ -13,7 +13,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { firestore } from "../firebase";
 import { Entry, toEntry } from "../Models";
-import { useAuth } from "../Auth";
 import { formatDate } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
@@ -28,8 +27,6 @@ const EntryPage: React.FC = (props: any) => {
   const { id } = useParams<RouterParams>();
   const [entry, setEntry] = useState<Entry>();
   const [deleteing, setDeleting] = useState(false);
-
-  console.log('entry page loading ', props.currentUserId)
 
   useEffect(() => {
     const entryRef = firestore
