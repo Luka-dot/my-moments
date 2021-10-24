@@ -25,6 +25,8 @@ import { useAuth } from "./Auth";
 import AddEntryPage from "./pages/AddEntryPage";
 import { connect } from "react-redux";
 import MembersPage from "./pages/MembersPage";
+import TeamSelectionPage from "./pages/TeamSelectionPage";
+import TeamPage from "./pages/TeamPage";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -41,12 +43,18 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/my/entries">
           <HomePage />
         </Route>
+        <Route exact path="/my/teams">
+          <TeamSelectionPage />
+        </Route>
         <Route path="/my/account">
           <AccountPage />
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
         <Route exact path="/my/entries/view/:id">
           <EntryPage />
+        </Route>
+        <Route exact path="/my/teams/team/:id">
+          <TeamPage />
         </Route>
         <Route exact path="/my/members">
           <MembersPage />

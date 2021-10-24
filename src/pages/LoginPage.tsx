@@ -31,7 +31,7 @@ const LoginPage: React.FC = (props: any) => {
   };
 
   if (props.user.loggedIn === true) {
-    return <Redirect to="/my/entries" />;
+    return <Redirect to="/teams" />;
   }
   return (
     <IonPage>

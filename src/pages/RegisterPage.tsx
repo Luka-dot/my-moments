@@ -41,6 +41,7 @@ const RegisterPage: React.FC = (props: any) => {
     password: '',
     userName: '',
     pictureUrl: "/assets/placeholder.png",
+    isAdmin: false,
   });
 
   useEffect(() => {
@@ -82,8 +83,6 @@ const RegisterPage: React.FC = (props: any) => {
       const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
       if (!pictureUrl.startsWith("/assets")) {
-        console.log('picture ', newUser.pictureUrl)
-        console.log('user ', user.uid)
         newUser.pictureUrl = await savePicture(pictureUrl, user.uid);
       }
 
@@ -108,7 +107,7 @@ const RegisterPage: React.FC = (props: any) => {
   // }
 
   if (props.user.loggedIn === true) {
-    return <Redirect to="/my/entries" />;
+    return <Redirect to="/teams" />;
   }
 
   return (

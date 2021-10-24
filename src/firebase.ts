@@ -75,7 +75,8 @@ export const createUserProfileDocument2 = async (userAuth, additionalData) => {
           userName: additionalData.newUser.userName,
           email: additionalData.newUser.email,
           createdAt: createdAt,
-          pictureUrl: additionalData.newUser.pictureUrl
+          pictureUrl: additionalData.newUser.pictureUrl,
+          isAdmin: additionalData.newUser.isAdmin,
         })
       } catch (error) {
         console.log('error creating user', error.message);

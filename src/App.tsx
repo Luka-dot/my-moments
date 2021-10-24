@@ -11,6 +11,7 @@ import AppTabs from "./AppTabs";
 import { AuthContext, useAuthInit } from "./Auth";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
+import TeamSelectionPage from "./pages/TeamSelectionPage";
 
 const App: React.FC = (props: any) => {
   // const { loading, auth } = useAuthInit();
@@ -28,11 +29,14 @@ const App: React.FC = (props: any) => {
           <Route path="/register">
             <RegisterPage />
           </Route>
+          <Route path="/teams">
+            <TeamSelectionPage />
+          </Route>
           <Route path="/my">
             <AppTabs />
           </Route>
           {loggedIn ?
-            <Redirect exact path="/" to="/my/entries" />
+            <Redirect exact path="/" to="/teams" />
             :
             <Redirect to="/login" />
           }
