@@ -1,5 +1,6 @@
 import {
   LOG_IN,
+  LOG_OUT,
   GET_MEMORIES
 } from "../actions/types";
 
@@ -17,6 +18,11 @@ export default (state = initialState, action) => {
         ...state,
         user: action.payload,
         loggedIn: true,
+      };
+
+    case LOG_OUT:
+      return {
+        state: initialState
       };
 
   //   case ADD_TECH:

@@ -9,15 +9,14 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardContent,
-  IonCardSubtitle,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { firestore } from "../firebase";
 import { Modal } from '../shared/Modal';
-import { useAuth } from '../Auth';
 import { toAccount, Account } from '../Models';
 import { connect } from "react-redux";
+import { logoutUser } from '../actions/AuthActions';
 
 const SettingsPage: React.FC = (props: any) => {
   const [loggingout, setLoggingout] = useState(false);
@@ -42,6 +41,7 @@ const SettingsPage: React.FC = (props: any) => {
   const { userName, pictureUrl } = accountHolder;
 
   const logOutHandler = () => {
+    props.logoutUser()
     auth.signOut()
   };
 
@@ -84,4 +84,4 @@ const mapStateToProps = (state) => ({
   currentUser: state.auth.user
 });
 
-export default connect(mapStateToProps, null)(SettingsPage);
+export default connect(mapStateToProps, { logoutUser })(SettingsPage);

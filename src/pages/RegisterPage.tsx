@@ -14,10 +14,12 @@ import {
   isPlatform,
 } from "@ionic/react";
 import React, { useState, useRef, useEffect } from "react";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { useAuth } from "../Auth";
 import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { auth, createUserProfileDocument2, firestore, storage } from "../firebase";
+import { logInUser } from "../actions/AuthActions";
 
 const { Camera } = Plugins;
 
@@ -32,14 +34,18 @@ async function savePicture(blobUrl, userId) {
   return url;
 }
 
-const RegisterPage: React.FC = () => {
-  const { loggedIn } = useAuth();
+const RegisterPage: React.FC = (props: any) => {
+  //  const { loggedIn } = useAuth();
   const [newUser, setNewUser] = useState({
     email: '',
     password: '',
     userName: '',
     pictureUrl: "/assets/placeholder.png",
   });
+
+  useEffect(() => {
+
+  }, [props.loggedIn])
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files.length > 0) {
@@ -82,6 +88,9 @@ const RegisterPage: React.FC = () => {
       }
 
       await createUserProfileDocument2(user, { newUser });
+      console.log('handle 2 FIRED')
+      setStatus({ loading: false, error: false });
+      props.logInUser(email, password);
 
     } catch (error) {
       setStatus({ loading: false, error: true });
@@ -94,9 +103,14 @@ const RegisterPage: React.FC = () => {
     setNewUser({ ...newUser, [name]: value });
   }
 
-  if (loggedIn) {
+  // if (loggedIn) {
+  //   return <Redirect to="/my/entries" />;
+  // }
+
+  if (props.user.loggedIn === true) {
     return <Redirect to="/my/entries" />;
   }
+
   return (
     <IonPage>
       <IonHeader>
@@ -169,4 +183,11 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-export default RegisterPage;
+const mapStateToProps = (state) => {
+  return ({
+    user: state.auth,
+    userLoggedIn: state.auth.loggedIn,
+  })
+}
+
+export default connect(mapStateToProps, { logInUser })(RegisterPage);

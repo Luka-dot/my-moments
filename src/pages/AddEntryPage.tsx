@@ -18,7 +18,8 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
-import { useAuth } from "../Auth";
+// import { useAuth } from "../Auth";
+import { connect } from "react-redux";
 
 import { firestore, storage } from "../firebase";
 
@@ -33,8 +34,8 @@ async function savePicture(blobUrl, userId) {
   return url;
 }
 
-const AddEntryPage: React.FC = () => {
-  const { userId } = useAuth() as any;
+const AddEntryPage: React.FC = (props: any) => {
+  //  const { userId } = useAuth() as any;
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -75,13 +76,15 @@ const AddEntryPage: React.FC = () => {
   };
 
   const handleSave = async () => {
+    console.log('saving entry ', props.currentUserId)
     const entriesRef = firestore
       .collection("users")
-      .doc(userId)
+      .doc(props.currentUserId)
       .collection("entries");
     const entryData = { date, title, pictureUrl, description };
+    console.log(entryData)
     if (!pictureUrl.startsWith("/assets")) {
-      entryData.pictureUrl = await savePicture(pictureUrl, userId);
+      entryData.pictureUrl = await savePicture(pictureUrl, props.currentUserId);
     }
     await entriesRef.add(entryData);
     history.goBack();
@@ -146,4 +149,10 @@ const AddEntryPage: React.FC = () => {
   );
 };
 
-export default AddEntryPage;
+// export default AddEntryPage;
+
+const mapStateToProps = (state) => ({
+  currentUserId: state.auth.user.uid
+});
+
+export default connect(mapStateToProps, {})(AddEntryPage);

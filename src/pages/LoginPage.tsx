@@ -31,7 +31,6 @@ const LoginPage: React.FC = (props: any) => {
   };
 
   if (props.user.loggedIn === true) {
-    console.log('redirect')
     return <Redirect to="/my/entries" />;
   }
   return (

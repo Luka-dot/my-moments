@@ -30,14 +30,9 @@ const HomePage: React.FC = (props: any) => {
       <div>Loading....</div>
     )
   }
-  console.log(props.memories[0])
+
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Daily Moments</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
           <EntriesItem />

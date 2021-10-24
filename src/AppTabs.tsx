@@ -9,7 +9,9 @@ import {
 import {
   home as homeIcon,
   settings as settingsIcon,
-  construct,
+  calendar as calendarIcon,
+  chatbubbles as textIcon,
+  person as contactsIcon,
 } from "ionicons/icons";
 import React from "react";
 
@@ -22,6 +24,7 @@ import AccountPage from "./pages/AccountPage";
 import { useAuth } from "./Auth";
 import AddEntryPage from "./pages/AddEntryPage";
 import { connect } from "react-redux";
+import MembersPage from "./pages/MembersPage";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -45,23 +48,31 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/my/entries/view/:id">
           <EntryPage />
         </Route>
+        <Route exact path="/my/members">
+          <MembersPage />
+        </Route>
         <Route exact path="/my/entries/add">
           <AddEntryPage />
         </Route>
       </IonRouterOutlet>
-      <IonTabBar slot="bottom">
+      <IonTabBar slot="top">
         <IonTabButton tab="home" href="/my/entries">
-          <IonIcon icon={homeIcon} />
-          <IonLabel>Home</IonLabel>
+          <IonIcon icon={calendarIcon} />
+          <IonLabel>Events</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="login" href="/my/account">
+          <IonIcon icon={textIcon} />
+          <IonLabel>Messages</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="members" href="/my/members">
+          <IonIcon icon={contactsIcon} />
+          <IonLabel>Members</IonLabel>
         </IonTabButton>
         <IonTabButton tab="settings" href="/my/settings">
           <IonIcon icon={settingsIcon} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="login" href="/my/account">
-          <IonIcon icon={construct} />
-          <IonLabel>Account</IonLabel>
-        </IonTabButton>
+
       </IonTabBar>
     </IonTabs>
   );
