@@ -16,16 +16,13 @@ import EntriesItem from '../components/EntriesItem';
 import { getTeamEvents } from '../actions/TeamActions';
 
 const HomePage: React.FC = (props: any) => {
-    //    const { teamId } = props.selectedTeam;
 
     useEffect(() => {
         console.log('useEffect LOG')
         props.getTeamEvents(props.selectedTeam)
-    }, []);
+    }, [props.selectedTeam]);
 
     //  firestore.collection('users').doc(props.currentUserId).collection("entries").get().then(snaphot => { console.log(snaphot) });
-    console.log(props.memories)
-    console.dir(props.memories)
 
     if (!props.teamEvents) {
         return (
@@ -41,7 +38,9 @@ const HomePage: React.FC = (props: any) => {
 
                 </IonList>
                 <p>we will have something soon ...</p>
+                <button onClick={() => props.getTeamEvents(props.selectedTeam)}>Get Events</button>
             </IonContent>
+
         </IonPage>
     );
 };

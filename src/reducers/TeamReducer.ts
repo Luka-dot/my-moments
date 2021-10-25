@@ -19,6 +19,7 @@ import {
         };
 
         case GET_EVENTS:
+          console.log(action.payload)
             return {
                 ...state,
                 events: action.payload,

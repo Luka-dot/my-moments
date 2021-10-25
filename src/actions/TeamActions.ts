@@ -26,7 +26,6 @@ export const getTeamEvents = (uid) => async dispatch => {
       .collection("teams")
       .doc(uid)
       .collection("events");
-      console.log(entriesRef)
     await entriesRef
       .onSnapshot(({ docs }) => dispatch ({
         type: GET_EVENTS,
