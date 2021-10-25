@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getMemoriesForUser } from '../actions/MemoriesAction';
+import { userSelectedTeam } from '../actions/TeamActions';
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
 
@@ -33,13 +33,17 @@ const TeamSelectionPage: React.FC = (props: any) => {
         )
     }
 
+    const handleSelectTeam = (teamId) => {
+        props.userSelectedTeam(teamId);
+    }
+
     const handleCreate = () => {
         console.log('Make The TEAM')
     }
 
     if (!props.userLoggedIn) {
         return (
-            <Redirect to="/login" />
+            <Redirect to="/" />
         )
     }
 
@@ -53,6 +57,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         <IonItem
                             button
                             key={team.id}
+                            onClick={() => handleSelectTeam(team.id)}
                             routerLink={`/my/teams/team/${team.id}`}
                         >
                             <IonCard>
@@ -72,8 +77,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
 const mapStateToProps = (state) => ({
     currentUser: state.auth,
     currentUserId: state.auth.user.uid,
-    memories: state.memories.memories,
+    selectedTeam: state.team.team,
     userLoggedIn: state.auth.loggedIn,
 });
 
-export default connect(mapStateToProps, { getMemoriesForUser })(TeamSelectionPage);
+export default connect(mapStateToProps, { userSelectedTeam })(TeamSelectionPage);

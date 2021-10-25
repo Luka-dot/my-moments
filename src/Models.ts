@@ -14,7 +14,13 @@ export interface Account {
     pictureUrl: string;
 };
 
+export interface Event {
+    id: string;
+    name: string;
+};
+
 export function toEntry(doc): any {
+    console.log({...doc.data()})
     return { id: doc.id, ...doc.data() };
 };
 
