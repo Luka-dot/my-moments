@@ -103,9 +103,11 @@ const AddEntryPage: React.FC = (props: any) => {
       <IonContent className="ion-padding">
         <IonList>
           <IonItem>
-            <IonLabel position="stacked">Date</IonLabel>
+            <IonLabel position="stacked">Datez</IonLabel>
             <IonDatetime
               value={date}
+              min="2021"
+              max="2050-10-30"
               onIonChange={(event) => setDate(event.detail.value)}
             />
           </IonItem>

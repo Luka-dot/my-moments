@@ -8,6 +8,7 @@ import {
     IonFab,
     IonFabButton,
     IonIcon,
+    IonItem,
 } from "@ionic/react";
 import { add as addIcon } from "ionicons/icons";
 import React, { useEffect } from "react";
@@ -35,10 +36,17 @@ const HomePage: React.FC = (props: any) => {
             <IonContent className="ion-padding">
                 <h3>TEAM PAGE</h3>
                 <IonList>
-
+                    {props.teamEvents.map((event) => (
+                        <IonItem key={event.id}>{event.name}</IonItem>
+                    ))}
                 </IonList>
-                <p>we will have something soon ...</p>
+
                 <button onClick={() => props.getTeamEvents(props.selectedTeam)}>Get Events</button>
+                <IonFab vertical="bottom" horizontal="end">
+                    <IonFabButton routerLink="/my/events/add">
+                        <IonIcon icon={addIcon} />
+                    </IonFabButton>
+                </IonFab>
             </IonContent>
 
         </IonPage>

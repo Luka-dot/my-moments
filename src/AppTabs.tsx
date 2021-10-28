@@ -27,9 +27,11 @@ import { connect } from "react-redux";
 import MembersPage from "./pages/MembersPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 import TeamPage from "./pages/TeamPage";
+import AddEventPage from "./pages/AddEventPage";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
+  const { selectedTeam } = props.selectedTeam;
 
   console.log('atttabs ', props)
 
@@ -37,12 +39,14 @@ const AppTab: React.FC = (props: any) => {
     return <Redirect to="/login" />;
   }
 
+  const path = selectedTeam ? `/my/teams/team/:${selectedTeam}` : "/my/teams"
+
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route exact path="/my/entries">
-          <HomePage />
-        </Route>
+        {/* <Route exact path="/my/team">
+          <TeamPage />
+        </Route> */}
         <Route exact path="/my/teams">
           <TeamSelectionPage />
         </Route>
@@ -50,21 +54,21 @@ const AppTab: React.FC = (props: any) => {
           <AccountPage />
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
-        <Route exact path="/my/entries/view/:id">
+        {/* <Route exact path="/my/entries/view/:id">
           <EntryPage />
-        </Route>
+        </Route> */}
         <Route exact path="/my/teams/team/:id">
           <TeamPage />
         </Route>
         <Route exact path="/my/members">
           <MembersPage />
         </Route>
-        <Route exact path="/my/entries/add">
-          <AddEntryPage />
+        <Route exact path="/my/events/add">
+          <AddEventPage />
         </Route>
       </IonRouterOutlet>
       <IonTabBar slot="top">
-        <IonTabButton tab="home" href="/my/entries">
+        <IonTabButton tab="home" href={path}>
           <IonIcon icon={calendarIcon} />
           <IonLabel>Events</IonLabel>
         </IonTabButton>
@@ -88,6 +92,7 @@ const AppTab: React.FC = (props: any) => {
 
 const mapStateToProps = (state) => ({
   currentUser: state.auth,
+  selectedTeam: state.team,
 });
 
 export default connect(mapStateToProps, null)(AppTab);

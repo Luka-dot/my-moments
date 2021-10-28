@@ -14,7 +14,7 @@ export const logInUser = (email, password) => async dispatch => {
     console.log('inside ACTION : ', email, password)
     try {
         const returnCredentials = await auth.signInWithEmailAndPassword(email, password)
-    //    const returnCredentials = await auth.signInWithEmailAndPassword("test@test.com", "123456")
+    //    const returnCredentials = await auth.signInWithEmailAndPassword("NewRugbyTest@test.com", "123456")
      
         dispatch ({
             type: LOG_IN,

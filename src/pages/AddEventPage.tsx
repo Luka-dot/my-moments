@@ -2,6 +2,8 @@ import {
     IonBackButton,
     IonButton,
     IonButtons,
+    IonCheckbox,
+    IonCol,
     IonContent,
     IonDatetime,
     IonHeader,
@@ -10,8 +12,11 @@ import {
     IonLabel,
     IonList,
     IonPage,
+    IonRow,
+    IonText,
     IonTextarea,
     IonTitle,
+    IonToggle,
     IonToolbar,
     isPlatform,
 } from "@ionic/react";
@@ -29,6 +34,9 @@ const AddEventPage: React.FC = (props: any) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
+    const [attendanceRequired, setAttendanceRequired] = useState(false)
+    const [isMatch, setIsMatch] = useState(false)
+
     // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
     // const fileInputRef = useRef<HTMLInputElement>();
 
@@ -41,11 +49,11 @@ const AddEventPage: React.FC = (props: any) => {
     // }, [pictureUrl]);
 
     const handleSave = async () => {
-        console.log('saving entry ', props.currentUserId)
+        console.log('saving entry ', props.selectedTeam)
         const entriesRef = firestore
-            .collection("users")
-            .doc(props.currentUserId)
-            .collection("entries");
+            .collection("teams")
+            .doc(props.selectedTeam)
+            .collection("events");
         const entryData = { date, title, description };
         console.log(entryData)
         await entriesRef.add(entryData);
@@ -59,17 +67,40 @@ const AddEventPage: React.FC = (props: any) => {
                     <IonButtons slot="start">
                         <IonBackButton />
                     </IonButtons>
-                    <IonTitle>ADD EVENT !!!!!!!!</IonTitle>
+                    <IonTitle>Adding Team Event</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonList>
                     <IonItem>
-                        <IonLabel position="stacked">Date</IonLabel>
+                        <IonLabel >Date</IonLabel>
                         <IonDatetime
+                            placeholder="Select Date"
                             value={date}
+                            min="2021"
+                            max="2050-10-30"
                             onIonChange={(event) => setDate(event.detail.value)}
                         />
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>
+                            Start Time
+                        </IonLabel>
+                        <IonDatetime
+                            placeholder="Select Start Time"
+                            pickerFormat="h:mm A"
+                            displayFormat="h:mm A"
+                        ></IonDatetime>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>
+                            End Time
+                        </IonLabel>
+                        <IonDatetime
+                            placeholder="Select End Time"
+                            pickerFormat="h:mm A"
+                            displayFormat="h:mm A"
+                        ></IonDatetime>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="stacked">Title</IonLabel>
@@ -86,6 +117,42 @@ const AddEventPage: React.FC = (props: any) => {
                             onIonChange={(event) => setDescription(event.detail.value)}
                         />
                     </IonItem>
+
+                    <IonItem>
+                        <IonCol>
+                            <IonRow>
+                                <IonCol size="10">
+                                    <IonText >
+                                        <h4>Attendance Required?</h4>
+                                    </IonText>
+                                </IonCol>
+                                <IonCol size="2">
+                                    <IonCheckbox
+                                        checked={attendanceRequired}
+                                        onIonChange={() => setAttendanceRequired(!attendanceRequired)}
+                                    />
+                                </IonCol>
+                            </IonRow>
+                        </IonCol>
+                    </IonItem>
+
+                    <IonItem>
+                        <IonCol>
+                            <IonRow>
+                                <IonCol size="10">
+                                    <IonText >
+                                        <h4>Is this a Match?</h4>
+                                    </IonText>
+                                </IonCol>
+                                <IonCol size="2">
+                                    <IonCheckbox
+                                        checked={isMatch}
+                                        onIonChange={() => setIsMatch(!isMatch)}
+                                    />
+                                </IonCol>
+                            </IonRow>
+                        </IonCol>
+                    </IonItem>
                     <IonButton expand="block" onClick={handleSave}>
                         Save
                     </IonButton>
@@ -95,10 +162,9 @@ const AddEventPage: React.FC = (props: any) => {
     );
 };
 
-// export default AddEntryPage;
-
 const mapStateToProps = (state) => ({
-    currentUserId: state.auth.user.uid
+    currentUserId: state.auth.user.uid,
+    selectedTeam: state.team.team,
 });
 
 export default connect(mapStateToProps, {})(AddEventPage);

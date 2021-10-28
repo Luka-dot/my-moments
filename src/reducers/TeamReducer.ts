@@ -1,6 +1,7 @@
 import {
     SELECT_TEAM,
     GET_EVENTS,
+    GET_MEMEBRS,
   } from "../actions/types";
   
 
@@ -23,6 +24,13 @@ import {
             return {
                 ...state,
                 events: action.payload,
+            }
+
+        case GET_MEMEBRS:
+          console.log(action.payload)
+            return {
+                ...state,
+                members: action.payload,
             }
   
     //   case ADD_TECH:
