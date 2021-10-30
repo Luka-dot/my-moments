@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { userSelectedTeam } from '../actions/TeamActions';
+import { userSelectedTeam, getTeamMembers } from '../actions/TeamActions';
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
 
@@ -35,6 +35,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     const handleSelectTeam = (teamId) => {
         props.userSelectedTeam(teamId);
+        props.getTeamMembers(teamId)
     }
 
     const handleCreate = () => {
@@ -81,4 +82,4 @@ const mapStateToProps = (state) => ({
     userLoggedIn: state.auth.loggedIn,
 });
 
-export default connect(mapStateToProps, { userSelectedTeam })(TeamSelectionPage);
+export default connect(mapStateToProps, { userSelectedTeam, getTeamMembers })(TeamSelectionPage);

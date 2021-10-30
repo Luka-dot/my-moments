@@ -18,6 +18,7 @@ export default (state = initialState, action) => {
         ...state,
         user: action.payload,
         loggedIn: true,
+        userId: action.payload.uid
       };
 
     case LOG_OUT:

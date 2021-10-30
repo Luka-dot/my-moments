@@ -22,7 +22,7 @@ import HomePage from "./pages/HomePage";
 import EntryPage from "./pages/EntryPage";
 import AccountPage from "./pages/AccountPage";
 import { useAuth } from "./Auth";
-import AddEntryPage from "./pages/AddEntryPage";
+// import AddEntryPage from "./pages/tempAdd";
 import { connect } from "react-redux";
 import MembersPage from "./pages/MembersPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
@@ -54,9 +54,9 @@ const AppTab: React.FC = (props: any) => {
           <AccountPage />
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
-        {/* <Route exact path="/my/entries/view/:id">
+        <Route exact path="/my/entries/view/:id">
           <EntryPage />
-        </Route> */}
+        </Route>
         <Route exact path="/my/teams/team/:id">
           <TeamPage />
         </Route>

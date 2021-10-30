@@ -16,9 +16,8 @@ import {
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { useAuth } from "../Auth";
 import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
-import { auth, createUserProfileDocument2, firestore, storage } from "../firebase";
+import { auth, createUserProfileDocument2, storage } from "../firebase";
 import { logInUser } from "../actions/AuthActions";
 
 const { Camera } = Plugins;
@@ -87,7 +86,6 @@ const RegisterPage: React.FC = (props: any) => {
       }
 
       await createUserProfileDocument2(user, { newUser });
-      console.log('handle 2 FIRED')
       setStatus({ loading: false, error: false });
       props.logInUser(email, password);
 

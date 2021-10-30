@@ -34,8 +34,12 @@ const AddEventPage: React.FC = (props: any) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState("")
     const [attendanceRequired, setAttendanceRequired] = useState(false)
     const [isMatch, setIsMatch] = useState(false)
+
+    const result = ''
 
     // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
     // const fileInputRef = useRef<HTMLInputElement>();
@@ -49,12 +53,11 @@ const AddEventPage: React.FC = (props: any) => {
     // }, [pictureUrl]);
 
     const handleSave = async () => {
-        console.log('saving entry ', props.selectedTeam)
         const entriesRef = firestore
             .collection("teams")
             .doc(props.selectedTeam)
             .collection("events");
-        const entryData = { date, title, description };
+        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result };
         console.log(entryData)
         await entriesRef.add(entryData);
         history.goBack();
@@ -90,6 +93,8 @@ const AddEventPage: React.FC = (props: any) => {
                             placeholder="Select Start Time"
                             pickerFormat="h:mm A"
                             displayFormat="h:mm A"
+                            value={startTime}
+                            onIonChange={(e) => setStartTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
                     <IonItem>
@@ -100,6 +105,8 @@ const AddEventPage: React.FC = (props: any) => {
                             placeholder="Select End Time"
                             pickerFormat="h:mm A"
                             displayFormat="h:mm A"
+                            value={endTime}
+                            onIonChange={(e) => setEndTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
                     <IonItem>

@@ -6,6 +6,7 @@ import {
   IonHeader,
   IonIcon,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -13,10 +14,11 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { firestore } from "../firebase";
 import { Entry, toEntry } from "../Models";
-import { formatDate } from "../utils/helpers";
+import { formatDate, formatTime } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
+import { eventNames } from "process";
 
 interface RouterParams {
   id: string;
@@ -25,35 +27,50 @@ interface RouterParams {
 const EntryPage: React.FC = (props: any) => {
   const history = useHistory();
   const { id } = useParams<RouterParams>();
-  const [entry, setEntry] = useState<Entry>();
+  const [entry, setEntry] = useState<any>();
   const [deleteing, setDeleting] = useState(false);
+  const [userIsAdmin, setUserIsAdmin] = useState(false)
+
+  console.log('event : ', entry)
+
+  function isUserAdminCheck() {
+    console.log(props.teamMembers)
+    const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
+    console.log(checkingMember)
+    if (checkingMember[0].isAdmin === true) {
+      return true
+    }
+  }
 
   useEffect(() => {
-    const entryRef = firestore
-      .collection("users")
-      .doc(props.currentUserId)
-      .collection("entries")
-      .doc(id);
-    entryRef.get().then((doc) => {
-      setEntry(toEntry(doc));
-    });
-  }, [props.currentUserId]);
+    const singleEntry = props.teamEvents.filter((event) => event.id === id)
+    setEntry(singleEntry[0]);
+    setUserIsAdmin(isUserAdminCheck())
+  }, []);
 
   const handleDelete = async () => {
+    console.log('handle delete')
     setDeleting(true)
-    const entryRef = firestore
-      .collection("users")
-      .doc(props.currentUserId)
-      .collection("entries")
-      .doc(id);
-    await entryRef.delete();
+    // const entryRef = firestore
+    //   .collection("users")
+    //   .doc(props.currentUserId)
+    //   .collection("entries")
+    //   .doc(id);
+    // await entryRef.delete();
     setDeleting(false);
-    console.log('delete ends')
+    // console.log('delete ends')
     history.goBack();
   };
 
   const cancelDeleting = () => {
+    console.log('DELETING CANCEL')
     setDeleting(false);
+  }
+
+  if (!entry) {
+    return (
+      <div>Loading....</div>
+    )
   }
 
   return (
@@ -63,12 +80,18 @@ const EntryPage: React.FC = (props: any) => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonButtons slot="end">
-            <IonButton onClick={() => setDeleting(true)}>
-              <IonIcon icon={trashIcon} slot="icon-only" />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Entry for {formatDate(entry?.date)}</IonTitle>
+          {
+            userIsAdmin ?
+              <IonButtons slot="end">
+                <IonButton onClick={() => setDeleting(true)}>
+                  <IonIcon icon={trashIcon} slot="icon-only" />
+                </IonButton>
+              </IonButtons>
+              :
+              <div></div>
+          }
+
+          <IonTitle>Entry for {formatDate(entry.date)}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -78,10 +101,32 @@ const EntryPage: React.FC = (props: any) => {
           onCancel={cancelDeleting}
           onConfirm={handleDelete}
         />
-        <h4>{entry?.title}</h4>
-        <img src={entry?.pictureUrl} alt={entry?.title} />
-        <p>{entry?.description}</p>
+        <h4>{entry.title}</h4>
+        <p>{entry.description}</p>
+        <br />
+        <IonText>Start at: {formatTime(entry.startTime)}</IonText>
+        <br />
+        <IonText>Ending at: {formatTime(entry.endTime)}</IonText>
+        {!entry.attendanceRequired ?
+          <div></div>
+          :
+          entry.attendanceRequired === true ?
+            <p>We will need Attendance</p>
+            :
+            <div></div>
+        }
+        {entry.isMatch === true ?
+          <IonText>Final Score: {entry.result}</IonText>
+          :
+          <div></div>
+        }
       </IonContent>
+      {
+        userIsAdmin ?
+          <IonButton>EDIT</IonButton>
+          :
+          <div>Messages</div>
+      }
     </IonPage>
   );
 };
@@ -89,7 +134,9 @@ const EntryPage: React.FC = (props: any) => {
 const mapStateToProps = (state) => ({
   currentUser: state.auth,
   currentUserId: state.auth.user.uid,
-  memories: state.memories.memories
+  memories: state.memories.memories,
+  teamEvents: state.team.events,
+  teamMembers: state.team.members,
 });
 
 export default connect(mapStateToProps)(EntryPage);
