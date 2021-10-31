@@ -45,10 +45,17 @@ const EntryPage: React.FC = (props: any) => {
   }
 
   useEffect(() => {
-    const singleEntry = props.teamEvents.filter((event) => event.id === id)
-    setEntry(singleEntry[0]);
+    const singleEntry = props.getSingleEvent(props.teamId, id)
+    console.log('USEEFFECT for SINGLE entry ', singleEntry)
+    setEntry(singleEntry);
     setUserIsAdmin(isUserAdminCheck())
   }, []);
+
+  useEffect(() => {
+    const singleEntry = props.getSingleEvent(props.teamId, id)
+    console.log('USEEFFECT for SINGLE entry ', singleEntry)
+    setEntry(singleEntry);
+  }, [editStart])
 
   const handleDelete = async () => {
     console.log('handle delete')
@@ -77,22 +84,22 @@ const EntryPage: React.FC = (props: any) => {
 
   const CancelEditing = () => {
     console.log('Cancel EDIT - need FETCH Event HERE');
-    const singleEntry = props.teamEvents.filter((event) => event.id === id)
-    setEntry(singleEntry[0]);
+
     setEditStart(false)
   }
 
   const gettingSingle = () => {
-    console.log('getting siglesssss ', props.teamId, entry.id)
-    props.getSingleEvent(props.teamId, entry.id)
+    console.log('getting siglesssss ', props.teamId, id)
+    props.getSingleEvent(props.teamId, id)
   }
 
-  if (!entry) {
+  if (!props.singleEntry) {
+    console.log(props.singleEntry, entry)
     return (
       <div>Loading....</div>
     )
   }
-
+  console.log(props.singleEntry)
   return (
     <IonPage>
       <IonHeader>
@@ -111,7 +118,7 @@ const EntryPage: React.FC = (props: any) => {
               <div></div>
           }
 
-          <IonTitle>Entry for {formatDate(entry.date)}</IonTitle>
+          <IonTitle>Entry for {formatDate(props.singleEntry.date)}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -124,27 +131,28 @@ const EntryPage: React.FC = (props: any) => {
         <EditModal
           modalText={'Editing this entry!'}
           displayModal={editStart}
-          eventDetails={entry}
+          eventDetails={props.singleEntry}
           onConfirm={handleEditing}
           onCancel={CancelEditing}
           teamId={props.teamId}
+          eventId={id}
         />
-        <h4>{entry.title}</h4>
-        <p>{entry.description}</p>
+        <h4>{props.singleEntry.title}</h4>
+        <p>{props.singleEntry.description}</p>
         <br />
-        <IonText>Start at: {formatTime(entry.startTime)}</IonText>
+        <IonText>Start at: {formatTime(props.singleEntry.startTime)}</IonText>
         <br />
-        <IonText>Ending at: {formatTime(entry.endTime)}</IonText>
-        {!entry.attendanceRequired ?
+        <IonText>Ending at: {formatTime(props.singleEntry.endTime)}</IonText>
+        {!props.singleEntry.attendanceRequired ?
           <div></div>
           :
-          entry.attendanceRequired === true ?
+          props.singleEntry.attendanceRequired === true ?
             <p>We will need Attendance</p>
             :
             <div></div>
         }
-        {entry.isMatch === true ?
-          <IonText>Final Score: {entry.result}</IonText>
+        {props.singleEntry.isMatch === true ?
+          <IonText>Final Score: {props.singleEntry.result}</IonText>
           :
           <div></div>
         }
@@ -167,10 +175,87 @@ const EntryPage: React.FC = (props: any) => {
 const mapStateToProps = (state) => ({
   currentUser: state.auth,
   currentUserId: state.auth.user.uid,
-  memories: state.memories.memories,
   teamEvents: state.team.events,
   teamMembers: state.team.members,
   teamId: state.team.team,
+  singleEntry: state.team.singleEvent,
 });
 
 export default connect(mapStateToProps, { getSingleEvent })(EntryPage);
+
+
+
+// if (!entry) {
+//   return (
+//     <div>Loading....</div>
+//   )
+// }
+
+// return (
+//   <IonPage>
+//     <IonHeader>
+//       <IonToolbar>
+//         <IonButtons slot="start">
+//           <IonBackButton />
+//         </IonButtons>
+//         {
+//           userIsAdmin ?
+//             <IonButtons slot="end">
+//               <IonButton onClick={() => setDeleting(true)}>
+//                 <IonIcon icon={trashIcon} slot="icon-only" />
+//               </IonButton>
+//             </IonButtons>
+//             :
+//             <div></div>
+//         }
+
+//         <IonTitle>Entry for {formatDate(entry.date)}</IonTitle>
+//       </IonToolbar>
+//     </IonHeader>
+//     <IonContent className="ion-padding">
+//       <Modal
+//         modalText={"Are you sure you want to delete this memory?"}
+//         displayModal={deleteing}
+//         onCancel={cancelDeleting}
+//         onConfirm={handleDelete}
+//       />
+//       <EditModal
+//         modalText={'Editing this entry!'}
+//         displayModal={editStart}
+//         eventDetails={entry}
+//         onConfirm={handleEditing}
+//         onCancel={CancelEditing}
+//         teamId={props.teamId}
+//       />
+//       <h4>{entry.title}</h4>
+//       <p>{entry.description}</p>
+//       <br />
+//       <IonText>Start at: {formatTime(entry.startTime)}</IonText>
+//       <br />
+//       <IonText>Ending at: {formatTime(entry.endTime)}</IonText>
+//       {!entry.attendanceRequired ?
+//         <div></div>
+//         :
+//         entry.attendanceRequired === true ?
+//           <p>We will need Attendance</p>
+//           :
+//           <div></div>
+//       }
+//       {entry.isMatch === true ?
+//         <IonText>Final Score: {entry.result}</IonText>
+//         :
+//         <div></div>
+//       }
+//     </IonContent>
+//     {
+//       userIsAdmin ?
+//         <IonButton
+//           onClick={handleEditing}
+//         >EDIT</IonButton>
+//         :
+//         <div>Messages</div>
+//     }
+//     <IonButton
+//       onClick={gettingSingle}
+//     >Get Event details</IonButton>
+//   </IonPage>

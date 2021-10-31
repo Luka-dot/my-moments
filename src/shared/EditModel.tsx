@@ -9,9 +9,10 @@ interface modalProps {
     onConfirm: any,
     eventDetails: any,
     teamId: any,
+    eventId: any,
 }
 
-export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventDetails, teamId }: modalProps) => {
+export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventDetails, teamId, eventId }: modalProps) => {
 
     const [title, setTitle] = useState(eventDetails.title);
     const [description, setDescription] = useState(eventDetails.description);
@@ -23,11 +24,12 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
     const [result, setResult] = useState(eventDetails.result)
 
     const handleSave = async () => {
+        console.log('tema ID and such ', teamId, eventDetails)
         const entriesRef = firestore
             .collection("teams")
             .doc(teamId)
             .collection("events")
-            .doc(eventDetails.id);
+            .doc(eventId);
         let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result };
         console.log(entryData)
         await entriesRef.update(entryData);
