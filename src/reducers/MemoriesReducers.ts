@@ -1,5 +1,6 @@
 import {
-    GET_MEMORIES
+    GET_MEMORIES,
+    GET_SINGLE_EVENT
   } from "../actions/types";
   
 

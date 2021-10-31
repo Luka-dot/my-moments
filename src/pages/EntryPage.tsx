@@ -12,7 +12,6 @@ import {
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { firestore } from "../firebase";
 import { Entry, toEntry } from "../Models";
 import { formatDate, formatTime } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
@@ -20,6 +19,7 @@ import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
 import { eventNames } from "process";
 import { EditModal } from './../shared/EditModel';
+import { getSingleEvent } from "../actions/EventsAction";
 
 interface RouterParams {
   id: string;
@@ -76,8 +76,15 @@ const EntryPage: React.FC = (props: any) => {
   }
 
   const CancelEditing = () => {
-    console.log('Cancel EDIT');
+    console.log('Cancel EDIT - need FETCH Event HERE');
+    const singleEntry = props.teamEvents.filter((event) => event.id === id)
+    setEntry(singleEntry[0]);
     setEditStart(false)
+  }
+
+  const gettingSingle = () => {
+    console.log('getting siglesssss ', props.teamId, entry.id)
+    props.getSingleEvent(props.teamId, entry.id)
   }
 
   if (!entry) {
@@ -120,6 +127,7 @@ const EntryPage: React.FC = (props: any) => {
           eventDetails={entry}
           onConfirm={handleEditing}
           onCancel={CancelEditing}
+          teamId={props.teamId}
         />
         <h4>{entry.title}</h4>
         <p>{entry.description}</p>
@@ -149,6 +157,9 @@ const EntryPage: React.FC = (props: any) => {
           :
           <div>Messages</div>
       }
+      <IonButton
+        onClick={gettingSingle}
+      >Get Event details</IonButton>
     </IonPage>
   );
 };
@@ -159,6 +170,7 @@ const mapStateToProps = (state) => ({
   memories: state.memories.memories,
   teamEvents: state.team.events,
   teamMembers: state.team.members,
+  teamId: state.team.team,
 });
 
-export default connect(mapStateToProps)(EntryPage);
+export default connect(mapStateToProps, { getSingleEvent })(EntryPage);

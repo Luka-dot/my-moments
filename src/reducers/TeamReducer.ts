@@ -2,6 +2,7 @@ import {
     SELECT_TEAM,
     GET_EVENTS,
     GET_MEMEBRS,
+    GET_SINGLE_EVENT,
   } from "../actions/types";
   
 
@@ -32,6 +33,12 @@ import {
                 ...state,
                 members: action.payload,
             }
+
+            case GET_SINGLE_EVENT:
+              return {
+                ...state,
+                singleEvent: action.payload,
+              }
   
     //   case ADD_TECH:
     //     return {
