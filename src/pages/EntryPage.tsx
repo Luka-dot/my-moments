@@ -19,6 +19,7 @@ import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
 import { eventNames } from "process";
+import { EditModal } from './../shared/EditModel';
 
 interface RouterParams {
   id: string;
@@ -30,6 +31,7 @@ const EntryPage: React.FC = (props: any) => {
   const [entry, setEntry] = useState<any>();
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
+  const [editStart, setEditStart] = useState(false)
 
   console.log('event : ', entry)
 
@@ -67,6 +69,17 @@ const EntryPage: React.FC = (props: any) => {
     setDeleting(false);
   }
 
+  const handleEditing = () => {
+    setEditStart(true)
+    console.log('Editing')
+
+  }
+
+  const CancelEditing = () => {
+    console.log('Cancel EDIT');
+    setEditStart(false)
+  }
+
   if (!entry) {
     return (
       <div>Loading....</div>
@@ -101,6 +114,13 @@ const EntryPage: React.FC = (props: any) => {
           onCancel={cancelDeleting}
           onConfirm={handleDelete}
         />
+        <EditModal
+          modalText={'Editing this entry!'}
+          displayModal={editStart}
+          eventDetails={entry}
+          onConfirm={handleEditing}
+          onCancel={CancelEditing}
+        />
         <h4>{entry.title}</h4>
         <p>{entry.description}</p>
         <br />
@@ -123,7 +143,9 @@ const EntryPage: React.FC = (props: any) => {
       </IonContent>
       {
         userIsAdmin ?
-          <IonButton>EDIT</IonButton>
+          <IonButton
+            onClick={handleEditing}
+          >EDIT</IonButton>
           :
           <div>Messages</div>
       }
