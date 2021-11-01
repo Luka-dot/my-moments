@@ -76,13 +76,12 @@ const AddEntryPage: React.FC = (props: any) => {
   };
 
   const handleSave = async () => {
-    console.log('saving entry ', props.currentUserId)
     const entriesRef = firestore
       .collection("users")
       .doc(props.currentUserId)
       .collection("entries");
     const entryData = { date, title, pictureUrl, description };
-    console.log(entryData)
+
     if (!pictureUrl.startsWith("/assets")) {
       entryData.pictureUrl = await savePicture(pictureUrl, props.currentUserId);
     }

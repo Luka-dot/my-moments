@@ -28,6 +28,10 @@ import MembersPage from "./pages/MembersPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 import TeamPage from "./pages/TeamPage";
 import AddEventPage from "./pages/AddEventPage";
+import { EditModal } from "./shared/EditModel";
+import EditPage from "./shared/EditPage";
+import { resetSingleEntry } from './actions/EventsAction';
+import { userSelectedTeam } from './actions/TeamActions';
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -39,7 +43,7 @@ const AppTab: React.FC = (props: any) => {
     return <Redirect to="/login" />;
   }
 
-  const path = selectedTeam ? `/my/teams/team/:${selectedTeam}` : "/my/teams"
+  const pathToTeamEvents = selectedTeam ? `/my/teams/team/:${selectedTeam}` : "/my/teams"
 
   return (
     <IonTabs>
@@ -55,6 +59,7 @@ const AppTab: React.FC = (props: any) => {
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
         <Route exact path="/my/entries/view/:id">
+          {/*    /my/teams/team/:id/entries/view/:id */}
           <EntryPage />
         </Route>
         <Route exact path="/my/teams/team/:id">
@@ -66,9 +71,12 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/my/events/add">
           <AddEventPage />
         </Route>
+        <Route exact path="/my/teams/team/:id/entries/view/edit/:id">
+          <EditPage />
+        </Route>
       </IonRouterOutlet>
       <IonTabBar slot="top">
-        <IonTabButton tab="home" href={path}>
+        <IonTabButton tab="events" href={pathToTeamEvents} >
           <IonIcon icon={calendarIcon} />
           <IonLabel>Events</IonLabel>
         </IonTabButton>
@@ -84,7 +92,6 @@ const AppTab: React.FC = (props: any) => {
           <IonIcon icon={settingsIcon} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>
-
       </IonTabBar>
     </IonTabs>
   );

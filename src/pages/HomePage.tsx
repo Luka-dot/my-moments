@@ -22,8 +22,7 @@ const HomePage: React.FC = (props: any) => {
   }, [props.currentUserId]);
 
   //  firestore.collection('users').doc(props.currentUserId).collection("entries").get().then(snaphot => { console.log(snaphot) });
-  console.log(props.memories)
-  console.dir(props.memories)
+
 
   if (!props.memories) {
     return (

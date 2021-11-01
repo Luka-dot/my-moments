@@ -5,21 +5,23 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonItem,
   IonPage,
   IonText,
   IonTitle,
   IonToolbar,
+  useIonViewWillEnter,
+  useIonViewDidEnter
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { Entry, toEntry } from "../Models";
 import { formatDate, formatTime } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
-import { eventNames } from "process";
 import { EditModal } from './../shared/EditModel';
 import { getSingleEvent } from "../actions/EventsAction";
+import { resetSingleEntry } from '../actions/EventsAction';
 
 interface RouterParams {
   id: string;
@@ -28,12 +30,10 @@ interface RouterParams {
 const EntryPage: React.FC = (props: any) => {
   const history = useHistory();
   const { id } = useParams<RouterParams>();
-  const [entry, setEntry] = useState<any>();
+  const [entry, setEntry] = useState();
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
   const [editStart, setEditStart] = useState(false)
-
-  console.log('event : ', entry)
 
   function isUserAdminCheck() {
     console.log(props.teamMembers)
@@ -44,7 +44,7 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
 
-  useEffect(() => {
+  useIonViewWillEnter(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
     console.log('USEEFFECT for SINGLE entry ', singleEntry)
     setEntry(singleEntry);
@@ -53,9 +53,20 @@ const EntryPage: React.FC = (props: any) => {
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
-    console.log('USEEFFECT for SINGLE entry ', singleEntry)
+    console.log('USEEFFECT for SINGLE entry effect ', singleEntry)
     setEntry(singleEntry);
-  }, [editStart])
+  }, [])
+
+  // useIonViewDidEnter(() => {
+  //   const singleEntry = props.getSingleEvent(props.teamId, id)
+  //   console.log('USEEFFECT for SINGLE entry IONIC ', singleEntry)
+  //   setEntry(singleEntry);
+  // }, [])
+
+  // useEffect(() => {
+  //   console.log("RESTTINNGGGGGGG JHGFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFJK")
+  //   props.resetSingleEntry()
+  // }, [])
 
   const handleDelete = async () => {
     console.log('handle delete')
@@ -94,12 +105,13 @@ const EntryPage: React.FC = (props: any) => {
   }
 
   if (!props.singleEntry) {
-    console.log(props.singleEntry, entry)
     return (
       <div>Loading....</div>
     )
   }
+  console.log(entry)
   console.log(props.singleEntry)
+
   return (
     <IonPage>
       <IonHeader>
@@ -159,9 +171,13 @@ const EntryPage: React.FC = (props: any) => {
       </IonContent>
       {
         userIsAdmin ?
-          <IonButton
-            onClick={handleEditing}
-          >EDIT</IonButton>
+          <IonItem
+            routerLink={`/my/entries/view/edit/${id}`}
+          >
+            <IonButton
+              onClick={() => { }}
+            >EDIT</IonButton>
+          </IonItem>
           :
           <div>Messages</div>
       }
@@ -181,7 +197,7 @@ const mapStateToProps = (state) => ({
   singleEntry: state.team.singleEvent,
 });
 
-export default connect(mapStateToProps, { getSingleEvent })(EntryPage);
+export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry })(EntryPage);
 
 
 

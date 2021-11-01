@@ -11,7 +11,6 @@ import { auth } from '../firebase';
 // }
 
 export const logInUser = (email, password) => async dispatch => {
-    console.log('inside ACTION : ', email, password)
     try {
         const returnCredentials = await auth.signInWithEmailAndPassword(email, password)
     //    const returnCredentials = await auth.signInWithEmailAndPassword("NewRugbyTest@test.com", "123456")
@@ -26,7 +25,6 @@ export const logInUser = (email, password) => async dispatch => {
 }
 
 export const logoutUser = () => async dispatch => {
-    console.log('Logged Out triggered in AuthActions')
 
         dispatch ({
             type: LOG_OUT

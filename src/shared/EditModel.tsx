@@ -24,14 +24,12 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
     const [result, setResult] = useState(eventDetails.result)
 
     const handleSave = async () => {
-        console.log('tema ID and such ', teamId, eventDetails)
         const entriesRef = firestore
             .collection("teams")
             .doc(teamId)
             .collection("events")
             .doc(eventId);
         let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result };
-        console.log(entryData)
         await entriesRef.update(entryData);
         onCancel();
     };

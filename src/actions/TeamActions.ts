@@ -39,7 +39,6 @@ export const getTeamEvents = (uid) => async dispatch => {
 }
 
 export const getTeamMembers = (uid) => async dispatch => {
-  console.log('id :', uid)
     try {
         const entriesRef = firestore
       .collection("teams")

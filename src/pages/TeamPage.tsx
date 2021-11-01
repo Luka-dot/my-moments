@@ -5,56 +5,50 @@ import {
     IonFab,
     IonFabButton,
     IonIcon,
+    useIonViewDidEnter,
+    useIonViewWillEnter
 } from "@ionic/react";
 import { add as addIcon } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import EntriesItem from '../components/EntriesItem';
 import { getTeamEvents } from '../actions/TeamActions';
-import { formatDate } from './../utils/helpers';
-import EntryPage from "./EntryPage";
 import { getTeamMembers, userSelectedTeam } from './../actions/TeamActions';
+import { resetSingleEntry } from './../actions/EventsAction';
 
 const HomePage: React.FC = (props: any) => {
-    const [isUserAdmin, setIsUserAdmin] = useState(false)
 
     function isUserAdminCheck() {
-        console.log(props.teamMembers)
         const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
-        console.log(checkingMember)
         if (checkingMember[0].isAdmin === true) {
             return true
         }
     }
 
+    useIonViewWillEnter(() => {
+        console.log('I O N VIEW HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ')
+        props.resetSingleEntry()
+    })
+
     useEffect(() => {
         props.getTeamEvents(props.selectedTeam)
     }, [props.selectedTeam]);
 
-    useEffect(() => {
-    }, [])
+    // useEffect(() => {
+    //     console.log("RESTTINNGGGGGGG JHGFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFJK")
+    //     props.resetSingleEntry()
+    // })
 
     if (!props.teamEvents) {
         return (
             <div>Loading....</div>
         )
     }
-    console.log(props.teamMembers)
 
     return (
         <IonPage>
             <IonContent className="ion-padding">
                 <h3>TEAM PAGE</h3>
-                {/* <IonList>
-                    {props.teamEvents.map((event) => (
-                        <IonItem key={event.id}>
-                            <IonTitle>{event.title}</IonTitle>
-                            <IonText>{formatDate(event.date)}</IonText>
-                        </IonItem>
-                    ))}
-                </IonList> */}
-
-                <button onClick={() => props.getTeamEvents(props.selectedTeam)}>Get Events</button>
                 {
                     isUserAdminCheck() ?
                         <IonFab vertical="bottom" horizontal="end">
@@ -81,4 +75,8 @@ const mapStateToProps = (state) => ({
     teamMembers: state.team.members,
 });
 
-export default connect(mapStateToProps, { getTeamEvents, getTeamMembers })(HomePage);
+export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry })(HomePage);
+
+function ionViewWillEnter(arg0: () => void) {
+    throw new Error("Function not implemented.");
+}

@@ -3,6 +3,7 @@ import {
     GET_EVENTS,
     GET_MEMEBRS,
     GET_SINGLE_EVENT,
+    RESET_SINGLE_EVENT,
   } from "../actions/types";
   
 
@@ -19,20 +20,24 @@ import {
         };
 
         case GET_EVENTS:
-          console.log(action.payload)
             return {
                 ...state,
                 events: action.payload,
             }
 
         case GET_MEMEBRS:
-          console.log(action.payload)
             return {
                 ...state,
                 members: action.payload,
             }
 
             case GET_SINGLE_EVENT:
+              return {
+                ...state,
+                singleEvent: action.payload,
+              }
+  
+            case RESET_SINGLE_EVENT:
               return {
                 ...state,
                 singleEvent: action.payload,

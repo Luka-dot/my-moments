@@ -20,7 +20,6 @@ export interface Event {
 };
 
 export function toEntry(doc): any {
-    console.log({...doc.data()})
     return { id: doc.id, ...doc.data() };
 };
 
@@ -28,6 +27,5 @@ export function toAccount(doc): Account {
     return { id: doc.id, ...doc.data() };
 };
 export function toAccountDet(doc): any {
-    console.log({...doc.data()})
     return { ...doc.data() };
 };

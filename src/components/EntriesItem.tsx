@@ -5,7 +5,7 @@ import {
     IonImg,
     IonText,
 } from "@ionic/react";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { formatDate } from '../utils/helpers';
 import { Entry } from '../Models';
 import { connect } from "react-redux";
@@ -33,7 +33,9 @@ const EntriesItem = (props: any) => {
                     <IonItem
                         button
                         key={event.id}
+                        onClick={() => console.log('clicky click')}
                         routerLink={`/my/entries/view/${event.id}`}
+                    //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
                     >
                         <IonLabel>
                             <h3>{event.title}</h3>
@@ -56,6 +58,7 @@ const EntriesItem = (props: any) => {
 
 const mapStateToProps = (state) => ({
     teamEvents: state.team.events,
+    selectedTeam: state.team.team
 });
 
 export default connect(mapStateToProps, null)(EntriesItem);

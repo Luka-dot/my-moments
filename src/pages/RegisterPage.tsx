@@ -23,7 +23,7 @@ import { logInUser } from "../actions/AuthActions";
 const { Camera } = Plugins;
 
 async function savePicture(blobUrl, userId) {
-  console.log(blobUrl, userId)
+
   const pictureRef = storage.ref(`/users/${userId}/pictures/${Date.now()}`);
   const response = await fetch(blobUrl);
   const blob = await response.blob();
