@@ -26,8 +26,8 @@ const HomePage: React.FC = (props: any) => {
     }
 
     useIonViewWillEnter(() => {
-        console.log('I O N VIEW HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ')
-        props.resetSingleEntry()
+        console.log('I O N VIEW HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ', props.selectedTeam)
+        // props.resetSingleEntry()
     })
 
     useEffect(() => {

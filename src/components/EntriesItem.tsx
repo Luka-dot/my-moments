@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { getTeamEvents } from "../actions/TeamActions";
 
 import './entriesItem.css';
+import { userSelectedTeam } from './../actions/TeamActions';
 
 interface EntriesProps {
     entries: Entry[]
@@ -34,7 +35,7 @@ const EntriesItem = (props: any) => {
                         button
                         key={event.id}
                         onClick={() => console.log('clicky click')}
-                        routerLink={`/my/entries/view/${event.id}`}
+                        routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
                     //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
                     >
                         <IonLabel>

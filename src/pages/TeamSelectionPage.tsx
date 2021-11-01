@@ -4,7 +4,8 @@ import {
     IonPage,
     IonButton,
     IonCard,
-    IonItem
+    IonItem,
+    useIonViewWillEnter
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -16,6 +17,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])
 
     useEffect(() => {
+        console.log('TEAM SELECTION')
         const docRef = firestore.collection('teams');
         docRef.get().then((snapshot) => {
             const teamsList = snapshot.docs.map((doc) => ({
@@ -26,6 +28,19 @@ const TeamSelectionPage: React.FC = (props: any) => {
             setTeams(teamsList)
         })
     }, []);
+
+    // useIonViewWillEnter(() => {
+    //     console.log('TEAM SELECTION ION 87878 ', props.selectedTeam)
+    //     if (props.selectedTeam) {
+    //         <Redirect to={`/my/teams/team/${props.selectedTeam}`} />
+    //     }
+    // })
+
+    if (!props.userLoggedIn) {
+        return (
+            <Redirect to="/" />
+        )
+    }
 
     if (!teams) {
         return (
@@ -40,12 +55,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     const handleCreate = () => {
         console.log('Make The TEAM')
-    }
-
-    if (!props.userLoggedIn) {
-        return (
-            <Redirect to="/" />
-        )
     }
 
     return (

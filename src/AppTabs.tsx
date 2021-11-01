@@ -5,6 +5,7 @@ import {
   IonTabButton,
   IonTabs,
   IonIcon,
+  useIonViewWillEnter
 } from "@ionic/react";
 import {
   home as homeIcon,
@@ -13,7 +14,7 @@ import {
   chatbubbles as textIcon,
   person as contactsIcon,
 } from "ionicons/icons";
-import React from "react";
+import React, { useState } from "react";
 
 import { Route, Redirect } from "react-router-dom";
 
@@ -35,15 +36,33 @@ import { userSelectedTeam } from './actions/TeamActions';
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
-  const { selectedTeam } = props.selectedTeam;
+  //  const { selectedTeam } = props.selectedTeam.team;
 
-  console.log('atttabs ', props)
+  const [currentTeam, setCurrentTeam] = useState()
+  console.log('atttabs ', props.selectedTeam.team)
+
+  useIonViewWillEnter(() => {
+    console.log('TEAM SELECTION ION 2', props.selectedTeam)
+    setCurrentTeam(props.selectedTeam.team)
+  })
+
+  // useIonViewWillEnter(() => {
+  //   console.log('Ion effect in AppTabs')
+  //   setCurrentTeam(selectedTeam)
+  // })
 
   if (!loggedIn) {
     return <Redirect to="/login" />;
   }
 
-  const pathToTeamEvents = selectedTeam ? `/my/teams/team/:${selectedTeam}` : "/my/teams"
+  if (!props.selectedTeam.team) {
+    return (
+      <div>.. LOADING ...</div>
+    )
+  }
+
+  console.log(props.selectedTeam.team)
+  const pathToTeamEvents = `/my/teams/team/${props.selectedTeam.team}`
 
   return (
     <IonTabs>
@@ -51,15 +70,18 @@ const AppTab: React.FC = (props: any) => {
         {/* <Route exact path="/my/team">
           <TeamPage />
         </Route> */}
-        <Route exact path="/my/teams">
+        {/* <Route exact path="/my/teams">
+          <TeamSelectionPage />
+        </Route> */}
+        <Route exact path="/teams">
           <TeamSelectionPage />
         </Route>
         <Route path="/my/account">
           <AccountPage />
         </Route>
         <Route exact path="/my/settings" component={SettingsPage} />
-        <Route exact path="/my/entries/view/:id">
-          {/*    /my/teams/team/:id/entries/view/:id */}
+        <Route exact path="/my/teams/team/:id/entries/view/:id">
+          {/*    /my/teams/team/:id/entries/view/:id    /my/entries/view/:id  */}
           <EntryPage />
         </Route>
         <Route exact path="/my/teams/team/:id">

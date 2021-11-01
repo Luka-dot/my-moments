@@ -32,7 +32,7 @@ const App: React.FC = (props: any) => {
           <Route path="/teams">
             <TeamSelectionPage />
           </Route>
-          <Route path="/my/">
+          <Route path="/my/teams/:id">
             <AppTabs />
           </Route>
           {loggedIn ?
