@@ -11,7 +11,6 @@ import {
   IonTitle,
   IonToolbar,
   useIonViewWillEnter,
-  useIonViewDidEnter
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
@@ -19,7 +18,6 @@ import { formatDate, formatTime } from "../utils/helpers";
 import { trash as trashIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
-import { EditModal } from './../shared/EditModel';
 import { getSingleEvent } from "../actions/EventsAction";
 import { resetSingleEntry } from '../actions/EventsAction';
 
@@ -33,7 +31,7 @@ const EntryPage: React.FC = (props: any) => {
   const [entry, setEntry] = useState();
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
-  const [editStart, setEditStart] = useState(false)
+  //  const [editStart, setEditStart] = useState(false)
 
   function isUserAdminCheck() {
     console.log(props.teamMembers)
@@ -57,17 +55,6 @@ const EntryPage: React.FC = (props: any) => {
     setEntry(singleEntry);
   }, [])
 
-  // useIonViewDidEnter(() => {
-  //   const singleEntry = props.getSingleEvent(props.teamId, id)
-  //   console.log('USEEFFECT for SINGLE entry IONIC ', singleEntry)
-  //   setEntry(singleEntry);
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log("RESTTINNGGGGGGG JHGFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFJK")
-  //   props.resetSingleEntry()
-  // }, [])
-
   const handleDelete = async () => {
     console.log('handle delete')
     setDeleting(true)
@@ -87,17 +74,17 @@ const EntryPage: React.FC = (props: any) => {
     setDeleting(false);
   }
 
-  const handleEditing = () => {
-    setEditStart(true)
-    console.log('Editing')
+  // const handleEditing = () => {
+  //   setEditStart(true)
+  //   console.log('Editing')
 
-  }
+  // }
 
-  const CancelEditing = () => {
-    console.log('Cancel EDIT - need FETCH Event HERE');
+  // const CancelEditing = () => {
+  //   console.log('Cancel EDIT - need FETCH Event HERE');
 
-    setEditStart(false)
-  }
+  //   setEditStart(false)
+  // }
 
   const gettingSingle = () => {
     console.log('getting siglesssss ', props.teamId, id)
@@ -109,8 +96,6 @@ const EntryPage: React.FC = (props: any) => {
       <div>Loading....</div>
     )
   }
-  console.log(entry)
-  console.log(props.singleEntry)
 
   return (
     <IonPage>
@@ -135,12 +120,12 @@ const EntryPage: React.FC = (props: any) => {
       </IonHeader>
       <IonContent className="ion-padding">
         <Modal
-          modalText={"Are you sure you want to delete this memory?"}
+          modalText={"Are you sure you want to delete this entry?"}
           displayModal={deleteing}
           onCancel={cancelDeleting}
           onConfirm={handleDelete}
         />
-        <EditModal
+        {/* <EditModal
           modalText={'Editing this entry!'}
           displayModal={editStart}
           eventDetails={props.singleEntry}
@@ -148,7 +133,7 @@ const EntryPage: React.FC = (props: any) => {
           onCancel={CancelEditing}
           teamId={props.teamId}
           eventId={id}
-        />
+        /> */}
         <h4>{props.singleEntry.title}</h4>
         <p>{props.singleEntry.description}</p>
         <br />

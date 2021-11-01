@@ -16,17 +16,15 @@ import {
     IonText,
     IonTextarea,
     IonTitle,
-    IonToggle,
     IonToolbar,
-    isPlatform,
 } from "@ionic/react";
-import React, { useState, useEffect, useRef } from "react";
-import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
+import React, { useState } from "react";
+//import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
 // import { useAuth } from "../Auth";
 import { connect } from "react-redux";
 
-import { firestore, storage } from "../firebase";
+import { firestore } from "../firebase";
 
 const AddEventPage: React.FC = (props: any) => {
     //  const { userId } = useAuth() as any;

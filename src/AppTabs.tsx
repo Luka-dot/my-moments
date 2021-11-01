@@ -5,46 +5,34 @@ import {
   IonTabButton,
   IonTabs,
   IonIcon,
-  useIonViewWillEnter
 } from "@ionic/react";
 import {
-  home as homeIcon,
   settings as settingsIcon,
   calendar as calendarIcon,
   chatbubbles as textIcon,
   person as contactsIcon,
 } from "ionicons/icons";
-import React, { useState } from "react";
+import React from "react";
 
 import { Route, Redirect } from "react-router-dom";
 
 import SettingsPage from "./pages/SettingsPage";
-import HomePage from "./pages/HomePage";
 import EntryPage from "./pages/EntryPage";
 import AccountPage from "./pages/AccountPage";
-import { useAuth } from "./Auth";
-// import AddEntryPage from "./pages/tempAdd";
 import { connect } from "react-redux";
 import MembersPage from "./pages/MembersPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 import TeamPage from "./pages/TeamPage";
 import AddEventPage from "./pages/AddEventPage";
-import { EditModal } from "./shared/EditModel";
 import EditPage from "./shared/EditPage";
-import { resetSingleEntry } from './actions/EventsAction';
-import { userSelectedTeam } from './actions/TeamActions';
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
-  //  const { selectedTeam } = props.selectedTeam.team;
 
-  const [currentTeam, setCurrentTeam] = useState()
-  console.log('atttabs ', props.selectedTeam.team)
-
-  useIonViewWillEnter(() => {
-    console.log('TEAM SELECTION ION 2', props.selectedTeam)
-    setCurrentTeam(props.selectedTeam.team)
-  })
+  // useIonViewWillEnter(() => {
+  //   console.log('TEAM SELECTION ION 2', props.selectedTeam)
+  //   setCurrentTeam(props.selectedTeam.team)
+  // })
 
   // useIonViewWillEnter(() => {
   //   console.log('Ion effect in AppTabs')

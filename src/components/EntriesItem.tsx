@@ -1,22 +1,13 @@
 import {
     IonItem,
     IonLabel,
-    IonThumbnail,
-    IonImg,
     IonText,
 } from "@ionic/react";
 import React from "react";
 import { formatDate } from '../utils/helpers';
-import { Entry } from '../Models';
 import { connect } from "react-redux";
-import { getTeamEvents } from "../actions/TeamActions";
 
 import './entriesItem.css';
-import { userSelectedTeam } from './../actions/TeamActions';
-
-interface EntriesProps {
-    entries: Entry[]
-}
 
 const EntriesItem = (props: any) => {
 
