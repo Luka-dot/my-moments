@@ -76,10 +76,10 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/teams">
           <TeamSelectionPage />
         </Route>
-        <Route path="/my/account">
+        <Route path="/my/teams/account">
           <AccountPage />
         </Route>
-        <Route exact path="/my/settings" component={SettingsPage} />
+        <Route exact path="/my/teams/settings" component={SettingsPage} />
         <Route exact path="/my/teams/team/:id/entries/view/:id">
           {/*    /my/teams/team/:id/entries/view/:id    /my/entries/view/:id  */}
           <EntryPage />
@@ -87,13 +87,13 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/my/teams/team/:id">
           <TeamPage />
         </Route>
-        <Route exact path="/my/members">
+        <Route exact path="/my/teams/members">
           <MembersPage />
         </Route>
-        <Route exact path="/my/events/add">
+        <Route exact path="/my/teams/events/add">
           <AddEventPage />
         </Route>
-        <Route exact path="/my/teams/team/:id/entries/view/edit/:id">
+        <Route exact path="/my/teams/team/:id/entries/:id/edit">
           <EditPage />
         </Route>
       </IonRouterOutlet>
@@ -102,15 +102,15 @@ const AppTab: React.FC = (props: any) => {
           <IonIcon icon={calendarIcon} />
           <IonLabel>Events</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="login" href="/my/account">
+        <IonTabButton tab="login" href="/my/teams/account">
           <IonIcon icon={textIcon} />
           <IonLabel>Messages</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="members" href="/my/members">
+        <IonTabButton tab="members" href="/my/teams/members">
           <IonIcon icon={contactsIcon} />
           <IonLabel>Members</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="settings" href="/my/settings">
+        <IonTabButton tab="settings" href="/my/teams/settings">
           <IonIcon icon={settingsIcon} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>

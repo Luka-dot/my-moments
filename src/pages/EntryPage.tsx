@@ -172,7 +172,7 @@ const EntryPage: React.FC = (props: any) => {
       {
         userIsAdmin ?
           <IonItem
-            routerLink={`/my/entries/view/edit/${id}`}
+            routerLink={`/my/teams/team/${props.teamId}/entries/${id}/edit`}
           >
             <IonButton
               onClick={() => { }}

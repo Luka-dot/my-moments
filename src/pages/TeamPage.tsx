@@ -52,7 +52,7 @@ const HomePage: React.FC = (props: any) => {
                 {
                     isUserAdminCheck() ?
                         <IonFab vertical="bottom" horizontal="end">
-                            <IonFabButton routerLink="/my/events/add">
+                            <IonFabButton routerLink="/my/teams/events/add">
                                 <IonIcon icon={addIcon} />
                             </IonFabButton>
                         </IonFab>
@@ -76,7 +76,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry })(HomePage);
-
-function ionViewWillEnter(arg0: () => void) {
-    throw new Error("Function not implemented.");
-}
