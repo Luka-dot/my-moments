@@ -78,7 +78,7 @@ const AppTab: React.FC = (props: any) => {
         <Route exact path="/my/teams/members">
           <MembersPage />
         </Route>
-        <Route exact path="/my/teams/events/add">
+        <Route exact path="/my/teams/team/:id/events/add">
           <AddEventPage />
         </Route>
         <Route exact path="/my/teams/team/:id/entries/:id/edit">

@@ -16,7 +16,7 @@ import { getTeamEvents } from '../actions/TeamActions';
 import { getTeamMembers, userSelectedTeam } from './../actions/TeamActions';
 import { resetSingleEntry } from './../actions/EventsAction';
 
-const HomePage: React.FC = (props: any) => {
+const TeamPage: React.FC = (props: any) => {
 
     function isUserAdminCheck() {
         const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
@@ -31,6 +31,7 @@ const HomePage: React.FC = (props: any) => {
     })
 
     useEffect(() => {
+        console.log('useEffect HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ', props.selectedTeam)
         props.getTeamEvents(props.selectedTeam)
     }, [props.selectedTeam]);
 
@@ -52,7 +53,7 @@ const HomePage: React.FC = (props: any) => {
                 {
                     isUserAdminCheck() ?
                         <IonFab vertical="bottom" horizontal="end">
-                            <IonFabButton routerLink="/my/teams/events/add">
+                            <IonFabButton routerLink={`/my/teams/team/${props.selectedTeam}/events/add`}>
                                 <IonIcon icon={addIcon} />
                             </IonFabButton>
                         </IonFab>
@@ -75,4 +76,4 @@ const mapStateToProps = (state) => ({
     teamMembers: state.team.members,
 });
 
-export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry })(HomePage);
+export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry })(TeamPage);
