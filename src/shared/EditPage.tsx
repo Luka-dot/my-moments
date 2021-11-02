@@ -178,9 +178,6 @@ const EditPage: React.FC = (props: any) => {
                             <IonButton fill="outline" onClick={onCancel}>CANCEL</IonButton>
                         </IonCol>
                     </IonRow>
-                    <IonButton expand="block" onClick={handleSave}>
-                        Save
-                    </IonButton>
                 </IonList>
             </IonContent>
 

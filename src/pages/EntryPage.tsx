@@ -15,7 +15,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { formatDate, formatTime } from "../utils/helpers";
-import { trash as trashIcon } from "ionicons/icons";
+import { trash as trashIcon, create as createIcon } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
 import { getSingleEvent } from "../actions/EventsAction";
@@ -34,9 +34,8 @@ const EntryPage: React.FC = (props: any) => {
   //  const [editStart, setEditStart] = useState(false)
 
   function isUserAdminCheck() {
-    console.log(props.teamMembers)
     const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
-    console.log(checkingMember)
+
     if (checkingMember[0].isAdmin === true) {
       return true
     }
@@ -107,8 +106,11 @@ const EntryPage: React.FC = (props: any) => {
           {
             userIsAdmin ?
               <IonButtons slot="end">
+                <IonButton onClick={() => { }} routerLink={`/my/teams/team/${props.teamId}/entries/${id}/edit`}>
+                  <IonIcon icon={createIcon} slot="icon-only" />
+                </IonButton>
                 <IonButton onClick={() => setDeleting(true)}>
-                  <IonIcon icon={trashIcon} slot="icon-only" />
+                  <IonIcon icon={trashIcon} slot="icon-only" color='danger' />
                 </IonButton>
               </IonButtons>
               :
@@ -154,18 +156,6 @@ const EntryPage: React.FC = (props: any) => {
           <div></div>
         }
       </IonContent>
-      {
-        userIsAdmin ?
-          <IonItem
-            routerLink={`/my/teams/team/${props.teamId}/entries/${id}/edit`}
-          >
-            <IonButton
-              onClick={() => { }}
-            >EDIT</IonButton>
-          </IonItem>
-          :
-          <div>Messages</div>
-      }
       <IonButton
         onClick={gettingSingle}
       >Get Event details</IonButton>

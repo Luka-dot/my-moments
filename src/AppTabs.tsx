@@ -49,18 +49,11 @@ const AppTab: React.FC = (props: any) => {
     )
   }
 
-  console.log(props.selectedTeam.team)
   const pathToTeamEvents = `/my/teams/team/${props.selectedTeam.team}`
 
   return (
     <IonTabs>
       <IonRouterOutlet>
-        {/* <Route exact path="/my/team">
-          <TeamPage />
-        </Route> */}
-        {/* <Route exact path="/my/teams">
-          <TeamSelectionPage />
-        </Route> */}
         <Route exact path="/teams">
           <TeamSelectionPage />
         </Route>

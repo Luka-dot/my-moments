@@ -1,6 +1,7 @@
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const SELECT_TEAM = 'SELECT_TEAM';
+export const GET_TEAM_DATA = 'GET_TEAM_DATA';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT';
 export const RESET_SINGLE_EVENT = 'RESET_SINGLE_EVENT';

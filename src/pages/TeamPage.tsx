@@ -6,7 +6,10 @@ import {
     IonFabButton,
     IonIcon,
     useIonViewDidEnter,
-    useIonViewWillEnter
+    useIonViewWillEnter,
+    IonHeader,
+    IonToolbar,
+    IonTitle
 } from "@ionic/react";
 import { add as addIcon } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
@@ -20,7 +23,7 @@ const TeamPage: React.FC = (props: any) => {
 
     function isUserAdminCheck() {
         const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
-        if (checkingMember[0].isAdmin === true) {
+        if (checkingMember[0]?.isAdmin === true) {
             return true
         }
     }
@@ -48,8 +51,12 @@ const TeamPage: React.FC = (props: any) => {
 
     return (
         <IonPage>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>{props.selectedTeamName.name}</IonTitle>
+                </IonToolbar>
+            </IonHeader>
             <IonContent className="ion-padding">
-                <h3>TEAM PAGE</h3>
                 {
                     isUserAdminCheck() ?
                         <IonFab vertical="bottom" horizontal="end">
@@ -72,6 +79,7 @@ const mapStateToProps = (state) => ({
     currentUser: state.auth,
     currentUserId: state.auth.user.uid,
     selectedTeam: state.team.team,
+    selectedTeamName: state.team.teamName,
     teamEvents: state.team.events,
     teamMembers: state.team.members,
 });

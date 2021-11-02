@@ -1,4 +1,4 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS } from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -16,8 +16,24 @@ export const userSelectedTeam = (uid) => async dispatch => {
    
     }catch(error) {
         console.log(error)
-    }
+    }   
+}
+
+export const selectedTeamData = (uid) => async dispatch => {
+
+    try {
+        const teamRef = firestore
+      .collection("teams")
+      .doc(uid);
+    await teamRef
+      .onSnapshot((doc) => dispatch ({
+        type: GET_TEAM_DATA,
+        payload: doc.data(),
+      }));
    
+    }catch(error) {
+        console.log(error)
+    }   
 }
 
 export const getTeamEvents = (uid) => async dispatch => {
@@ -34,8 +50,7 @@ export const getTeamEvents = (uid) => async dispatch => {
    
     }catch(error) {
         console.log(error)
-    }
-   
+    }   
 }
 
 export const getTeamMembers = (uid) => async dispatch => {

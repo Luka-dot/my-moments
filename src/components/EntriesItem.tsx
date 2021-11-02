@@ -25,7 +25,6 @@ const EntriesItem = (props: any) => {
                     <IonItem
                         button
                         key={event.id}
-                        onClick={() => console.log('clicky click')}
                         routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
                     //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
                     >

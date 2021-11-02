@@ -4,6 +4,7 @@ import {
     GET_MEMEBRS,
     GET_SINGLE_EVENT,
     RESET_SINGLE_EVENT,
+    GET_TEAM_DATA,
   } from "../actions/types";
   
 
@@ -17,6 +18,12 @@ import {
         return {
           ...state,
           team: action.payload,
+        };
+
+      case GET_TEAM_DATA:
+        return {
+          ...state,
+          teamName: action.payload,
         };
 
         case GET_EVENTS:
