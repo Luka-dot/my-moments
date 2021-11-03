@@ -5,6 +5,7 @@ import {
     GET_SINGLE_EVENT,
     RESET_SINGLE_EVENT,
     GET_TEAM_DATA,
+    ADD_ATTENDANCE_RESPONSE,
   } from "../actions/types";
   
 
@@ -45,6 +46,12 @@ import {
               }
   
             case RESET_SINGLE_EVENT:
+              return {
+                ...state,
+                singleEvent: action.payload,
+              }
+            
+              case ADD_ATTENDANCE_RESPONSE:
               return {
                 ...state,
                 singleEvent: action.payload,

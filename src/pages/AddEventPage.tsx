@@ -36,6 +36,8 @@ const AddEventPage: React.FC = (props: any) => {
     const [endTime, setEndTime] = useState("")
     const [attendanceRequired, setAttendanceRequired] = useState(false)
     const [isMatch, setIsMatch] = useState(false)
+    const [location, setLocation] = useState("")
+    const attendingMembers = {}
 
     const result = ''
 
@@ -55,7 +57,7 @@ const AddEventPage: React.FC = (props: any) => {
             .collection("teams")
             .doc(props.selectedTeam)
             .collection("events");
-        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result };
+        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, attendingMembers };
         console.log(entryData)
         await entriesRef.add(entryData);
         history.goBack();
@@ -115,6 +117,13 @@ const AddEventPage: React.FC = (props: any) => {
                         />
                     </IonItem>
 
+                    <IonItem>
+                        <IonLabel position="stacked">Location</IonLabel>
+                        <IonTextarea
+                            value={location}
+                            onIonChange={(event) => setLocation(event.detail.value)}
+                        />
+                    </IonItem>
                     <IonItem>
                         <IonLabel position="stacked">Description</IonLabel>
                         <IonTextarea

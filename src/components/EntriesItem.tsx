@@ -38,7 +38,7 @@ const EntriesItem = (props: any) => {
                             <IonGrid>
                                 <IonRow>
                                     <IonCol size='2' className="dateCol">
-                                        Oct <br></br> 29
+                                        {formatDate(event.date).split(',')[0]}
                                     </IonCol>
                                     <IonCol size='8' className="infoCol">
                                         <IonLabel>

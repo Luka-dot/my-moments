@@ -1,4 +1,4 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA } from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -64,6 +64,23 @@ export const getTeamMembers = (uid) => async dispatch => {
         type: GET_MEMEBRS,
         payload: docs.map(toEntry),
       }));
+   
+    }catch(error) {
+        console.log(error)
+    }
+   
+}
+
+export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse) => async dispatch => {
+    try {
+        const entriesRef = firestore
+      .collection("teams")
+      .doc(teamId)
+      .collection("events")
+      .doc(eventId);
+    await entriesRef.update({
+      attendingMembers: { id: memberId, status: statusResponse }
+    })
    
     }catch(error) {
         console.log(error)

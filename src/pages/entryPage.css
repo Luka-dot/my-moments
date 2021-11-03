@@ -1,0 +1,19 @@
+.titleRow {
+    
+    justify-items: center;
+}
+
+.titleColumn {
+    display: flex;
+    justify-content: center;
+}
+
+.titleText {
+    justify-self: center;
+    font-weight: bolder;
+}
+
+.attendanceRow {
+    justify-self: center;
+    align-items: center;
+}
