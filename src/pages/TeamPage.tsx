@@ -19,6 +19,8 @@ import { getTeamEvents } from '../actions/TeamActions';
 import { getTeamMembers, userSelectedTeam } from './../actions/TeamActions';
 import { resetSingleEntry } from './../actions/EventsAction';
 
+import './teamPage.css';
+
 const TeamPage: React.FC = (props: any) => {
 
     function isUserAdminCheck() {
@@ -67,7 +69,7 @@ const TeamPage: React.FC = (props: any) => {
                         :
                         <div></div>
                 }
-                <IonList>
+                <IonList className="entryList">
                     <EntriesItem />
                 </IonList>
             </IonContent>

@@ -1,8 +1,14 @@
 import {
+    IonCard,
+    IonCol,
+    IonGrid,
+    IonIcon,
     IonItem,
     IonLabel,
+    IonRow,
     IonText,
 } from "@ionic/react";
+import { radioButtonOff as circleIcon } from "ionicons/icons";
 import React from "react";
 import { formatDate } from '../utils/helpers';
 import { connect } from "react-redux";
@@ -22,28 +28,44 @@ const EntriesItem = (props: any) => {
         <div>
             {
                 events.map((event) => (
-                    <IonItem
-                        button
-                        key={event.id}
-                        routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
-                    //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
-                    >
-                        <IonLabel>
-                            <h3>{event.title}</h3>
-                            <h4>{formatDate(event.date)}</h4>
-                        </IonLabel>
-                        {!event.isMatch ?
-                            <IonText></IonText>
-                            :
-                            <p className="matchDay">M</p>
-                        }
-                        {
+                    <IonCard className="entryCard">
+                        <IonItem
+                            button
+                            key={event.id}
+                            routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
+                        //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
+                        >
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol size='2' className="dateCol">
+                                        Oct <br></br> 29
+                                    </IonCol>
+                                    <IonCol size='8' className="infoCol">
+                                        <IonLabel>
+                                            <h3>{event.title}</h3>
+                                            <h4>{formatDate(event.date)}</h4>
+                                        </IonLabel>
+                                    </IonCol>
+                                    <IonCol size='2' className="matchCol">
+                                        {!event.isMatch ?
+                                            <IonText></IonText>
+                                            :
+                                            <IonCol size="2" >
+                                                <IonText className="matchDay">M</IonText>
 
-                        }
-                    </IonItem>
+                                            </IonCol>
+                                        }
+                                    </IonCol>
+                                    {
+
+                                    }
+                                </IonRow>
+                            </IonGrid>
+                        </IonItem>
+                    </IonCard>
                 ))
             }
-        </div>
+        </div >
     );
 };
 

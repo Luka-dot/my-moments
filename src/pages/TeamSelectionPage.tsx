@@ -5,13 +5,19 @@ import {
     IonButton,
     IonCard,
     IonItem,
-    useIonViewWillEnter
+    useIonViewWillEnter,
+    IonText,
+    IonRow,
+    IonCol,
+    IonHeader
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { userSelectedTeam, getTeamMembers, selectedTeamData } from '../actions/TeamActions';
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
+
+import "../appTab.css";
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])
@@ -60,21 +66,31 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     return (
         <IonPage>
-            <IonContent className="ion-padding">
-                <p>Select a team for user: {props.currentUser.user.email} </p>
+            <IonContent className="ion-padding" >
+                <IonHeader>
+                    <IonRow className="teamSelectionTitle">
+                        <IonCol className="teamSelectionTitleCol" >
+                            <IonText>You are logged in as: {props.currentUser.user.email} </IonText>
+                        </IonCol>
+                        <br />
+                        <IonCol className="teamSelectionTitleCol"  >
+                            <IonText >Select a team.</IonText>
+                        </IonCol>
+                    </IonRow>
+                </IonHeader>
                 <br />
                 <IonList>
                     {teams.map((team) =>
-                        <IonItem
-                            button
-                            key={team.id}
-                            onClick={() => handleSelectTeam(team.id)}
-                            routerLink={`/my/teams/team/${team.id}`}
-                        >
-                            <IonCard>
+                        <IonCard>
+                            <IonItem
+                                button
+                                key={team.id}
+                                onClick={() => handleSelectTeam(team.id)}
+                                routerLink={`/my/teams/team/${team.id}`}
+                            >
                                 <p>{team.name}</p>
-                            </IonCard>
-                        </IonItem>
+                            </IonItem>
+                        </IonCard>
                     )}
                 </IonList>
                 <br />

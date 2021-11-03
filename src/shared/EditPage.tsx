@@ -166,7 +166,6 @@ const EditPage: React.FC = (props: any) => {
                                     :
                                     <div></div>
                             }
-
                         </IonCol>
                     </IonItem>
                     <IonRow>

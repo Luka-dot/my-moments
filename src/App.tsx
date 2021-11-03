@@ -18,6 +18,16 @@ const App: React.FC = (props: any) => {
 
   return (
     <IonApp>
+      {/* {!props.selectedTeamName ?
+        <IonHeader>
+          <p></p>
+        </IonHeader>
+        :
+        <IonHeader>
+          <p>Current Team is: {props.selectedTeamName}</p>
+        </IonHeader>
+      } */}
+
       <IonReactRouter >
         <Switch>
           <Route path="/login">

@@ -5,7 +5,8 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  loggedIn: false
+  loggedIn: false,
+  team: {name: null}
 };
 
 

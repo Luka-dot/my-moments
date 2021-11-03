@@ -1,6 +1,35 @@
+.matchDayCol {
+    position: relative;
+    z-index: -2;
+    /* width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: blue;
+    border-radius: 50%; */
+
+}
+
 .matchDay {
     font-weight: bolder;
     font-size: large;
     color: rgb(2, 2, 153);
-    margin-right: 5%;
+    
+   
+}
+
+.matchDayIcon {
+    
+}
+
+.entryCard {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.dateCol {
+    border-right: 2px solid grey;
 }
