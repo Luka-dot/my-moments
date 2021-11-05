@@ -6,6 +6,7 @@ import {
     RESET_SINGLE_EVENT,
     GET_TEAM_DATA,
     ADD_ATTENDANCE_RESPONSE,
+    GET_ATTENDANCE,
   } from "../actions/types";
   
 
@@ -14,6 +15,7 @@ import {
     
   // eslint-disable-next-line import/no-anonymous-default-export
   export default (state = initialState, action) => {
+    console.log(action.payload)
     switch (action.type) {
       case SELECT_TEAM:
         return {
@@ -55,6 +57,12 @@ import {
               return {
                 ...state,
                 singleEvent: action.payload,
+              }
+
+              case GET_ATTENDANCE:
+              return {
+                ...state,
+                eventAttendance: action.payload,
               }
   
     //   case ADD_TECH:

@@ -26,7 +26,7 @@ import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
 import { getSingleEvent } from "../actions/EventsAction";
 import { resetSingleEntry } from '../actions/EventsAction';
-import { addAttendanceResponse } from '../actions/TeamActions'
+import { addAttendanceResponse, getAttendance } from '../actions/TeamActions'
 
 import './entryPage.css'
 
@@ -40,7 +40,7 @@ const EntryPage: React.FC = (props: any) => {
   const [entry, setEntry] = useState();
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
-  const [attending, setAttending] = useState('');
+  const [attending, setAttending] = useState(null);
   //  const [editStart, setEditStart] = useState(false)
 
   function isUserAdminCheck() {
@@ -56,12 +56,15 @@ const EntryPage: React.FC = (props: any) => {
     console.log('USEEFFECT for SINGLE entry ', singleEntry)
     setEntry(singleEntry);
     setUserIsAdmin(isUserAdminCheck())
+    props.getAttendance()
   }, []);
 
-  // useEffect(() => {
-  //   if (props.singleEntry?.attendingMembers.id === props.currentUserId)
-  //     setAttending(props.singleEntry.attendingMembers[0].status);
-  // }, [])
+  useEffect(() => {
+    console.log(props.singleEntry)
+    // const data = props.singleEntry.filter(member => member.id === props.currentUserId ? member : null);
+    // console.log(data)
+    // setAttending(data);
+  }, [props.singleEntry])
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
@@ -72,10 +75,10 @@ const EntryPage: React.FC = (props: any) => {
   useEffect(() => {
     console.log('selected ', attending)
     // will fire redux action to add to list of members attending
-    //    props.addAttendanceResponse(props.teamId, props.currentUserId, id, attending)
+    // props.addAttendanceResponse(props.teamId, props.currentUserId, id, attending);
     //  userAttendanceResponse()
 
-  }, [entry])
+  }, [attending])
 
   const handleDelete = async () => {
     console.log('handle delete')
@@ -108,12 +111,6 @@ const EntryPage: React.FC = (props: any) => {
   //   setEditStart(true)
   //   console.log('Editing')
 
-  // }
-
-  // const CancelEditing = () => {
-  //   console.log('Cancel EDIT - need FETCH Event HERE');
-
-  //   setEditStart(false)
   // }
 
   const gettingSingle = () => {
@@ -246,6 +243,7 @@ const mapStateToProps = (state) => ({
   teamMembers: state.team.members,
   teamId: state.team.team,
   singleEntry: state.team.singleEvent,
+  attendanceRecord: state.team.eventAttendance,
 });
 
-export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry, addAttendanceResponse })(EntryPage);
+export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry, addAttendanceResponse, getAttendance })(EntryPage);
