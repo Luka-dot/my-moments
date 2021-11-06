@@ -72,15 +72,21 @@ export const getTeamMembers = (uid) => async dispatch => {
 }
 
 export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse) => async dispatch => {
-  console.log('ADDING')
+  console.log('ADDING ATTENDANCE')
     try {
         const entriesRef = firestore
       .collection("teams")
       .doc(teamId)
       .collection("events")
       .doc(eventId)
-      .collection("attendingMembers");
-    await entriesRef.add({ id: memberId, status: statusResponse }) 
+      .collection("attendingMembers")
+      .doc(memberId)
+      .set({ id: memberId, status: statusResponse });
+      
+     dispatch({
+      type: ADD_ATTENDANCE_RESPONSE,
+      payload: statusResponse
+    })
     }catch(error) {
         console.log(error)
     }
@@ -88,7 +94,7 @@ export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse)
 }
 
 export const getAttendance = (teamId, eventId) => async dispatch => {
-  console.log('GETTING ATTENDANCE')
+  console.log('GETTING ATTENDANCE ', teamId, eventId)
     try {
         const entriesRef = firestore
       .collection("teams")

@@ -81,10 +81,9 @@ const TeamSelectionPage: React.FC = (props: any) => {
                 <br />
                 <IonList>
                     {teams.map((team) =>
-                        <IonCard>
+                        <IonCard key={team.id}>
                             <IonItem
                                 button
-                                key={team.id}
                                 onClick={() => handleSelectTeam(team.id)}
                                 routerLink={`/my/teams/team/${team.id}`}
                             >

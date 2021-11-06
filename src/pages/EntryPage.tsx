@@ -51,34 +51,42 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
 
-  useIonViewWillEnter(() => {
-    const singleEntry = props.getSingleEvent(props.teamId, id)
-    console.log('USEEFFECT for SINGLE entry ', singleEntry)
-    setEntry(singleEntry);
-    setUserIsAdmin(isUserAdminCheck())
-    props.getAttendance()
-  }, []);
+  // useIonViewWillEnter(() => {
+  //   const singleEntry = props.getSingleEvent(props.teamId, id)
+  //   console.log('USEEFFECT for SINGLE entry ', singleEntry)
+  //   setEntry(singleEntry);
+  //   setUserIsAdmin(isUserAdminCheck())
+  //   props.getAttendance(props.teamId, id)
+  // }, []);
 
-  useEffect(() => {
-    console.log(props.singleEntry)
-    // const data = props.singleEntry.filter(member => member.id === props.currentUserId ? member : null);
-    // console.log(data)
-    // setAttending(data);
-  }, [props.singleEntry])
+  // useEffect(() => {
+  //   console.log(props.singleEntry)
+  //   // const data = props.singleEntry.filter(member => member.id === props.currentUserId ? member : null);
+  //   // console.log(data)
+  //   // setAttending(data);
+  // }, [props.singleEntry])
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
     console.log('USEEFFECT for SINGLE entry effect ', singleEntry)
     setEntry(singleEntry);
+    setUserIsAdmin(isUserAdminCheck())
+    props.getAttendance(props.teamId, id)
   }, [])
 
-  useEffect(() => {
-    console.log('selected ', attending)
-    // will fire redux action to add to list of members attending
-    // props.addAttendanceResponse(props.teamId, props.currentUserId, id, attending);
-    //  userAttendanceResponse()
+  // useEffect(() => {
+  //   console.log('selected ', attending)
+  //   // will fire redux action to add to list of members attending
 
-  }, [attending])
+  //   //  userAttendanceResponse()
+
+  // }, [attending])
+
+  const handleAttendingResponse = (responseValue) => {
+    console.log('ATTedning response handler ', responseValue)
+    setAttending(responseValue)
+    props.addAttendanceResponse(props.teamId, props.currentUserId, id, responseValue);
+  }
 
   const handleDelete = async () => {
     console.log('handle delete')
@@ -124,8 +132,7 @@ const EntryPage: React.FC = (props: any) => {
     )
   }
 
-
-  console.log(attending)
+  console.log(props.attendanceRecord)
   return (
     <IonPage>
       <IonHeader>
@@ -193,19 +200,43 @@ const EntryPage: React.FC = (props: any) => {
                 <IonCol size="4">
                   <p>Attending? </p>
                 </IonCol>
-                <IonCol size="8">
-                  <IonSegment onIonChange={(event) => setAttending(event.detail.value)} color="tertiary" value={attending} >
-                    <IonSegmentButton value="yes" >
-                      <IonLabel>Yes</IonLabel>
-                    </IonSegmentButton  >
-                    <IonSegmentButton value='no' >
-                      <IonLabel>No</IonLabel>
-                    </IonSegmentButton >
-                    <IonSegmentButton value='maybe' >
-                      <IonLabel>Maybe</IonLabel>
-                    </IonSegmentButton >
-                  </IonSegment>
-                </IonCol>
+                {
+                  !props.attendanceRecord[0] ?
+                    <IonCol size="8">
+                      <IonSegment
+                        //      onIonChange={(event) => handleAttendingResponse(event.detail.value)} color="tertiary"
+                        onIonChange={() => console.log('pressed null')} color="tertiary"
+                        value={attending} >
+                        <IonSegmentButton value="yes" >
+                          <IonLabel>Yes</IonLabel>
+                        </IonSegmentButton  >
+                        <IonSegmentButton value='no' >
+                          <IonLabel>No</IonLabel>
+                        </IonSegmentButton >
+                        <IonSegmentButton value='maybe' >
+                          <IonLabel>Maybe</IonLabel>
+                        </IonSegmentButton >
+                      </IonSegment>
+                    </IonCol>
+                    :
+                    <IonCol size="8">
+                      <IonSegment
+                        onIonChange={(event) => handleAttendingResponse(event.detail.value)} color="tertiary"
+                        //  onIonChange={() => console.log('pressed')} color="tertiary"
+                        value={props?.attendanceRecord[0]?.status} >
+                        <IonSegmentButton value="yes" >
+                          <IonLabel>Yes</IonLabel>
+                        </IonSegmentButton  >
+                        <IonSegmentButton value='no' >
+                          <IonLabel>No</IonLabel>
+                        </IonSegmentButton >
+                        <IonSegmentButton value='maybe' >
+                          <IonLabel>Maybe</IonLabel>
+                        </IonSegmentButton >
+                      </IonSegment>
+                    </IonCol>
+                }
+
               </IonRow>
               :
               <div></div>
