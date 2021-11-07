@@ -139,7 +139,7 @@ const EntryPage: React.FC = (props: any) => {
   function renderAttendanceButtonYes() {
     console.log('att ', props.attendanceRecord?.status)
     if (props.attendanceRecord?.status === 'yes') {
-      return 'selectedYes'
+      return 'selectedYes yesButton'
     } else {
       return 'notSelected'
     }
@@ -206,13 +206,13 @@ const EntryPage: React.FC = (props: any) => {
           <IonCol className="titleColumn" >
             <h4 className="titleText">{props.singleEntry.title}</h4>
           </IonCol>
-          <IonRow>
-            <IonCol>
+          <IonRow className="descriptionRow">
+            <IonCol >
               <p>{props.singleEntry.description}</p>
             </IonCol>
           </IonRow>
           <br />
-          <IonRow>
+          <IonRow className='timesRow'>
             <IonCol size='6'>
               <IonText>Start at: {formatTime(props.singleEntry.startTime)}</IonText>
             </IonCol>
@@ -225,17 +225,23 @@ const EntryPage: React.FC = (props: any) => {
             :
             props.singleEntry.attendanceRequired === true ?
               <IonRow className="attendanceRow">
-                <IonCol size="4">
+                <IonCol size="6">
                   <p>Attending? </p>
                 </IonCol>
-                <IonCol size="8">
-                  <IonButton className={renderAttendanceButtonYes()}
+                <IonCol size="6" className='attendingButtons'>
+                  <IonButton
+                    size='small'
+                    className={renderAttendanceButtonYes()}
                     onClick={() => handleAttendingResponse('yes')}
                   >Yes</IonButton>
-                  <IonButton className={renderAttendanceButtonNo()}
+                  <IonButton
+                    size='small'
+                    className={renderAttendanceButtonNo()}
                     onClick={() => handleAttendingResponse('no')}
                   >No</IonButton>
-                  <IonButton className={renderAttendanceButtonMaybe()}
+                  <IonButton
+                    size='small'
+                    className={renderAttendanceButtonMaybe()}
                     onClick={() => handleAttendingResponse('maybe')}
                   >Maybe</IonButton>
                 </IonCol>
@@ -257,7 +263,7 @@ const EntryPage: React.FC = (props: any) => {
               <div></div>
           }
           {props.singleEntry.isMatch === true ?
-            <IonRow>
+            <IonRow className='scoreRow'>
               <IonCol>
                 <IonText>Final Score:</IonText>
               </IonCol>
@@ -269,9 +275,18 @@ const EntryPage: React.FC = (props: any) => {
             <div></div>
           }
           {props.singleEntry.location ?
-            <IonText>Location:  {props.singleEntry.location}</IonText>
+            <IonRow className='locationRow'>
+              <IonCol size='6'>
+                <IonText>Location:</IonText>
+              </IonCol>
+              <IonCol size='6'>
+                <IonText> {props.singleEntry.location}</IonText>
+              </IonCol>
+            </IonRow>
             :
-            <div></div>
+            <IonRow className='locationRow'>
+              <div></div>
+            </IonRow>
           }
         </IonGrid>
       </IonContent>

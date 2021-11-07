@@ -8,24 +8,66 @@
     justify-content: center;
 }
 
+.descriptionRow {
+    border-top: 1px solid rgb(197, 195, 195);
+}
+
 .titleText {
     justify-self: center;
     font-weight: bolder;
 }
 
+.timesRow {
+    border-top: 1px solid rgb(197, 195, 195);
+}
+
 .attendanceRow {
     justify-self: center;
     align-items: center;
+    border-top: 1px solid rgb(197, 195, 195);
+}
+
+.attendingButtons {
+    display: grid;
+    justify-content:flex-start;
+    margin-left: -0.5%;
+    gap: 0px;
+    grid-auto-flow: column;
+    
 }
 
 .selectedYes {
-    color: green;
+    --background: green;
+    width: 54px;
+    height: 25px;
+}
+
+.yesButton {
+    
 }
 
 .selectedNo {
-    color: red;
+    --background: red;
+    width: 54px;
+    height: 25px;
 }
 
 .selectedMaybe {
-    color: orange
+    --background: orange;
+    width: 54px;
+    height: 25px;
+}
+
+.notSelected {
+    --background: rgb(197, 195, 195);
+    width: 54px;
+    height: 25px;
+}
+
+.scoreRow {
+    border-top: 1px solid rgb(197, 195, 195);
+}
+
+.locationRow {
+    border-top: 1px solid rgb(197, 195, 195);
 }
