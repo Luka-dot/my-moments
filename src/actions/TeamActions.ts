@@ -72,7 +72,7 @@ export const getTeamMembers = (uid) => async dispatch => {
 }
 
 export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse) => async dispatch => {
-  console.log('ADDING ATTENDANCE')
+  console.log('ADDING ATTENDANCE ACTION  GOOOOOOOOOOOOOOOOOOOOO', statusResponse)
     try {
         const entriesRef = firestore
       .collection("teams")
@@ -81,34 +81,56 @@ export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse)
       .doc(eventId)
       .collection("attendingMembers")
       .doc(memberId)
-      .set({ id: memberId, status: statusResponse });
-      
-     dispatch({
+      .set({ id: memberId, status: statusResponse })
+
+    await entriesRef.then(() => dispatch({
       type: ADD_ATTENDANCE_RESPONSE,
-      payload: statusResponse
-    })
+      payload: { id: memberId, status: statusResponse }
+    })  )
     }catch(error) {
         console.log(error)
     }
    
 }
 
-export const getAttendance = (teamId, eventId) => async dispatch => {
+export const getAttendance = (teamId, eventId, userId) => dispatch => {
   console.log('GETTING ATTENDANCE ', teamId, eventId)
     try {
-        const entriesRef = firestore
+      firestore
       .collection("teams")
       .doc(teamId)
       .collection("events")
       .doc(eventId)
-      .collection("attendingMembers");
-    await entriesRef
-      .onSnapshot(({ docs }) => dispatch ({
+      .collection("attendingMembers")
+      .doc(userId)
+      .get().then( snapshot => dispatch ({
         type: GET_ATTENDANCE,
-        payload: docs.map(toEntry)
-    }) );
+        payload: snapshot.data()
+    }));
+
+      // .onSnapshot((doc) => 
     }catch(error) {
         console.log(error)
     }
    
 }
+// export const getAttendance = (teamId, eventId, userId) => async dispatch => {
+//   console.log('GETTING ATTENDANCE ', teamId, eventId)
+//     try {
+//         const entriesRef = firestore
+//       .collection("teams")
+//       .doc(teamId)
+//       .collection("events")
+//       .doc(eventId)
+//       .collection("attendingMembers")
+//       .get(userId)
+//     await entriesRef
+//       .then(({ docs }) => dispatch ({
+//         type: GET_ATTENDANCE,
+//         payload: docs.map(toEntry)
+//     }) );
+//     }catch(error) {
+//         console.log(error)
+//     }
+   
+// }

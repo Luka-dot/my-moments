@@ -17,3 +17,15 @@
     justify-self: center;
     align-items: center;
 }
+
+.selectedYes {
+    color: green;
+}
+
+.selectedNo {
+    color: red;
+}
+
+.selectedMaybe {
+    color: orange
+}

@@ -37,7 +37,7 @@ const AddEventPage: React.FC = (props: any) => {
     const [attendanceRequired, setAttendanceRequired] = useState(false)
     const [isMatch, setIsMatch] = useState(false)
     const [location, setLocation] = useState("")
-    const attendingMembers = {}
+    const attendingMembers = [{}]
 
     const result = ''
 

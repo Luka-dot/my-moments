@@ -54,13 +54,14 @@ import {
               }
             
               case ADD_ATTENDANCE_RESPONSE:
-                console.log("ADD_ATTENDANCE IN REDUCER")
+                console.log("ADD_ATTENDANCE IN REDUCER ", action.payload)
               return {
                 ...state,
-                singleEvent: action.payload,
+                eventAttendance: action.payload,
               }
 
               case GET_ATTENDANCE:
+                console.log("GET IN REDUCER ", action.payload)
               return {
                 ...state,
                 eventAttendance: action.payload,

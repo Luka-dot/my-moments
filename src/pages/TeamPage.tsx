@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import EntriesItem from '../components/EntriesItem';
 import { getTeamEvents } from '../actions/TeamActions';
-import { getTeamMembers, userSelectedTeam } from './../actions/TeamActions';
+import { getTeamMembers, userSelectedTeam, getAttendance } from './../actions/TeamActions';
 import { resetSingleEntry } from './../actions/EventsAction';
 
 import './teamPage.css';
@@ -38,6 +38,7 @@ const TeamPage: React.FC = (props: any) => {
     useEffect(() => {
         console.log('useEffect HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ', props.selectedTeam)
         props.getTeamEvents(props.selectedTeam)
+        //   props.getAttendance(props.userSelectedTeam, , props.currentUserId)
     }, [props.selectedTeam]);
 
     // useEffect(() => {
@@ -86,4 +87,4 @@ const mapStateToProps = (state) => ({
     teamMembers: state.team.members,
 });
 
-export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry })(TeamPage);
+export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry, getAttendance })(TeamPage);
