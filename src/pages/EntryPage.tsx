@@ -202,7 +202,6 @@ const EntryPage: React.FC = (props: any) => {
           eventId={id}
         /> */}
         <IonGrid>
-
           <IonCol className="titleColumn" >
             <h4 className="titleText">{props.singleEntry.title}</h4>
           </IonCol>

@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance } from '../actions/TeamActions';
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
+import { TestPlaceInput } from '../shared/testPlaceInput'
 
 import "../appTab.css";
 
@@ -93,9 +94,13 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         </IonCard>
                     )}
                 </IonList>
+                <TestPlaceInput />
                 <br />
                 <p>Maybe start one?</p>
                 <IonButton onClick={handleCreate}>Create Team</IonButton>
+                <br />
+                <p>Join existing team</p>
+                <IonButton onClick={handleCreate}>Join Team</IonButton>
             </IonContent>
         </IonPage>
     );
