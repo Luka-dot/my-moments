@@ -76,7 +76,6 @@ const EntryPage: React.FC = (props: any) => {
   }, [])
 
   useEffect(() => {
-    console.log('selected ', attending)
     // will fire redux action to add to list of members attending
     renderAttendanceButtonYes()
     renderAttendanceButtonNo()
@@ -130,14 +129,13 @@ const EntryPage: React.FC = (props: any) => {
     props.getSingleEvent(props.teamId, id)
   }
 
-  if (!props.singleEntry || !props.attendanceRecord) {
+  if (!props.singleEntry) {   //|| !props?.attendanceRecord
     return (
       <div>Loading....</div>
     )
   }
 
   function renderAttendanceButtonYes() {
-    console.log('att ', props.attendanceRecord?.status)
     if (props.attendanceRecord?.status === 'yes') {
       return 'selectedYes yesButton'
     } else {
@@ -145,7 +143,6 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
   function renderAttendanceButtonNo() {
-    console.log('att no', props.attendanceRecord?.status)
     if (props.attendanceRecord?.status === 'no') {
       return 'selectedNo'
     } else {
@@ -153,7 +150,6 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
   function renderAttendanceButtonMaybe() {
-    console.log('att maybe', props.attendanceRecord?.status)
     if (props.attendanceRecord?.status === 'maybe') {
       return 'selectedMaybe'
     } else {

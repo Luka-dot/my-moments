@@ -136,10 +136,7 @@ const AddEventPage: React.FC = (props: any) => {
 
                     <IonItem>
                         <IonLabel position="stacked">Location</IonLabel>
-                        <IonTextarea
-                            value={location}
-                            onIonChange={(event) => setLocation(event.detail.value)}
-                        />
+                        <IonText>{location}</IonText>
                         <PlacesAutocomplete
                             value={location}
                             onChange={handleChange}
