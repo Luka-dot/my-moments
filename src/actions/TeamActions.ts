@@ -1,4 +1,4 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE } from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -71,7 +71,29 @@ export const getTeamMembers = (uid) => async dispatch => {
    
 }
 
-export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse) => async dispatch => {
+export const getAllAttendees = (teamId, eventId) => async dispatch => {
+  console.log('GETTING them ALLLLLLL ', teamId, eventId)
+    try {
+      const entriesRef = firestore
+      .collection("teams")
+      .doc(teamId)
+      .collection("events")
+      .doc(eventId)
+      .collection("attendingMembers")
+      
+      await entriesRef.onSnapshot(({docs}) => dispatch ({
+        type: GET_ALL_ATTENDEES,
+        payload: docs.map(toEntry)
+    }));
+
+      // .onSnapshot((doc) => 
+    }catch(error) {
+        console.log(error)
+    }
+   
+}
+
+export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse, atendeeName) => async dispatch => {
   console.log('ADDING ATTENDANCE ACTION  GOOOOOOOOOOOOOOOOOOOOO', statusResponse)
     try {
         const entriesRef = firestore
@@ -81,11 +103,11 @@ export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse)
       .doc(eventId)
       .collection("attendingMembers")
       .doc(memberId)
-      .set({ id: memberId, status: statusResponse })
+      .set({ id: memberId, status: statusResponse, name: atendeeName })
 
     await entriesRef.then(() => dispatch({
       type: ADD_ATTENDANCE_RESPONSE,
-      payload: { id: memberId, status: statusResponse }
+      payload: { id: memberId, status: statusResponse, name: atendeeName }
     })  )
     }catch(error) {
         console.log(error)
@@ -111,26 +133,5 @@ export const getAttendance = (teamId, eventId, userId) => dispatch => {
       // .onSnapshot((doc) => 
     }catch(error) {
         console.log(error)
+      }
     }
-   
-}
-// export const getAttendance = (teamId, eventId, userId) => async dispatch => {
-//   console.log('GETTING ATTENDANCE ', teamId, eventId)
-//     try {
-//         const entriesRef = firestore
-//       .collection("teams")
-//       .doc(teamId)
-//       .collection("events")
-//       .doc(eventId)
-//       .collection("attendingMembers")
-//       .get(userId)
-//     await entriesRef
-//       .then(({ docs }) => dispatch ({
-//         type: GET_ATTENDANCE,
-//         payload: docs.map(toEntry)
-//     }) );
-//     }catch(error) {
-//         console.log(error)
-//     }
-   
-// }

@@ -1,5 +1,7 @@
-import { LOG_IN, LOG_OUT } from './types';
+import { LOG_IN, LOG_OUT, GET_CURRENT_USER_DETAILS } from './types';
 import { auth } from '../firebase';
+import { firestore } from '../firebase';
+import { toEntry } from '../Models';
 
 // export const getMemories = (dispatch) => {
 //     const initialMemories = [{ title: 'new memory'}];
@@ -19,6 +21,21 @@ export const logInUser = (email, password) => async dispatch => {
             type: LOG_IN,
             payload: returnCredentials.user,
         })
+    }catch(error) {
+        console.log(error)
+    }
+}
+
+export const getCurrentUserDetails = (uid) => async dispatch => {
+    try {
+      firestore
+      .collection("users")
+      .doc(uid)
+      .get().then( snapshot => dispatch ({
+        type: GET_CURRENT_USER_DETAILS,
+        payload: snapshot.data()
+    }));
+
     }catch(error) {
         console.log(error)
     }

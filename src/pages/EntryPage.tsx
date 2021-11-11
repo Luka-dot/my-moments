@@ -29,6 +29,8 @@ import { resetSingleEntry } from '../actions/EventsAction';
 import { addAttendanceResponse, getAttendance } from '../actions/TeamActions'
 
 import './entryPage.css'
+import AttendingDetails from "../components/AttendingDetails";
+import { getAllAttendees } from './../actions/TeamActions';
 
 interface RouterParams {
   id: string;
@@ -73,6 +75,7 @@ const EntryPage: React.FC = (props: any) => {
     setEntry(singleEntry);
     setUserIsAdmin(isUserAdminCheck())
     setAttending(props.getAttendance(props.teamId, id, props.currentUser.userId))
+    props.getAllAttendees(props.teamId, id)
   }, [])
 
   useEffect(() => {
@@ -80,28 +83,19 @@ const EntryPage: React.FC = (props: any) => {
     renderAttendanceButtonYes()
     renderAttendanceButtonNo()
     renderAttendanceButtonMaybe()
-    //  userAttendanceResponse()
 
   }, [props.attendanceRecord])
 
   const handleAttendingResponse = (responseValue) => {
-    //  e.preventDefault()
-    console.log('ATTedning response handler ', responseValue)
+    console.log('ATTedning response handler ', props.currentUser.curentUserDetails.userName)
     setAttending(responseValue)
-    props.addAttendanceResponse(props.teamId, props.currentUserId, id, responseValue);
+    props.addAttendanceResponse(props.teamId, props.currentUserId, id, responseValue, props.currentUser.curentUserDetails.userName);
   }
 
   const handleDelete = async () => {
     console.log('handle delete')
     setDeleting(true)
-    // const entryRef = firestore
-    //   .collection("users")
-    //   .doc(props.currentUserId)
-    //   .collection("entries")
-    //   .doc(id);
-    // await entryRef.delete();
     setDeleting(false);
-    // console.log('delete ends')
     history.goBack();
   };
 
@@ -109,20 +103,6 @@ const EntryPage: React.FC = (props: any) => {
     console.log('DELETING CANCEL')
     setDeleting(false);
   }
-
-  // const userAttendanceResponse = () => {
-  //   console.log(props.singleEntry, props.currentUserId)
-  //   let entryData = props.singleEntry
-  //   console.log(entryData)
-  //   const result = entryData.map(member => member.id === props.currentUserId);  //setAttending(member.status) : null
-  //   console.log(result)
-  // }
-
-  // const handleEditing = () => {
-  //   setEditStart(true)
-  //   console.log('Editing')
-
-  // }
 
   const gettingSingle = () => {
     console.log('getting siglesssss ', props.teamId, id)
@@ -251,7 +231,7 @@ const EntryPage: React.FC = (props: any) => {
                     onClick={() => handleAttendingResponse('Maybe')}
                   >Maybe</IonButton>
                 </IonCol> */}
-
+                <AttendingDetails />
 
               </IonRow>
               :
@@ -300,9 +280,10 @@ const mapStateToProps = (state) => ({
   teamId: state.team.team,
   singleEntry: state.team.singleEvent,
   attendanceRecord: state.team.eventAttendance,
+  allAtendees: state.team.eventAttendance,
 });
 
-export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry, addAttendanceResponse, getAttendance })(EntryPage);
+export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry, addAttendanceResponse, getAttendance, getAllAttendees })(EntryPage);
 
 {/* <IonSegment
                     //    onIonChange={(event) => handleAttendingResponse(event.detail.value)} color="tertiary"

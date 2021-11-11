@@ -19,6 +19,7 @@ import { firestore } from "../firebase";
 import { TestPlaceInput } from '../shared/testPlaceInput'
 
 import "../appTab.css";
+import { getCurrentUserDetails } from "../actions/AuthActions";
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])
@@ -34,6 +35,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
             setTeams(teamsList)
         })
+        props.getCurrentUserDetails(props.currentUserId)
     }, []);
 
     // useIonViewWillEnter(() => {
@@ -113,4 +115,4 @@ const mapStateToProps = (state) => ({
     userLoggedIn: state.auth.loggedIn,
 });
 
-export default connect(mapStateToProps, { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance })(TeamSelectionPage);
+export default connect(mapStateToProps, { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, getCurrentUserDetails })(TeamSelectionPage);

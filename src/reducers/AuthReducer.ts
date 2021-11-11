@@ -1,7 +1,7 @@
 import {
   LOG_IN,
   LOG_OUT,
-  GET_MEMORIES
+  GET_CURRENT_USER_DETAILS
 } from "../actions/types";
 
 const initialState = {
@@ -26,6 +26,12 @@ export default (state = initialState, action) => {
       return {
         state: initialState
       };
+
+    case GET_CURRENT_USER_DETAILS:
+      return {
+        ...state,
+        curentUserDetails: action.payload
+      }
 
   //   case ADD_TECH:
   //     return {

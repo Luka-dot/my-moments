@@ -7,6 +7,7 @@ import {
     GET_TEAM_DATA,
     ADD_ATTENDANCE_RESPONSE,
     GET_ATTENDANCE,
+    GET_ALL_ATTENDEES,
   } from "../actions/types";
   
 
@@ -54,18 +55,22 @@ import {
               }
             
               case ADD_ATTENDANCE_RESPONSE:
-                console.log("ADD_ATTENDANCE IN REDUCER ", action.payload)
               return {
                 ...state,
                 eventAttendance: action.payload,
               }
 
               case GET_ATTENDANCE:
-                console.log("GET IN REDUCER ", action.payload)
               return {
                 ...state,
                 eventAttendance: action.payload,
               }
+
+              case GET_ALL_ATTENDEES:
+                return {
+                  ...state,
+                  allAttendees: action.payload 
+                }
   
     //   case ADD_TECH:
     //     return {
