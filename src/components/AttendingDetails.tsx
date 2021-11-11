@@ -35,7 +35,7 @@ const AttendingDetails = (props: any) => {
                                     {atendee.name}
                                 </IonText>
                                 :
-                                <div></div>
+                                <div key={atendee.id}></div>
                         ))
                     }
                 </IonCol>
@@ -47,23 +47,23 @@ const AttendingDetails = (props: any) => {
                                     {atendee.name}
                                 </IonText>
                                 :
-                                <div></div>
+                                <div key={atendee.id}></div>
                         ))
                     }
                 </IonCol>
                 <IonCol size='4' className='titleColumn'>
-                    <IonRow>
-                        {
-                            props.allAtendees.map((atendee) => (
-                                atendee.status === 'maybe' ?
-                                    <IonText className="entryMaybe" key={atendee.id}>
+                    {
+                        props.allAtendees.map((atendee) => (
+                            atendee.status === 'maybe' ?
+                                <IonRow key={atendee.id} className='goingRow'>
+                                    <IonText className="entryMaybe" >
                                         {atendee.name}
                                     </IonText>
-                                    :
-                                    <div></div>
-                            ))
-                        }
-                    </IonRow>
+                                </IonRow>
+                                :
+                                <div key={atendee.id}></div>
+                        ))
+                    }
                 </IonCol>
             </IonRow>
         </IonGrid>

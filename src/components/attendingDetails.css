@@ -1,6 +1,13 @@
-.titleRow {
+.titleColumn {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+}
+.titleRow {
+  min-width: 100%;
 }
 .entryMaybe {
   color: orange;
+}
+.goingRow{
 }

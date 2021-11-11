@@ -282,9 +282,6 @@ const EntryPage: React.FC = (props: any) => {
           }
         </IonGrid>
       </IonContent>
-      <IonButton
-        onClick={gettingSingle}
-      >Get Event details</IonButton>
     </IonPage >
   );
 };
