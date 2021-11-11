@@ -6,6 +6,7 @@
 .titleColumn {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .descriptionRow {
@@ -22,8 +23,9 @@
 }
 
 .attendanceRow {
-    justify-self: center;
-    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
     border-top: 1px solid rgb(197, 195, 195);
 }
 

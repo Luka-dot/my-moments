@@ -232,7 +232,7 @@ const EntryPage: React.FC = (props: any) => {
                     onClick={() => handleAttendingResponse('Maybe')}
                   >Maybe</IonButton>
                 </IonCol> */}
-                <IonCol size='12' className='titleColumn' onClick={() => setShowAttendees(!showAttendees)} >
+                <IonCol size='12' className='arrowIcon' onClick={() => setShowAttendees(!showAttendees)} >
                   {
                     showAttendees ?
                       <IonIcon icon={upArrow} />

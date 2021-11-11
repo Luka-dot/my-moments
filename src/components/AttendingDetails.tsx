@@ -25,13 +25,13 @@ const AttendingDetails = (props: any) => {
     }
 
     return (
-        <IonGrid>
+        <IonGrid className='attendingGrid'>
             <IonRow className='titleRow'>
                 <IonCol size='4' className='titleColumn'>
                     {
                         props.allAtendees.map((atendee) => (
                             atendee.status === 'yes' ?
-                                <IonText color='success' key={atendee.id}>
+                                <IonText color='success' key={atendee.id} className='atendeName'>
                                     {atendee.name}
                                 </IonText>
                                 :
@@ -43,7 +43,7 @@ const AttendingDetails = (props: any) => {
                     {
                         props.allAtendees.map((atendee) => (
                             atendee.status === 'no' ?
-                                <IonText color='danger' key={atendee.id}>
+                                <IonText color='danger' key={atendee.id} className='atendeName'>
                                     {atendee.name}
                                 </IonText>
                                 :
