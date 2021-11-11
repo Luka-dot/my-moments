@@ -14,11 +14,9 @@ import { formatDate } from '../utils/helpers';
 import { connect } from "react-redux";
 
 import './entriesItem.css';
+import './attendingDetails.css'
 
 const AttendingDetails = (props: any) => {
-    const [yes, setYes] = useState(0)
-    const [no, setNo] = useState(0)
-    const [maybe, setMaybe] = useState(0)
 
     if (!props.allAtendees) {
         return (
@@ -27,25 +25,48 @@ const AttendingDetails = (props: any) => {
     }
 
     return (
-        <div>
-            {
-                props.allAtendees.map((atendee) => (
-                    <IonCard className="entryCard" key={atendee.id}>
-                        {/* <IonItem
-                            button
-                            routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
-                        //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
-                        > */}
-                        <IonGrid>
-                            <IonRow>
-                                {atendee.name}
-                            </IonRow>
-                        </IonGrid>
-
-                    </IonCard>
-                ))
-            }
-        </div >
+        <IonGrid>
+            <IonRow className='titleRow'>
+                <IonCol size='4' className='titleColumn'>
+                    {
+                        props.allAtendees.map((atendee) => (
+                            atendee.status === 'yes' ?
+                                <IonText color='success' key={atendee.id}>
+                                    {atendee.name}
+                                </IonText>
+                                :
+                                <div></div>
+                        ))
+                    }
+                </IonCol>
+                <IonCol size='4' className='titleColumn'>
+                    {
+                        props.allAtendees.map((atendee) => (
+                            atendee.status === 'no' ?
+                                <IonText color='danger' key={atendee.id}>
+                                    {atendee.name}
+                                </IonText>
+                                :
+                                <div></div>
+                        ))
+                    }
+                </IonCol>
+                <IonCol size='4' className='titleColumn'>
+                    <IonRow>
+                        {
+                            props.allAtendees.map((atendee) => (
+                                atendee.status === 'maybe' ?
+                                    <IonText className="entryMaybe" key={atendee.id}>
+                                        {atendee.name}
+                                    </IonText>
+                                    :
+                                    <div></div>
+                            ))
+                        }
+                    </IonRow>
+                </IonCol>
+            </IonRow>
+        </IonGrid>
     );
 };
 

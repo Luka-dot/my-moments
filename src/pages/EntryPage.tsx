@@ -21,7 +21,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { formatDate, formatTime } from "../utils/helpers";
-import { trash as trashIcon, create as createIcon } from "ionicons/icons";
+import { trash as trashIcon, create as createIcon, chevronDown as downArrow, chevronUp as upArrow } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
 import { getSingleEvent } from "../actions/EventsAction";
@@ -44,6 +44,7 @@ const EntryPage: React.FC = (props: any) => {
   const [userIsAdmin, setUserIsAdmin] = useState(false)
   const [attending, setAttending] = useState({ id: '1', status: 'no' });
   const [newAttendanceResponse, setNewAttendanceResponse] = useState(null);
+  const [showAttendees, setShowAttendees] = useState(false)
   //  const [editStart, setEditStart] = useState(false)
 
   function isUserAdminCheck() {
@@ -231,7 +232,23 @@ const EntryPage: React.FC = (props: any) => {
                     onClick={() => handleAttendingResponse('Maybe')}
                   >Maybe</IonButton>
                 </IonCol> */}
-                <AttendingDetails />
+                <IonCol size='12' className='titleColumn' onClick={() => setShowAttendees(!showAttendees)} >
+                  {
+                    showAttendees ?
+                      <IonIcon icon={upArrow} />
+                      :
+                      <IonIcon icon={downArrow} />
+                  }
+                </IonCol>
+                {
+                  showAttendees ?
+                    <IonRow className="attendanceRow">
+                      <AttendingDetails />
+                    </IonRow>
+                    :
+                    <div></div>
+                }
+
 
               </IonRow>
               :
@@ -284,19 +301,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getSingleEvent, resetSingleEntry, addAttendanceResponse, getAttendance, getAllAttendees })(EntryPage);
-
-{/* <IonSegment
-                    //    onIonChange={(event) => handleAttendingResponse(event.detail.value)} color="tertiary"
-                    onIonChange={(event) => setNewAttendanceResponse(event.detail.value)} color="tertiary"
-                    //    onIonChange={() => console.log('pressed null')} color="tertiary"
-                    value={attending} >
-                    <IonSegmentButton value="yes" >
-                      <IonLabel>Yes</IonLabel>
-                    </IonSegmentButton  >
-                    <IonSegmentButton value='no' >
-                      <IonLabel>No</IonLabel>
-                    </IonSegmentButton >
-                    <IonSegmentButton value='maybe' >
-                      <IonLabel>Maybe</IonLabel>
-                    </IonSegmentButton >
-                  </IonSegment> */}
