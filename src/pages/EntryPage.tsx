@@ -31,6 +31,7 @@ import { addAttendanceResponse, getAttendance } from '../actions/TeamActions'
 import './entryPage.css'
 import AttendingDetails from "../components/AttendingDetails";
 import { getAllAttendees } from './../actions/TeamActions';
+import MapComponent from "../components/MapComponent";
 
 interface RouterParams {
   id: string;
@@ -248,7 +249,7 @@ const EntryPage: React.FC = (props: any) => {
                     :
                     <div></div>
                 }
-
+                <MapComponent />
 
               </IonRow>
               :
