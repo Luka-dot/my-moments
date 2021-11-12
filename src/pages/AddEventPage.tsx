@@ -42,6 +42,7 @@ const AddEventPage: React.FC = (props: any) => {
     const [attendanceRequired, setAttendanceRequired] = useState(false)
     const [isMatch, setIsMatch] = useState(false)
     const [location, setLocation] = useState("")
+    const [coordinance, setCoordinance] = useState()
     const attendingMembers = []
 
     const result = ''
@@ -64,7 +65,7 @@ const AddEventPage: React.FC = (props: any) => {
     function handleSelect(location) {
         geocodeByAddress(location)
             .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng, location))
+            .then(latLng => setCoordinance(latLng))
             .catch(error => console.error('Error', error));
         setLocation(location)
     };
@@ -74,7 +75,7 @@ const AddEventPage: React.FC = (props: any) => {
             .collection("teams")
             .doc(props.selectedTeam)
             .collection("events");
-        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, attendingMembers };
+        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, attendingMembers, coordinance };
         console.log(entryData)
         await entriesRef.add(entryData);
         history.goBack();

@@ -249,7 +249,7 @@ const EntryPage: React.FC = (props: any) => {
                     :
                     <div></div>
                 }
-                <MapComponent />
+
 
               </IonRow>
               :
@@ -275,6 +275,7 @@ const EntryPage: React.FC = (props: any) => {
               <IonCol size='6'>
                 <IonText> {props.singleEntry.location}</IonText>
               </IonCol>
+              <MapComponent coordinance={props.singleEntry.coordinance} />
             </IonRow>
             :
             <IonRow className='locationRow'>
@@ -282,6 +283,7 @@ const EntryPage: React.FC = (props: any) => {
             </IonRow>
           }
         </IonGrid>
+
       </IonContent>
     </IonPage >
   );

@@ -6,6 +6,7 @@ import PlacesAutocomplete, {
 
 export function TestPlaceInput() {
     const [address, setAddress] = useState('')
+    const [coordinance, setCoordinance] = useState()
 
     function handleChange(address) {
         setAddress(address)
@@ -14,7 +15,7 @@ export function TestPlaceInput() {
     function handleSelect(address) {
         geocodeByAddress(address)
             .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng, address))
+            .then(latLng => console.log('Success', latLng, address), setCoordinance(latLng))
             .catch(error => console.error('Error', error));
         setAddress(address)
     };
@@ -63,4 +64,8 @@ export function TestPlaceInput() {
             )}
         </PlacesAutocomplete>
     );
+}
+
+function latLng(latLng: any): any {
+    throw new Error('Function not implemented.');
 }

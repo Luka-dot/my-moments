@@ -1,31 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = (props: any, { text }) => <div>{text}</div>;
-
 const MapComponent = (props: any) => {
+
+    console.log(props.coordinance.lat)
     const defaultProps = {
         center: {
-            lat: 59.95,
-            lng: 30.33
+            lat: props.coordinance.lat,
+            lng: props.coordinance.lng
         },
-        zoom: 11
+        zoom: 15
+    };
+
+    const renderMarkers = (map, maps) => {
+        let marker = new maps.Marker({
+            position: { lat: props.coordinance.lat, lng: props.coordinance.lng },
+            map,
+        });
+        return marker;
     };
 
 
     return (
         // Important! Always set the container height explicitly
-        <div style={{ height: '100vh', width: '100%' }}>
+        <div style={{ height: '30vh', width: '100%' }}>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: 'AIzaSyCNAPGtVyQOHKP2A_tIHeWNQmnHcsLqt9Y' }}
                 center={defaultProps.center}
                 zoom={defaultProps.zoom}
+                onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
             >
-                <AnyReactComponent
-                    lat={59.955413}
-                    lng={30.337844}
-                    text="My Marker"
-                />
             </GoogleMapReact>
         </div>
     );
