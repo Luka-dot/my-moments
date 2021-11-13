@@ -1,4 +1,4 @@
-import { GET_MEMORIES, GET_SINGLE_EVENT, RESET_SINGLE_EVENT } from './types';
+import { GET_MEMORIES, GET_SINGLE_EVENT, RESET_SINGLE_EVENT, LISTEN_TO_EVENT_CHAT } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -67,6 +67,17 @@ export const resetSingleEntry = () => async dispatch => {
     }catch(error) {
         console.log(error)
     }
+}
+
+export const listenToEventChat = (comments) => async dispatch => {
+ try {
+   dispatch({
+    type: LISTEN_TO_EVENT_CHAT,
+    payload: comments
+  })
+  }catch(error) {
+    console.log(error)
+  }
 }
 
 

@@ -1,15 +1,33 @@
-import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonChip, IonItem, IonLabel } from '@ionic/react'
-import React from 'react'
+import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonItem, IonLabel } from '@ionic/react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { useParams } from "react-router";
+import { formatDistance } from 'date-fns';
+import { listenToEventChat } from '../actions/EventsAction';
+import { firebaseObjectToArray, getEventChatRef } from '../firebase';
 import EventChatForm from './EventChatForm';
 
+interface RouterParams {
+    id: string;
+}
+
 const EventChat: React.FC = (props: any) => {
+    const { id } = useParams<RouterParams>();
+    console.log(id)
+
+    useEffect(() => {
+        getEventChatRef(id).on('value', snapshot => {
+            if (!snapshot.exists()) return;
+            props.listenToEventChat(firebaseObjectToArray(snapshot.val()))
+        })
+    }, [id])
+
     if (!props.currentUser) {
         return (
             <div>loading</div>
         )
     }
-    console.log(props.currentUser)
+
     return (
 
         <IonGrid>
@@ -19,25 +37,23 @@ const EventChat: React.FC = (props: any) => {
                 </IonCol>
             </IonRow>
             <IonRow>
-
                 <IonCol size='12'>
-                    <IonChip>
-                        <IonAvatar> <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" /></IonAvatar> <IonText>Hey everyone!!!</IonText>
-                    </IonChip>
-                </IonCol>
-                <IonCol size='12'>
-                    <IonItem>
-                        <IonAvatar slot='start'>
-                            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-                        </IonAvatar>
-                        <IonLabel>
-                            <IonRow>
-                                <h3>Rugby guy </h3> <h5> 2:25 pm</h5>
-                            </IonRow>
-                            <IonText>Hey everyone!!!</IonText>
-                        </IonLabel>
-
-                    </IonItem>
+                    {
+                        props.eventComments.map((comment) => (
+                            <IonItem key={comment.id}>
+                                <IonAvatar slot='start'>
+                                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+                                </IonAvatar>
+                                <IonLabel>
+                                    <IonRow>
+                                        <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <h5>{formatDistance(comment.date, new Date())}</h5>
+                                    </IonRow>
+                                    <IonText>{comment.text}</IonText>
+                                </IonLabel>
+                            </IonItem>
+                        ))
+                    }
                 </IonCol>
                 <EventChatForm />
             </IonRow>
@@ -54,6 +70,7 @@ const mapStateToProps = (state) => ({
     singleEntry: state.team.singleEvent,
     attendanceRecord: state.team.eventAttendance,
     allAtendees: state.team.eventAttendance,
+    eventComments: state.team.comments
 });
 
-export default connect(mapStateToProps)(EventChat)
+export default connect(mapStateToProps, { listenToEventChat })(EventChat)

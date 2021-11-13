@@ -8,10 +8,12 @@ import {
     ADD_ATTENDANCE_RESPONSE,
     GET_ATTENDANCE,
     GET_ALL_ATTENDEES,
+    LISTEN_TO_EVENT_CHAT,
   } from "../actions/types";
   
 
   const initialState = {
+    comments: []
   };
     
   // eslint-disable-next-line import/no-anonymous-default-export
@@ -71,6 +73,12 @@ import {
                   ...state,
                   allAttendees: action.payload 
                 }
+
+              case LISTEN_TO_EVENT_CHAT: 
+              return {
+                ...state,
+                comments: action.payload
+              }
   
     //   case ADD_TECH:
     //     return {

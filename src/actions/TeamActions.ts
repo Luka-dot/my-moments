@@ -115,7 +115,7 @@ export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse,
    
 }
 
-export const getAttendance = (teamId, eventId, userId) => dispatch => {
+export const getAttendance = (teamId, eventId, userId) => async dispatch => {
   console.log('GETTING ATTENDANCE ', teamId, eventId)
     try {
       firestore

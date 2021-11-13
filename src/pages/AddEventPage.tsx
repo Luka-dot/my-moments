@@ -30,6 +30,7 @@ import { connect } from "react-redux";
 
 import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
+import './addEventPage.css'
 
 const AddEventPage: React.FC = (props: any) => {
     //  const { userId } = useAuth() as any;
@@ -144,8 +145,9 @@ const AddEventPage: React.FC = (props: any) => {
                             onSelect={handleSelect}
                         >
                             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                <div>
+                                <div id="pac-container">
                                     <input
+                                        id="pac-input"
                                         {...getInputProps({
                                             placeholder: 'Search Places ...',
                                             className: 'location-search-input',
