@@ -54,11 +54,11 @@ const TeamPage: React.FC = (props: any) => {
 
     return (
         <IonPage>
-            <IonHeader>
+            {/* <IonHeader>
                 <IonToolbar>
                     <IonTitle>{props.selectedTeamName.name}</IonTitle>
                 </IonToolbar>
-            </IonHeader>
+            </IonHeader> */}
             <IonContent className="ion-padding">
                 {
                     isUserAdminCheck() ?

@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/database';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -86,15 +87,16 @@ export const createUserProfileDocument2 = async (userAuth, additionalData) => {
     return userRef;
   };
 
-  export function addEventChatComment(eventId, comment, userDetails) {
-    const { uid, name } = userDetails;
+  export function addEventChatComment(eventId, comment, userId, userName) {
     const newComment = {
-      displayName: name,
-      uid: uid,
+      displayName: userName,
+      uid: userId,
       text: comment,
       date: Date.now()
     }
-    return firebase.database().ref(`chat/${eventId}`).push(newComment);
+    // return firebase.database('https://my-moments-8b034-default-rtdb.firebaseio.com/')
+    // .ref(`chat/${eventId}`).push(newComment);
+   return firebase.database().ref(`chat/${eventId}`).push(newComment);
   }
 
   /*

@@ -59,7 +59,7 @@ const AppTab: React.FC = (props: any) => {
 
   return (
     <>
-      <IonRow className="appMenu">
+      {/* <IonRow className="appMenu">
         {!props.selectedTeam.teamName?.name ?
           <IonHeader>
             <p></p>
@@ -69,7 +69,7 @@ const AppTab: React.FC = (props: any) => {
             <IonText>{props.selectedTeam.teamName?.name}</IonText>
           </IonHeader>
         }
-      </IonRow>
+      </IonRow> */}
       <IonTabs className="tabbBarMenu" >
         <IonRouterOutlet>
           <Route exact path="/teams">

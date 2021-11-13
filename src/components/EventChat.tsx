@@ -1,9 +1,15 @@
 import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonChip, IonItem, IonLabel } from '@ionic/react'
 import React from 'react'
 import { connect } from 'react-redux'
-import { IonContent } from '@ionic/react';
+import EventChatForm from './EventChatForm';
 
-export const EventChat = (props) => {
+const EventChat: React.FC = (props: any) => {
+    if (!props.currentUser) {
+        return (
+            <div>loading</div>
+        )
+    }
+    console.log(props.currentUser)
     return (
 
         <IonGrid>
@@ -13,9 +19,7 @@ export const EventChat = (props) => {
                 </IonCol>
             </IonRow>
             <IonRow>
-                <IonCol size='12'>
-                    <IonText>Hey everyone!!!</IonText>
-                </IonCol >
+
                 <IonCol size='12'>
                     <IonChip>
                         <IonAvatar> <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" /></IonAvatar> <IonText>Hey everyone!!!</IonText>
@@ -35,17 +39,21 @@ export const EventChat = (props) => {
 
                     </IonItem>
                 </IonCol>
+                <EventChatForm />
             </IonRow>
         </IonGrid>
     )
 }
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth,
+    currentUserId: state.auth.user.uid,
+    teamEvents: state.team.events,
+    teamMembers: state.team.members,
+    teamId: state.team.team,
+    singleEntry: state.team.singleEvent,
+    attendanceRecord: state.team.eventAttendance,
+    allAtendees: state.team.eventAttendance,
+});
 
-})
-
-const mapDispatchToProps = {
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventChat)
+export default connect(mapStateToProps)(EventChat)
