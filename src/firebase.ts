@@ -86,6 +86,16 @@ export const createUserProfileDocument2 = async (userAuth, additionalData) => {
     return userRef;
   };
 
+  export function addEventChatComment(eventId, comment, userDetails) {
+    const { uid, name } = userDetails;
+    const newComment = {
+      displayName: name,
+      uid: uid,
+      text: comment,
+      date: Date.now()
+    }
+    return firebase.database().ref(`chat/${eventId}`).push(newComment);
+  }
 
   /*
 

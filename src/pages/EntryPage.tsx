@@ -191,10 +191,10 @@ const EntryPage: React.FC = (props: any) => {
           <br />
           <IonRow className='timesRow'>
             <IonCol size='6'>
-              <IonText>Start at: {formatTime(props.singleEntry.startTime)}</IonText>
+              <IonText className="description">Start's at:</IonText> <IonText>{formatTime(props.singleEntry.startTime)}</IonText>
             </IonCol>
             <IonCol size='6'>
-              <IonText>Ending at: {formatTime(props.singleEntry.endTime)}</IonText>
+              <IonText className="description">Ending at:</IonText><IonText> {formatTime(props.singleEntry.endTime)}</IonText>
             </IonCol>
           </IonRow>
           {!props.singleEntry.attendanceRequired ?
@@ -203,7 +203,7 @@ const EntryPage: React.FC = (props: any) => {
             props.singleEntry.attendanceRequired === true ?
               <IonRow className="attendanceRow">
                 <IonCol size="6">
-                  <p>Attending? </p>
+                  <p className="description">Attending? </p>
                 </IonCol>
                 <IonCol size="6" className='attendingButtons'>
                   <IonButton
@@ -258,7 +258,7 @@ const EntryPage: React.FC = (props: any) => {
           {props.singleEntry.isMatch === true ?
             <IonRow className='scoreRow'>
               <IonCol>
-                <IonText>Final Score:</IonText>
+                <IonText className="description">Final Score:</IonText>
               </IonCol>
               <IonCol>
                 {props.singleEntry.result}
@@ -270,12 +270,16 @@ const EntryPage: React.FC = (props: any) => {
           {props.singleEntry.location ?
             <IonRow className='locationRow'>
               <IonCol size='6'>
-                <IonText>Location:</IonText>
+                <IonText className="description">Location:</IonText>
               </IonCol>
               <IonCol size='6'>
                 <IonText> {props.singleEntry.location}</IonText>
               </IonCol>
-              <MapComponent coordinance={props.singleEntry.coordinance} />
+              {!props.singleEntry.coordinance ?
+                <div></div>
+                :
+                <MapComponent coordinance={props.singleEntry.coordinance} />
+              }
             </IonRow>
             :
             <IonRow className='locationRow'>

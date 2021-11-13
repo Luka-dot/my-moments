@@ -13,6 +13,10 @@
     border-top: 1px solid rgb(197, 195, 195);
 }
 
+.description {
+    color: darkgray;
+}
+
 .titleText {
     justify-self: center;
     font-weight: bolder;
