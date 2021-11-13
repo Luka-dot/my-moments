@@ -96,7 +96,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         </IonCard>
                     )}
                 </IonList>
-                <TestPlaceInput />
                 <br />
                 <p>Maybe start one?</p>
                 <IonButton onClick={handleCreate}>Create Team</IonButton>

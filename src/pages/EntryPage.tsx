@@ -45,9 +45,7 @@ const EntryPage: React.FC = (props: any) => {
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
   const [attending, setAttending] = useState({ id: '1', status: 'no' });
-  const [newAttendanceResponse, setNewAttendanceResponse] = useState(null);
   const [showAttendees, setShowAttendees] = useState(false)
-  //  const [editStart, setEditStart] = useState(false)
 
   function isUserAdminCheck() {
     const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
@@ -56,21 +54,6 @@ const EntryPage: React.FC = (props: any) => {
       return true
     }
   }
-
-  // useIonViewWillEnter(() => {
-  //   const singleEntry = props.getSingleEvent(props.teamId, id)
-  //   console.log('USEEFFECT for SINGLE entry ', singleEntry)
-  //   setEntry(singleEntry);
-  //   setUserIsAdmin(isUserAdminCheck())
-  //   props.getAttendance(props.teamId, id)
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(props.singleEntry)
-  //   // const data = props.singleEntry.filter(member => member.id === props.currentUserId ? member : null);
-  //   // console.log(data)
-  //   // setAttending(data);
-  // }, [props.singleEntry])
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
