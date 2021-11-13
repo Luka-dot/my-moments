@@ -32,6 +32,7 @@ import './entryPage.css'
 import AttendingDetails from "../components/AttendingDetails";
 import { getAllAttendees } from './../actions/TeamActions';
 import MapComponent from "../components/MapComponent";
+import { EventChat } from "../components/EventChat";
 
 interface RouterParams {
   id: string;
@@ -286,6 +287,7 @@ const EntryPage: React.FC = (props: any) => {
               <div></div>
             </IonRow>
           }
+          <EventChat />
         </IonGrid>
 
       </IonContent>
