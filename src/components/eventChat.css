@@ -1,0 +1,18 @@
+.chatItem {
+    width: 100%;
+}
+.messageTitleRow {
+    width: 100%;
+    justify-content: space-between;
+    color: darkgray;
+}
+.avatarImg {
+    height: 3.5vh;
+    width: 3.5vh;
+    margin-top: 1.25vh;
+}
+.posted {
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}

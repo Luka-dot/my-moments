@@ -77,6 +77,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
                             <IonText>You are logged in as: {props.currentUser.user.email} </IonText>
                         </IonCol>
                         <br />
+                    </IonRow>
+                    <IonRow>
                         <IonCol className="teamSelectionTitleCol"  >
                             <IonText >Select a team.</IonText>
                         </IonCol>

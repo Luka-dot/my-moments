@@ -1,0 +1,18 @@
+.chatAreaContainer {
+    width: 100%;
+}
+
+.chatTextField {
+   margin-top: 5px;
+}
+
+.buttonCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.chatAreaButton {
+    justify-content: center;
+}

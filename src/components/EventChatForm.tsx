@@ -1,11 +1,11 @@
-import { Form, Formik } from 'formik'
 import React, { useState } from 'react'
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { connect } from 'react-redux'
 import { addEventChatComment } from '../firebase'
-import { IonButton, IonToast, IonItem, IonTextarea } from '@ionic/react';
-import MyTextArea from '../shared/MyTextArea';
-import { getCurrentUserDetails } from './../actions/AuthActions';
+import { IonButton, IonToast, IonItem, IonTextarea, IonRow, IonCol, IonIcon } from '@ionic/react';
+import { sendOutline as sendIcon } from "ionicons/icons"
+
+import './eventChatForm.css'
 
 interface RouterParams {
     id: string;
@@ -24,15 +24,25 @@ const EventChatForm: React.FC = (props: any) => {
 
     console.log('my TEXT ', id, props.userId)
     return (
-        <IonItem>
-            <IonTextarea
-                value={comment}
-                onIonChange={(e) => setComment(e.detail.value)}
-            />
-            <IonButton
-                onClick={handleEnterComment}
-            >Add Comment</IonButton>
-        </IonItem>
+        <IonRow>
+            <IonItem className='chatAreaContainer'>
+                <IonCol size='10'>
+                    <IonTextarea
+                        className='chatTextField'
+                        value={comment}
+                        rows={1}
+                        onIonChange={(e) => setComment(e.detail.value)}
+                    />
+                </IonCol>
+                <IonCol size='2' className='buttonCol'>
+                    <IonButton
+                        className='chatAreaButton'
+                        onClick={handleEnterComment}
+                        color='tertiary'
+                    ><IonIcon icon={sendIcon} size='small' slot="icon-only" /></IonButton>
+                </IonCol>
+            </IonItem >
+        </IonRow>
     )
 }
 
