@@ -46,6 +46,7 @@ const EntryPage: React.FC = (props: any) => {
   const [userIsAdmin, setUserIsAdmin] = useState(false)
   const [attending, setAttending] = useState({ id: '1', status: 'no' });
   const [showAttendees, setShowAttendees] = useState(false)
+  const [weatherData, setWeatherData] = useState()
 
   function isUserAdminCheck() {
     const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
@@ -55,6 +56,16 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
 
+  async function weatherCheck() {
+    console.log(process.env.REACT_APP_API_URL, props.singleEntry.coordinance.lat)
+    await fetch(`${process.env.REACT_APP_API_URL}/weather/?lat=${props.singleEntry.coordinance.lat}&lon=${props.singleEntry.coordinance.lng}&units=metric&APPID=${process.env.REACT_APP_WEATER}`)
+      .then(res => res.json())
+      .then(result => {
+        setWeatherData(result)
+        console.log(result);
+      });
+  }
+
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
     console.log('USEEFFECT for SINGLE entry effect ', singleEntry)
@@ -62,6 +73,7 @@ const EntryPage: React.FC = (props: any) => {
     setUserIsAdmin(isUserAdminCheck())
     setAttending(props.getAttendance(props.teamId, id, props.currentUser.userId))
     props.getAllAttendees(props.teamId, id)
+    //  weatherCheck()
   }, [])
 
   useEffect(() => {
@@ -69,8 +81,8 @@ const EntryPage: React.FC = (props: any) => {
     renderAttendanceButtonYes()
     renderAttendanceButtonNo()
     renderAttendanceButtonMaybe()
-
   }, [props.attendanceRecord])
+
 
   const handleAttendingResponse = (responseValue) => {
     console.log('ATTedning response handler ', props.currentUser.curentUserDetails.userName)
@@ -122,7 +134,7 @@ const EntryPage: React.FC = (props: any) => {
       return 'notSelected'
     }
   }
-
+  console.log('HJGJGKGKGGGJGJGG   gkjghgkgjgjgj ', weatherData)
   return (
     <IonPage>
       <IonHeader>
@@ -164,9 +176,19 @@ const EntryPage: React.FC = (props: any) => {
           eventId={id}
         /> */}
         <IonGrid>
-          <IonCol className="titleColumn" >
-            <h4 className="titleText">{props.singleEntry.title}</h4>
-          </IonCol>
+          <IonRow>
+            <IonCol size='9' className="titleColumn" >
+              <h4 className="titleText">{props.singleEntry.title}</h4>
+            </IonCol>
+            <IonCol size='3' className="titleColumn2">
+              {/* {
+                weatherData ?
+                  <IonText>{weatherData}</IonText>
+                  :
+                  <div></div>
+              } */}
+            </IonCol>
+          </IonRow>
           <IonRow className="descriptionRow">
             <IonCol >
               <p>{props.singleEntry.description}</p>
@@ -272,7 +294,6 @@ const EntryPage: React.FC = (props: any) => {
           }
           <EventChat />
         </IonGrid>
-
       </IonContent>
     </IonPage >
   );

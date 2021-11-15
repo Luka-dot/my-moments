@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react';
 
 const MapComponent = (props: any) => {
 
-    console.log(props.coordinance.lat)
     const defaultProps = {
         center: {
             lat: props.coordinance.lat,

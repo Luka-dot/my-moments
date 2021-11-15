@@ -1,5 +1,15 @@
+.descriptionMessages {
+    color: darkgray;
+    margin-left: -.6vh;
+}
 .chatItem {
     width: 100%;
+}
+.avatar {
+    margin-right: 0;
+}
+.mainMessageRow {
+    margin-left: -2vh;
 }
 .messageTitleRow {
     width: 100%;

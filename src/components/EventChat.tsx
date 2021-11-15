@@ -25,7 +25,7 @@ const EventChat: React.FC = (props: any) => {
 
     if (!props.currentUser) {
         return (
-            <div>loading</div>
+            <div> .... loading</div>
         )
     }
 
@@ -34,18 +34,18 @@ const EventChat: React.FC = (props: any) => {
         <IonGrid>
             <IonRow>
                 <IonCol size='12'>
-                    <IonText></IonText>
+                    <IonText className="descriptionMessages">Messages</IonText>
                 </IonCol>
             </IonRow>
-            <IonRow>
+            <IonRow className="mainMessageRow">
                 <IonCol size='12'>
                     <IonList>
                         {
                             props.eventComments.map((comment) => (
-                                <IonGrid>
+                                <IonGrid key={comment.id}>
                                     <IonRow>
-                                        <IonItem className='chatItem' key={comment.id} >
-                                            <IonAvatar slot='start'>
+                                        <IonItem className='chatItem'  >
+                                            <IonAvatar className='avatar' slot='start'>
                                                 <img className='avatarImg' src="/avatar-grey.png" />
                                             </IonAvatar>
                                             <IonLabel>
