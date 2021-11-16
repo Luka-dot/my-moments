@@ -33,6 +33,7 @@ import AttendingDetails from "../components/AttendingDetails";
 import { getAllAttendees } from './../actions/TeamActions';
 import MapComponent from "../components/MapComponent";
 import EventChat from "../components/EventChat";
+import { WeaterComponent } from "../components/WeatherComponent";
 
 interface RouterParams {
   id: string;
@@ -41,12 +42,12 @@ interface RouterParams {
 const EntryPage: React.FC = (props: any) => {
   const history = useHistory();
   const { id } = useParams<RouterParams>();
-  const [entry, setEntry] = useState();
+  const [entry, setEntry] = useState<any>();
   const [deleteing, setDeleting] = useState(false);
   const [userIsAdmin, setUserIsAdmin] = useState(false)
   const [attending, setAttending] = useState({ id: '1', status: 'no' });
   const [showAttendees, setShowAttendees] = useState(false)
-  const [weatherData, setWeatherData] = useState()
+  const [weatherData, setWeatherData] = useState<any>()
 
   function isUserAdminCheck() {
     const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
@@ -56,15 +57,14 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
 
-  async function weatherCheck() {
-    console.log(process.env.REACT_APP_API_URL, props.singleEntry.coordinance.lat)
-    await fetch(`${process.env.REACT_APP_API_URL}/weather/?lat=${props.singleEntry.coordinance.lat}&lon=${props.singleEntry.coordinance.lng}&units=metric&APPID=${process.env.REACT_APP_WEATER}`)
-      .then(res => res.json())
-      .then(result => {
-        setWeatherData(result)
-        console.log(result);
-      });
-  }
+  // async function weatherCheck() {
+  //   await fetch(`${process.env.REACT_APP_API_URL}/weather/?lat=${props.singleEntry.coordinance.lat}&lon=${props.singleEntry.coordinance.lng}&units=metric&APPID=${process.env.REACT_APP_WEATER}`)
+  //     .then(res => res.json())
+  //     .then(result => {
+  //       setWeatherData(result)
+  //       console.log(result);
+  //     });
+  // }
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
@@ -73,7 +73,7 @@ const EntryPage: React.FC = (props: any) => {
     setUserIsAdmin(isUserAdminCheck())
     setAttending(props.getAttendance(props.teamId, id, props.currentUser.userId))
     props.getAllAttendees(props.teamId, id)
-    //  weatherCheck()
+    setWeatherData(null)
   }, [])
 
   useEffect(() => {
@@ -113,6 +113,10 @@ const EntryPage: React.FC = (props: any) => {
     )
   }
 
+  // if (props.singleEntry.coordinance && !weatherData) {
+  //   weatherCheck()
+  // }
+
   function renderAttendanceButtonYes() {
     if (props.attendanceRecord?.status === 'yes') {
       return 'selectedYes yesButton'
@@ -134,7 +138,7 @@ const EntryPage: React.FC = (props: any) => {
       return 'notSelected'
     }
   }
-  console.log('HJGJGKGKGGGJGJGG   gkjghgkgjgjgj ', weatherData)
+
   return (
     <IonPage>
       <IonHeader>
@@ -181,12 +185,11 @@ const EntryPage: React.FC = (props: any) => {
               <h4 className="titleText">{props.singleEntry.title}</h4>
             </IonCol>
             <IonCol size='3' className="titleColumn2">
-              {/* {
-                weatherData ?
-                  <IonText>{weatherData}</IonText>
-                  :
-                  <div></div>
-              } */}
+              {!weatherData ?
+                <div></div>
+                :
+                <div>{weatherData.name}</div>
+              }
             </IonCol>
           </IonRow>
           <IonRow className="descriptionRow">
