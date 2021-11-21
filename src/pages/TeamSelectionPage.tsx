@@ -76,7 +76,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setCreatingTeam(!creatingTeam)
     }
 
-    const handleCreating = (uid, name, userData) => {
+    const handleCreating = (name) => {
         console.log('creating')
         props.createTeam(props.currentUserId, name, props.currentUser.curentUserDetails)
         // firestore.collection('teams').add({
