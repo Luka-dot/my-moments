@@ -1,5 +1,6 @@
 import {
     SELECT_TEAM,
+    CREATE_TEAM,
     GET_EVENTS,
     GET_MEMEBRS,
     GET_SINGLE_EVENT,
@@ -31,6 +32,12 @@ import {
           ...state,
           teamName: action.payload,
         };
+      
+        case CREATE_TEAM:
+          return {
+            ...state,
+            teams: action.payload
+          }
 
         case GET_EVENTS:
             return {

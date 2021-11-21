@@ -1,4 +1,4 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES } from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -34,6 +34,23 @@ export const selectedTeamData = (uid) => async dispatch => {
     }catch(error) {
         console.log(error)
     }   
+}
+
+export const createTeam = (uid, name, userData) => async dispatch => {
+  console.log('ADDING team')
+  try {
+    const teamRef = firestore.collection('teams').add({
+      name: name, admin: uid,
+  }) 
+
+  await teamRef.then(() => dispatch({
+    type: CREATE_TEAM,
+    payload: { name: name, admin: uid }
+  })  )
+
+  }catch(error) {
+    console.log(error)
+  }
 }
 
 export const getTeamEvents = (uid) => async dispatch => {

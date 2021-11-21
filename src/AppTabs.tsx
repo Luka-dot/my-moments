@@ -31,6 +31,7 @@ import AddEventPage from "./pages/AddEventPage";
 import EditPage from "./shared/EditPage";
 
 import './appTab.css';
+import AddTeamPage from "./pages/AddTeamPage";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -72,8 +73,11 @@ const AppTab: React.FC = (props: any) => {
       </IonRow> */}
       <IonTabs className="tabbBarMenu" >
         <IonRouterOutlet>
-          <Route exact path="/teams">
+          <Route path="/teams">
             <TeamSelectionPage />
+          </Route>
+          <Route path="/teams/addTeam">
+            <AddTeamPage />
           </Route>
           <Route path="/my/teams/account">
             <AccountPage />
@@ -96,6 +100,7 @@ const AppTab: React.FC = (props: any) => {
             <EditPage />
           </Route>
         </IonRouterOutlet>
+
         <IonTabBar slot="top" className="tabMenu">
           <IonTabButton className="tabButton" tab="events" href={pathToTeamEvents} >
             <IonIcon icon={calendarIcon} />

@@ -13,19 +13,20 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance } from '../actions/TeamActions';
+import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, createTeam } from '../actions/TeamActions';
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
 import { TestPlaceInput } from '../shared/testPlaceInput'
 
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
+import { AddTeamModal } from "../shared/AddTeamModal";
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])
+    const [creatingTeam, setCreatingTeam] = useState(false)
 
-    useEffect(() => {
-        console.log('TEAM SELECTION')
+    const gettingTeamsList = () => {
         const docRef = firestore.collection('teams');
         docRef.get().then((snapshot) => {
             const teamsList = snapshot.docs.map((doc) => ({
@@ -35,15 +36,17 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
             setTeams(teamsList)
         })
+    }
+
+    useEffect(() => {
+        console.log('TEAM SELECTION')
+        gettingTeamsList()
         props.getCurrentUserDetails(props.currentUserId)
     }, []);
 
-    // useIonViewWillEnter(() => {
-    //     console.log('TEAM SELECTION ION 87878 ', props.selectedTeam)
-    //     if (props.selectedTeam) {
-    //         <Redirect to={`/my/teams/team/${props.selectedTeam}`} />
-    //     }
-    // })
+    useEffect(() => {
+        gettingTeamsList()
+    }, [creatingTeam])
 
     if (!props.userLoggedIn) {
         return (
@@ -65,7 +68,22 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }
 
     const handleCreate = () => {
-        console.log('Make The TEAM')
+        console.log('add team')
+        setCreatingTeam(!creatingTeam)
+    }
+
+    const cancelCreating = () => {
+        setCreatingTeam(!creatingTeam)
+    }
+
+    const handleCreating = (uid, name, userData) => {
+        console.log('creating')
+        props.createTeam(props.currentUserId, name, props.currentUser.curentUserDetails)
+        // firestore.collection('teams').add({
+        //     name: name, admin: props.currentUserId,
+        // })
+        firestore.collection('teams')
+        setCreatingTeam(!creatingTeam)
     }
 
     return (
@@ -78,6 +96,12 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         </IonCol>
                         <br />
                     </IonRow>
+                    <AddTeamModal
+                        modalText={"Adding TEAM !!!"}
+                        displayModal={creatingTeam}
+                        onCancel={cancelCreating}
+                        onConfirm={handleCreating}
+                    />
                     <IonRow>
                         <IonCol className="teamSelectionTitleCol"  >
                             <IonText >Select a team.</IonText>
@@ -99,9 +123,14 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     )}
                 </IonList>
                 <br />
-                <p>Maybe start one?</p>
-                <IonButton onClick={handleCreate}>Create Team</IonButton>
-                <br />
+                {props.currentUser.curentUserDetails?.isAdmin === true ?
+                    <div>
+                        <p>Maybe start one?</p>
+                        <IonButton onClick={handleCreate} >Create Team</IonButton>
+                    </div>
+                    :
+                    <div></div>
+                }
                 <p>Join existing team</p>
                 <IonButton onClick={handleCreate}>Join Team</IonButton>
             </IonContent>
@@ -116,4 +145,5 @@ const mapStateToProps = (state) => ({
     userLoggedIn: state.auth.loggedIn,
 });
 
-export default connect(mapStateToProps, { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, getCurrentUserDetails })(TeamSelectionPage);
+export default connect(mapStateToProps,
+    { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, getCurrentUserDetails, createTeam })(TeamSelectionPage);
