@@ -2,6 +2,7 @@ import {
     IonCard,
     IonCol,
     IonGrid,
+    IonHeader,
     IonIcon,
     IonItem,
     IonLabel,
@@ -23,6 +24,16 @@ const EntriesItem = (props: any) => {
         )
     }
     const events = props.teamEvents
+    console.log(events.length < 1)
+    if (events.length < 1) {
+        return (
+            <IonCard>
+                <IonHeader>
+                    <IonText>There are no events.</IonText>
+                </IonHeader>
+            </IonCard>
+        )
+    }
 
     return (
         <div>

@@ -42,7 +42,7 @@ export const createTeam = (uid, name, userData) => async dispatch => {
     const teamRef = firestore.collection('teams').add({
       name: name
   }).then(data => (
-    firestore.collection('teams').doc(data.id).collection('members').add(userData)
+    firestore.collection('teams').doc(data.id).collection('members').add({...userData, id: uid})
   ))
   await teamRef.then(() => dispatch({
     type: CREATE_TEAM,
