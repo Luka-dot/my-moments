@@ -24,12 +24,14 @@
 }
 
 .timeStarts {
-    color: lightslategrey;
+    color: lightcoral;
 }
 .time {
     font-style: italic;
 }
-
+.eventTitle {
+    font-weight: bolder;
+}
 .matchDay {
     font-weight: bolder;
     font-size: large;

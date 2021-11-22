@@ -57,7 +57,7 @@ const EntriesItem = (props: any) => {
                                     </IonCol>
                                     <IonCol size='8' className="infoCol">
                                         <IonLabel>
-                                            <h3>{event.title}</h3>
+                                            <h3 ><IonText className='eventTitle' >{event.title}</IonText></h3>
                                             <h4><IonText className='timeStarts'>Starts at: </IonText><IonText className='time'>{formatTime(event.startTime)}</IonText></h4>
                                         </IonLabel>
                                     </IonCol>
