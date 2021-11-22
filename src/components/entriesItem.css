@@ -13,6 +13,23 @@
 
 }
 
+.monthText {
+    font-weight: bolder;
+    color: lightslategrey;
+}
+
+.dateText {
+    font-weight: bolder;
+    color: blue;
+}
+
+.timeStarts {
+    color: lightslategrey;
+}
+.time {
+    font-style: italic;
+}
+
 .matchDay {
     font-weight: bolder;
     font-size: large;

@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 import { radioButtonOff as circleIcon } from "ionicons/icons";
 import React from "react";
-import { formatDate } from '../utils/helpers';
+import { formatDate, formatTime } from '../utils/helpers';
 import { connect } from "react-redux";
 
 import './entriesItem.css';
@@ -48,12 +48,17 @@ const EntriesItem = (props: any) => {
                             <IonGrid>
                                 <IonRow>
                                     <IonCol size='2' className="dateCol">
-                                        {formatDate(event.date).split(',')[0]}
+                                        <IonRow className='monthText'>
+                                            {formatDate(event.date).split(' ')[0]}
+                                        </IonRow>
+                                        <IonRow className='dateText'>
+                                            {formatDate(event.date).split(' ')[1].split(',')}
+                                        </IonRow>
                                     </IonCol>
                                     <IonCol size='8' className="infoCol">
                                         <IonLabel>
                                             <h3>{event.title}</h3>
-                                            <h4>{formatDate(event.date)}</h4>
+                                            <h4><IonText className='timeStarts'>Starts at: </IonText><IonText className='time'>{formatTime(event.startTime)}</IonText></h4>
                                         </IonLabel>
                                     </IonCol>
                                     <IonCol size='2' className="matchCol">
