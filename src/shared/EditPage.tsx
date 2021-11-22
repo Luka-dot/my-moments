@@ -3,6 +3,10 @@ import { firestore } from "../firebase";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { IonModal, IonButton, IonRow, IonCol, IonText, IonCheckbox, IonItem, IonList, IonContent, IonTextarea, IonLabel, IonInput, IonDatetime, IonPage } from '@ionic/react';
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    getLatLng,
+} from 'react-places-autocomplete';
 
 interface modalProps {
     modalText: string,
@@ -31,6 +35,8 @@ const EditPage: React.FC = (props: any) => {
     const [attendanceRequired, setAttendanceRequired] = useState(Boolean)
     const [isMatch, setIsMatch] = useState(Boolean)
     const [result, setResult] = useState('')
+    const [location, setLocation] = useState("")
+    const [coordinance, setCoordinance] = useState()
 
     useEffect(() => {
         setTitle(eventDetails?.title);
@@ -43,13 +49,25 @@ const EditPage: React.FC = (props: any) => {
         setResult(eventDetails?.result)
     }, [])
 
+    function handleChange(location) {
+        setLocation(location)
+    };
+
+    function handleSelect(location) {
+        geocodeByAddress(location)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => setCoordinance(latLng))
+            .catch(error => console.error('Error', error));
+        setLocation(location)
+    };
+
     const handleSave = async () => {
         const entriesRef = firestore
             .collection("teams")
             .doc(props.selectedTeam)
             .collection("events")
             .doc(id);
-        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result };
+        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, coordinance };
         await entriesRef.update(entryData);
         // onCancel();
     };
@@ -71,6 +89,21 @@ const EditPage: React.FC = (props: any) => {
         <IonPage>
             <IonContent className="ion-padding">
                 <IonList>
+                    <IonItem>
+                        <IonLabel position="stacked">Title</IonLabel>
+                        <IonInput
+                            value={title}
+                            onIonChange={(event) => setTitle(event.detail.value)}
+                        />
+                    </IonItem>
+
+                    <IonItem>
+                        <IonLabel position="stacked">Description</IonLabel>
+                        <IonTextarea
+                            value={description}
+                            onIonChange={(event) => setDescription(event.detail.value)}
+                        />
+                    </IonItem>
                     <IonItem>
                         <IonLabel >Date</IonLabel>
                         <IonDatetime
@@ -105,21 +138,54 @@ const EditPage: React.FC = (props: any) => {
                             onIonChange={(e) => setEndTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
-                    <IonItem>
-                        <IonLabel position="stacked">Title</IonLabel>
-                        <IonInput
-                            value={title}
-                            onIonChange={(event) => setTitle(event.detail.value)}
-                        />
-                    </IonItem>
 
                     <IonItem>
-                        <IonLabel position="stacked">Description</IonLabel>
-                        <IonTextarea
-                            value={description}
-                            onIonChange={(event) => setDescription(event.detail.value)}
-                        />
+                        <IonLabel position="stacked">Location</IonLabel>
+                        <IonText>{location}</IonText>
+                        <PlacesAutocomplete
+                            value={location}
+                            onChange={handleChange}
+                            onSelect={handleSelect}
+                        >
+                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <div id="pac-container">
+                                    <input
+                                        id="pac-input"
+                                        {...getInputProps({
+                                            placeholder: 'Search Places ...',
+                                            className: 'location-search-input',
+                                        })}
+                                    />
+                                    <div className="autocomplete-dropdown-container">
+                                        {loading && <div>Loading...</div>}
+                                        {suggestions.map(suggestion => {
+                                            const className = suggestion.active
+                                                ? 'suggestion-item--active'
+                                                : 'suggestion-item';
+                                            // inline style for demonstration purpose
+                                            const style = suggestion.active
+                                                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                                : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                            return (
+                                                <div
+                                                    {...getSuggestionItemProps(suggestion, {
+                                                        className,
+                                                        style,
+
+                                                    })}
+                                                    key={suggestion.placeId}
+                                                >
+                                                    <span>{suggestion.description}</span>
+
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </PlacesAutocomplete>
                     </IonItem>
+
 
                     <IonItem>
                         <IonCol>
