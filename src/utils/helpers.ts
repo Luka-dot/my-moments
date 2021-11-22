@@ -4,8 +4,15 @@ export const formatDate = (isoStringDate) => {
     })
 };
 
+export const formatLongDate = (isoStringDate) => {
+    return new Date(isoStringDate).toLocaleDateString('en-US', {
+        day: 'numeric' , month: 'long' , year: 'numeric'
+    })
+};
+
 export const formatTime = (isoStringDate) => {
     return new Date(isoStringDate).toLocaleDateString('en-US', { 
         hour: '2-digit', minute: '2-digit'
     }).slice(12)
 };
+

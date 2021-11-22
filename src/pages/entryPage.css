@@ -26,6 +26,10 @@
     font-weight: bolder;
 }
 
+.dateHeader {
+    font-weight: bolder;
+}
+
 .timesRow {
     border-top: 1px solid rgb(197, 195, 195);
 }

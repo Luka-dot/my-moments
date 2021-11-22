@@ -16,7 +16,7 @@ import {
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { formatDate, formatTime } from "../utils/helpers";
+import { formatDate, formatTime, formatLongDate } from "../utils/helpers";
 import { trash as trashIcon, create as createIcon, chevronDown as downArrow, chevronUp as upArrow } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
@@ -201,11 +201,13 @@ const EntryPage: React.FC = (props: any) => {
           </IonRow> */}
           <br />
           <IonRow className='timesRow'>
-            <IonCol size='6'>
-              <IonText className="description">Start's at:</IonText> <IonText>{formatTime(props.singleEntry.startTime)}</IonText>
+            <IonCol size='12'>
+              <IonText className='dateHeader' >{formatLongDate(props.singleEntry.date)}</IonText>
             </IonCol>
-            <IonCol size='6'>
-              <IonText className="description">Ending at:</IonText><IonText> {formatTime(props.singleEntry.endTime)}</IonText>
+            <IonCol size='12'>
+              <IonText className="description">From </IonText> <IonText>{formatTime(props.singleEntry.startTime)}</IonText>
+
+              <IonText className="description"> To </IonText><IonText> {formatTime(props.singleEntry.endTime)}</IonText>
             </IonCol>
           </IonRow>
           {!props.singleEntry.attendanceRequired ?
