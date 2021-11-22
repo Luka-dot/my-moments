@@ -17,6 +17,9 @@ import { Modal } from '../shared/Modal';
 import { toAccount, Account } from '../Models';
 import { connect } from "react-redux";
 import { logoutUser } from '../actions/AuthActions';
+import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
+import './settingsPage.css'
 
 const SettingsPage: React.FC = (props: any) => {
   const [loggingout, setLoggingout] = useState(false);
@@ -74,6 +77,12 @@ const SettingsPage: React.FC = (props: any) => {
         <IonButton color="medium" expand="block" onClick={() => setLoggingout(true)}>
           Logout
         </IonButton>
+        <br />
+        <Link className='backLink' to={'/teams'}>
+          <IonButton color="tertiary" fill='outline' expand="block" onClick={() => { }}>
+            To Team Selection
+          </IonButton>
+        </Link>
       </IonContent>
     </IonPage>
   );
