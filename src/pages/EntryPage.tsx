@@ -184,7 +184,7 @@ const EntryPage: React.FC = (props: any) => {
           <IonRow>
             <IonCol size='12' className="titleColumn" >
               <h5 className="titleText">{props.singleEntry.title}</h5>
-              <IonText>{props.singleEntry.description}</IonText>
+              <IonText className='descriptionText'>{props.singleEntry.description}</IonText>
             </IonCol>
             <IonCol size='3' className="titleColumn2">
               {!weatherData ?
@@ -205,9 +205,9 @@ const EntryPage: React.FC = (props: any) => {
               <IonText className='dateHeader' >{formatLongDate(props.singleEntry.date)}</IonText>
             </IonCol>
             <IonCol size='12'>
-              <IonText className="description">From </IonText> <IonText>{formatTime(props.singleEntry.startTime)}</IonText>
+              <IonText className="descriptionText"> </IonText> <IonText>{formatTime(props.singleEntry.startTime)}</IonText>
 
-              <IonText className="description"> To </IonText><IonText> {formatTime(props.singleEntry.endTime)}</IonText>
+              <IonText className="descriptionText"> To </IonText><IonText> {formatTime(props.singleEntry.endTime)}</IonText>
             </IonCol>
           </IonRow>
           {!props.singleEntry.attendanceRequired ?
@@ -216,7 +216,7 @@ const EntryPage: React.FC = (props: any) => {
             props.singleEntry.attendanceRequired === true ?
               <IonRow className="attendanceRow">
                 <IonCol size="6">
-                  <p className="description">Attending? </p>
+                  <IonText className='descriptionText' >Attending? </IonText>
                 </IonCol>
                 <IonCol size="6" className='attendingButtons'>
                   <IonButton
@@ -271,7 +271,7 @@ const EntryPage: React.FC = (props: any) => {
           {props.singleEntry.isMatch === true ?
             <IonRow className='scoreRow'>
               <IonCol>
-                <IonText className="description">Final Score:</IonText>
+                <IonText className='descriptionText' >Final Score:</IonText>
               </IonCol>
               <IonCol>
                 {props.singleEntry.result}
@@ -283,7 +283,7 @@ const EntryPage: React.FC = (props: any) => {
           {props.singleEntry.location ?
             <IonRow className='locationRow'>
               <IonCol size='6'>
-                <IonText className="description">Location:</IonText>
+                <IonText className='descriptionText'>Location:</IonText>
               </IonCol>
               <IonCol size='6'>
                 <IonText> {props.singleEntry.location}</IonText>
