@@ -15,4 +15,22 @@
 
 .chatAreaButton {
     justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    --border-radius: 50%;
+}
+
+.iconsColumn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.linkIcon {
+    transform: rotate(40deg);
+}
+
+.smilyIcon {
+    color: rgb(243, 239, 17);
 }

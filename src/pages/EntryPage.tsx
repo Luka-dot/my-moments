@@ -182,7 +182,7 @@ const EntryPage: React.FC = (props: any) => {
         /> */}
         <IonGrid>
           <IonRow>
-            <IonCol size='9' className="titleColumn" >
+            <IonCol size='12' className="titleColumn" >
               <h5 className="titleText">{props.singleEntry.title}</h5>
               <IonText>{props.singleEntry.description}</IonText>
             </IonCol>
@@ -256,7 +256,7 @@ const EntryPage: React.FC = (props: any) => {
                 </IonCol>
                 {
                   showAttendees ?
-                    <IonRow className="attendanceRow">
+                    <IonRow className="attendanceListRow">
                       <AttendingDetails />
                     </IonRow>
                     :

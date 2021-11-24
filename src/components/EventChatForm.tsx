@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { connect } from 'react-redux'
 import { addEventChatComment } from '../firebase'
 import { IonButton, IonToast, IonItem, IonTextarea, IonRow, IonCol, IonIcon } from '@ionic/react';
-import { sendOutline as sendIcon } from "ionicons/icons"
+import { sendOutline as sendIcon, happyOutline, linkOutline } from "ionicons/icons"
 
 import './eventChatForm.css'
 
@@ -26,21 +26,31 @@ const EventChatForm: React.FC = (props: any) => {
     return (
         <IonRow>
             <IonItem className='chatAreaContainer'>
-                <IonCol size='10'>
-                    <IonTextarea
-                        className='chatTextField'
-                        value={comment}
-                        rows={1}
-                        onIonChange={(e) => setComment(e.detail.value)}
-                    />
-                </IonCol>
-                <IonCol size='2' className='buttonCol'>
-                    <IonButton
-                        className='chatAreaButton'
-                        onClick={handleEnterComment}
-                        color='tertiary'
-                    ><IonIcon icon={sendIcon} size='small' slot="icon-only" /></IonButton>
-                </IonCol>
+                <IonRow>
+                    <IonCol size='2' className='iconsColumn'>
+                        <IonIcon className='smilyIcon' icon={happyOutline} size='large' />
+                    </IonCol>
+                    <IonCol size='6'>
+                        <IonTextarea
+                            className='chatTextField'
+                            value={comment}
+                            rows={1}
+                            onIonChange={(e) => setComment(e.detail.value)}
+                        />
+                    </IonCol>
+                    <IonCol size='2' className='iconsColumn'>
+                        <IonIcon className='linkIcon' icon={linkOutline} size='large' />
+                    </IonCol>
+                    <IonCol size='2' className='buttonCol'>
+                        <IonButton
+                            className='chatAreaButton'
+                            onClick={handleEnterComment}
+                            color='tertiary'
+                        >
+                            <IonIcon className='sentIcon' icon={sendIcon} size='small' slot="icon-only" ></IonIcon>
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
             </IonItem >
         </IonRow>
     )

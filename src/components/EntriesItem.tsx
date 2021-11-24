@@ -41,6 +41,7 @@ const EntriesItem = (props: any) => {
                 events.map((event) => (
                     <IonCard className="entryCard" key={event.id}>
                         <IonItem
+                            lines="none"
                             button
                             routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/${event.id}`}
                         //    routerLink={`/my/teams/team/${props.selectedTeam}/entries/view/edit/${event.id}`}
