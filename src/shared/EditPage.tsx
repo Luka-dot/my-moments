@@ -89,7 +89,7 @@ const EditPage: React.FC = (props: any) => {
         <IonPage>
             <IonContent className="ion-padding">
                 <IonList>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Title</IonLabel>
                         <IonInput
                             value={title}
@@ -97,14 +97,14 @@ const EditPage: React.FC = (props: any) => {
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Description</IonLabel>
                         <IonTextarea
                             value={description}
                             onIonChange={(event) => setDescription(event.detail.value)}
                         />
                     </IonItem>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel >Date</IonLabel>
                         <IonDatetime
                             placeholder="Select Date"
@@ -114,7 +114,7 @@ const EditPage: React.FC = (props: any) => {
                             onIonChange={(event) => setDate(event.detail.value)}
                         />
                     </IonItem>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel>
                             Start Time
                         </IonLabel>
@@ -126,7 +126,7 @@ const EditPage: React.FC = (props: any) => {
                             onIonChange={(e) => setStartTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel>
                             End Time
                         </IonLabel>
@@ -139,7 +139,7 @@ const EditPage: React.FC = (props: any) => {
                         ></IonDatetime>
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Location</IonLabel>
                         <IonText>{location}</IonText>
                         <PlacesAutocomplete
@@ -187,7 +187,7 @@ const EditPage: React.FC = (props: any) => {
                     </IonItem>
 
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">
@@ -205,7 +205,7 @@ const EditPage: React.FC = (props: any) => {
                         </IonCol>
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">

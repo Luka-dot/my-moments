@@ -1,10 +1,10 @@
-import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonItem, IonLabel, IonCard, IonIcon, IonButton, IonCardContent, IonList } from '@ionic/react'
+import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonItem, IonLabel, IonCard, IonIcon, IonButton, IonCardContent, IonList, IonItemSliding, IonItemOptions, IonItemOption } from '@ionic/react'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams } from "react-router";
 import { formatDistance } from 'date-fns';
 import { listenToEventChat } from '../actions/EventsAction';
-import { firebaseObjectToArray, getEventChatRef } from '../firebase';
+import { firebaseObjectToArray, getEventChatRef, removeChatComment } from '../firebase';
 import EventChatForm from './EventChatForm';
 import './eventChat.css';
 
@@ -29,6 +29,11 @@ const EventChat: React.FC = (props: any) => {
         )
     }
 
+    function deleteMessage(commentId, uid) {
+        console.log('deleting ', commentId, uid, id)
+        removeChatComment(commentId, id)
+    }
+
     return (
 
         <IonGrid>
@@ -43,20 +48,75 @@ const EventChat: React.FC = (props: any) => {
                         {
                             props.eventComments.map((comment) => (
                                 <IonGrid key={comment.id}>
-                                    <IonRow>
-                                        <IonItem className='chatItem'  >
-                                            <IonAvatar className='avatar' slot='start'>
-                                                <img className='avatarImg' src="/avatar-grey.png" />
-                                            </IonAvatar>
-                                            <IonLabel>
-                                                <IonRow className='messageTitleRow'>
-                                                    <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <h5 className='posted'>{formatDistance(comment.date, new Date())}</h5>
-                                                </IonRow>
-                                                <IonText>{comment.text}</IonText>
-                                            </IonLabel>
-                                        </IonItem>
-                                    </IonRow>
+                                    {(comment.uid === props.currentUserId) ?
+                                        <IonItemSliding>
+                                            <IonItemOptions side="start" onClick={() => deleteMessage(comment.id, comment.uid)}>
+                                                <IonItemOption color="danger" expandable>
+                                                    Delete
+                                                </IonItemOption>
+                                            </IonItemOptions>
+                                            <IonRow>
+                                                <IonItem className='chatItem'  >
+                                                    <IonAvatar className='avatar' slot='start'>
+                                                        <img className='avatarImg' src="/avatar-grey.png" />
+                                                    </IonAvatar>
+                                                    <IonLabel>
+                                                        <IonRow className='messageTitleRow'>
+                                                            <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <h5 className='posted'>{formatDistance(comment.date, new Date())}</h5>
+                                                        </IonRow>
+                                                        <IonText><p className='ion-text-wrap'>{comment.text}</p></IonText>
+                                                    </IonLabel>
+                                                </IonItem>
+                                            </IonRow>
+                                            <IonItemOptions side="end">
+                                                <IonItemOption color="tertiary" expandable>
+                                                    Archive
+                                                </IonItemOption>
+                                            </IonItemOptions>
+                                        </IonItemSliding>
+                                        :
+                                        <IonRow>
+                                            <IonItem className='chatItem'  >
+                                                <IonAvatar className='avatar' slot='start'>
+                                                    <img className='avatarImg' src="/avatar-grey.png" />
+                                                </IonAvatar>
+                                                <IonLabel>
+                                                    <IonRow className='messageTitleRow'>
+                                                        <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <h5 className='posted'>{formatDistance(comment.date, new Date())}</h5>
+                                                    </IonRow>
+                                                    <IonText><p className='ion-text-wrap'>{comment.text}</p></IonText>
+                                                </IonLabel>
+                                            </IonItem>
+                                        </IonRow>
+                                    }
+                                    <IonItemSliding>
+                                        <IonItemOptions side="start" onClick={() => deleteMessage(comment.id, comment.uid)}>
+                                            <IonItemOption color="danger" expandable>
+                                                Delete
+                                            </IonItemOption>
+                                        </IonItemOptions>
+                                        <IonRow>
+                                            <IonItem className='chatItem'  >
+                                                <IonAvatar className='avatar' slot='start'>
+                                                    <img className='avatarImg' src="/avatar-grey.png" />
+                                                </IonAvatar>
+                                                <IonLabel>
+                                                    <IonRow className='messageTitleRow'>
+                                                        <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <h5 className='posted'>{formatDistance(comment.date, new Date())}</h5>
+                                                    </IonRow>
+                                                    <IonText><p className='ion-text-wrap'>{comment.text}</p></IonText>
+                                                </IonLabel>
+                                            </IonItem>
+                                        </IonRow>
+                                        <IonItemOptions side="end">
+                                            <IonItemOption color="tertiary" expandable>
+                                                Archive
+                                            </IonItemOption>
+                                        </IonItemOptions>
+                                    </IonItemSliding>
                                 </IonGrid>
                             ))
                         }

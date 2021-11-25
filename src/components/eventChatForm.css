@@ -17,8 +17,7 @@
 .chatAreaButton {
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    margin-right: -2.5vh;
     --border-radius: 50%;
 }
 

@@ -42,7 +42,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                 <h4>{modalText}</h4>
                 <IonContent className="ion-padding">
                     <IonList>
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel >Date</IonLabel>
                             <IonDatetime
                                 placeholder="Select Date"
@@ -52,7 +52,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                                 onIonChange={(event) => setDate(event.detail.value)}
                             />
                         </IonItem>
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel>
                                 Start Time
                             </IonLabel>
@@ -64,7 +64,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                                 onIonChange={(e) => setStartTime(e.detail.value)}
                             ></IonDatetime>
                         </IonItem>
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel>
                                 End Time
                             </IonLabel>
@@ -76,7 +76,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                                 onIonChange={(e) => setEndTime(e.detail.value)}
                             ></IonDatetime>
                         </IonItem>
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel position="stacked">Title</IonLabel>
                             <IonInput
                                 value={title}
@@ -84,7 +84,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                             />
                         </IonItem>
 
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel position="stacked">Description</IonLabel>
                             <IonTextarea
                                 value={description}
@@ -92,7 +92,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                             />
                         </IonItem>
 
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonCol>
                                 <IonRow>
                                     <IonCol size="10">
@@ -110,7 +110,7 @@ export const EditModal = ({ modalText, displayModal, onCancel, onConfirm, eventD
                             </IonCol>
                         </IonItem>
 
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonCol>
                                 <IonRow>
                                     <IonCol size="10">

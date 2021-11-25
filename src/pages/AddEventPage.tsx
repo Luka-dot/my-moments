@@ -94,7 +94,7 @@ const AddEventPage: React.FC = (props: any) => {
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonList>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel >Date</IonLabel>
                         <IonDatetime
                             placeholder="Select Date"
@@ -104,7 +104,7 @@ const AddEventPage: React.FC = (props: any) => {
                             onIonChange={(event) => setDate(event.detail.value)}
                         />
                     </IonItem>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel>
                             Start Time
                         </IonLabel>
@@ -116,7 +116,7 @@ const AddEventPage: React.FC = (props: any) => {
                             onIonChange={(e) => setStartTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel>
                             End Time
                         </IonLabel>
@@ -128,15 +128,15 @@ const AddEventPage: React.FC = (props: any) => {
                             onIonChange={(e) => setEndTime(e.detail.value)}
                         ></IonDatetime>
                     </IonItem>
-                    <IonItem>
-                        <IonLabel position="stacked">Title</IonLabel>
+                    <IonItem lines="none">
+                        <IonLabel position="floating">Title</IonLabel>
                         <IonInput
                             value={title}
                             onIonChange={(event) => setTitle(event.detail.value)}
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Location</IonLabel>
                         <IonText>{location}</IonText>
                         <PlacesAutocomplete
@@ -182,15 +182,15 @@ const AddEventPage: React.FC = (props: any) => {
                             )}
                         </PlacesAutocomplete>
                     </IonItem>
-                    <IonItem>
-                        <IonLabel position="stacked">Description</IonLabel>
+                    <IonItem lines="none">
+                        <IonLabel position="floating">Description</IonLabel>
                         <IonTextarea
                             value={description}
                             onIonChange={(event) => setDescription(event.detail.value)}
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">
@@ -208,7 +208,7 @@ const AddEventPage: React.FC = (props: any) => {
                         </IonCol>
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">

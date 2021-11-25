@@ -99,6 +99,10 @@ export function addEventChatComment(eventId, comment, userId, userName) {
   return firebase.database().ref(`chat/${eventId}`).push(newComment);
 }
 
+export function removeChatComment(commentId, eventId) {
+  return firebase.database().ref(`chat/${eventId}`).child(commentId).remove()
+}
+
 
 export function firebaseObjectToArray(snaphot) {
   return Object.entries(snaphot).map(e => Object.assign({}, e[1], {id: e[0]}))

@@ -84,7 +84,7 @@ const AddTeamPage: React.FC = (props: any) => {
                 <IonList>
 
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Title</IonLabel>
                         <IonInput
                             value={title}
@@ -93,7 +93,7 @@ const AddTeamPage: React.FC = (props: any) => {
                     </IonItem>
 
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel position="stacked">Description</IonLabel>
                         <IonTextarea
                             value={description}
@@ -101,7 +101,7 @@ const AddTeamPage: React.FC = (props: any) => {
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">
@@ -119,7 +119,7 @@ const AddTeamPage: React.FC = (props: any) => {
                         </IonCol>
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonCol>
                             <IonRow>
                                 <IonCol size="10">

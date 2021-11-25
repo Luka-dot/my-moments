@@ -299,7 +299,11 @@ const EntryPage: React.FC = (props: any) => {
               <div></div>
             </IonRow>
           }
-          <EventChat />
+          <IonRow>
+            <IonCol size='12'>
+              <EventChat />
+            </IonCol>
+          </IonRow>
         </IonGrid>
       </IonContent>
     </IonPage >

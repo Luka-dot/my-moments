@@ -42,7 +42,7 @@ const LoginPage: React.FC = (props: any) => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Email</IonLabel>
             <IonInput
               type="email"
@@ -50,7 +50,7 @@ const LoginPage: React.FC = (props: any) => {
               onIonChange={(event) => setEmail(event.detail.value)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
               type="password"

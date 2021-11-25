@@ -18,6 +18,7 @@ const NavBar = ({ entries }: EntriesProps) => {
             {
                 entries.map((entry) => (
                     <IonItem
+                        lines="none"
                         button
                         key={entry.id}
                         routerLink={`/my/entries/view/${entry.id}`}

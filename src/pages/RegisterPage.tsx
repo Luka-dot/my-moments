@@ -117,7 +117,7 @@ const RegisterPage: React.FC = (props: any) => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Email</IonLabel>
             <IonInput
               name="email"
@@ -126,7 +126,7 @@ const RegisterPage: React.FC = (props: any) => {
               onIonChange={(e) => handleInputChange(e)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
               name="password"
@@ -135,7 +135,7 @@ const RegisterPage: React.FC = (props: any) => {
               onIonChange={(e) => handleInputChange(e)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">User Name</IonLabel>
             <IonInput
               name='userName'
@@ -144,7 +144,7 @@ const RegisterPage: React.FC = (props: any) => {
               onIonChange={(e) => handleInputChange(e)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Picture</IonLabel>
             <br></br>
             <input

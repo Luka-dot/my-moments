@@ -16,7 +16,8 @@ const EventChatForm: React.FC = (props: any) => {
 
     const [comment, setComment] = useState('')
 
-    function handleEnterComment() {
+    function handleEnterComment(e) {
+        e.preventDefault()
         console.log(id, comment, props.userId, props.userName)
         addEventChatComment(id, comment, props.userId, props.userName.userName)
         setComment('')
@@ -25,34 +26,31 @@ const EventChatForm: React.FC = (props: any) => {
     console.log('my TEXT ', id, props.userId)
     return (
         <IonRow>
-            <IonItem className='chatAreaContainer'>
-                <IonRow>
-                    <IonCol size='2' className='iconsColumn'>
-                        <IonIcon className='smilyIcon' icon={happyOutline} size='large' />
-                    </IonCol>
-                    <IonCol size='6'>
-                        <IonTextarea
-                            className='chatTextField'
-                            value={comment}
-                            rows={1}
-                            onIonChange={(e) => setComment(e.detail.value)}
-                        />
-                    </IonCol>
-                    <IonCol size='2' className='iconsColumn'>
-                        <IonIcon className='linkIcon' icon={linkOutline} size='large' />
-                    </IonCol>
-                    <IonCol size='2' className='buttonCol'>
-                        <IonButton
-                            className='chatAreaButton'
-                            onClick={handleEnterComment}
-                            color='tertiary'
-                        >
-                            <IonIcon className='sentIcon' icon={sendIcon} size='small' slot="icon-only" ></IonIcon>
-                        </IonButton>
-                    </IonCol>
-                </IonRow>
-            </IonItem >
+            <IonCol size='2' className='iconsColumn'>
+                <IonIcon className='smilyIcon' icon={happyOutline} size='large' />
+            </IonCol>
+            <IonCol size='6'>
+                <IonTextarea
+                    className='chatTextField'
+                    value={comment}
+                    rows={1}
+                    onIonChange={(e) => setComment(e.detail.value)}
+                />
+            </IonCol>
+            <IonCol size='2' className='iconsColumn'>
+                <IonIcon className='linkIcon' icon={linkOutline} size='large' />
+            </IonCol>
+            <IonCol size='2' className='buttonCol'>
+                <IonButton
+                    className='chatAreaButton'
+                    onClick={handleEnterComment}
+                    color='tertiary'
+                >
+                    <IonIcon className='sentIcon' icon={sendIcon} size='small' slot="icon-only" ></IonIcon>
+                </IonButton>
+            </IonCol>
         </IonRow>
+
     )
 }
 

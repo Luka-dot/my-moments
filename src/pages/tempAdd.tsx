@@ -101,7 +101,7 @@ const AddEntryPage: React.FC = (props: any) => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonList>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Datez</IonLabel>
             <IonDatetime
               value={date}
@@ -110,14 +110,14 @@ const AddEntryPage: React.FC = (props: any) => {
               onIonChange={(event) => setDate(event.detail.value)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Title</IonLabel>
             <IonInput
               value={title}
               onIonChange={(event) => setTitle(event.detail.value)}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Picture</IonLabel>
             <br></br>
             <input
@@ -134,7 +134,7 @@ const AddEntryPage: React.FC = (props: any) => {
               onClick={handlePictureClick}
             />
           </IonItem>
-          <IonItem>
+          <IonItem lines="none">
             <IonLabel position="stacked">Description</IonLabel>
             <IonTextarea
               value={description}

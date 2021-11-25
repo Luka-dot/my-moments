@@ -20,7 +20,7 @@ export const AddTeamModal = ({ modalText, displayModal, onCancel, onConfirm }: m
                 <IonGrid>
 
                     <IonList>
-                        <IonItem>
+                        <IonItem lines="none">
                             <IonLabel position="stacked">Team Name</IonLabel>
                             <IonInput
                                 value={name}
