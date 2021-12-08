@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useParams } from "react-router";
 import { connect } from 'react-redux'
 import { addEventChatComment } from '../firebase'
-import { IonButton, IonToast, IonItem, IonTextarea, IonRow, IonCol, IonIcon } from '@ionic/react';
-import { sendOutline as sendIcon, happyOutline, linkOutline } from "ionicons/icons"
+import { IonButton, IonTextarea, IonRow, IonCol, IonIcon } from '@ionic/react';
+import { sendOutline as sendIcon } from "ionicons/icons"
 
 import './eventChatForm.css'
 
@@ -23,13 +23,12 @@ const EventChatForm: React.FC = (props: any) => {
         setComment('')
     }
 
-    console.log('my TEXT ', id, props.userId)
     return (
         <IonRow>
-            <IonCol size='2' className='iconsColumn'>
+            {/* <IonCol size='2' className='iconsColumn'>
                 <IonIcon className='smilyIcon' icon={happyOutline} size='large' />
-            </IonCol>
-            <IonCol size='6'>
+            </IonCol> */}
+            <IonCol size='10'>
                 <IonTextarea
                     className='chatTextField'
                     value={comment}
@@ -37,9 +36,9 @@ const EventChatForm: React.FC = (props: any) => {
                     onIonChange={(e) => setComment(e.detail.value)}
                 />
             </IonCol>
-            <IonCol size='2' className='iconsColumn'>
+            {/* <IonCol size='2' className='iconsColumn'>
                 <IonIcon className='linkIcon' icon={linkOutline} size='large' />
-            </IonCol>
+            </IonCol> */}
             <IonCol size='2' className='buttonCol'>
                 <IonButton
                     className='chatAreaButton'

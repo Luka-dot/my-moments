@@ -24,7 +24,7 @@ const EntriesItem = (props: any) => {
         )
     }
     const events = props.teamEvents
-    console.log(events.length < 1)
+
     if (events.length < 1) {
         return (
             <IonCard>

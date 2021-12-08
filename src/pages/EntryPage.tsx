@@ -64,7 +64,7 @@ const EntryPage: React.FC = (props: any) => {
 
   useEffect(() => {
     const singleEntry = props.getSingleEvent(props.teamId, id)
-    console.log('USEEFFECT for SINGLE entry effect ', singleEntry)
+
     setEntry(singleEntry);
     setUserIsAdmin(isUserAdminCheck())
     setAttending(props.getAttendance(props.teamId, id, props.currentUser.userId))

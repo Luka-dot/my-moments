@@ -1,4 +1,5 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM } from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM
+} from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -37,7 +38,6 @@ export const selectedTeamData = (uid) => async dispatch => {
 }
 
 export const createTeam = (uid, name, userData) => async dispatch => {
-  console.log('ADDING team ', uid, name, userData)
   try {
     const teamRef = firestore.collection('teams').add({
       name: name
@@ -95,7 +95,6 @@ export const getTeamMembers = (uid) => async dispatch => {
 }
 
 export const getAllAttendees = (teamId, eventId) => async dispatch => {
-  console.log('GETTING them ALLLLLLL ', teamId, eventId)
     try {
       const entriesRef = firestore
       .collection("teams")
@@ -117,7 +116,6 @@ export const getAllAttendees = (teamId, eventId) => async dispatch => {
 }
 
 export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse, atendeeName) => async dispatch => {
-  console.log('ADDING ATTENDANCE ACTION  GOOOOOOOOOOOOOOOOOOOOO', statusResponse)
     try {
         const entriesRef = firestore
       .collection("teams")
@@ -139,7 +137,6 @@ export const addAttendanceResponse = (teamId, memberId, eventId, statusResponse,
 }
 
 export const getAttendance = (teamId, eventId, userId) => async dispatch => {
-  console.log('GETTING ATTENDANCE ', teamId, eventId)
     try {
       firestore
       .collection("teams")
@@ -158,3 +155,36 @@ export const getAttendance = (teamId, eventId, userId) => async dispatch => {
         console.log(error)
       }
     }
+
+  // export const addEventChatMessage = (eventId, comment, userId, userName) => async disppatch => {
+  //     const newComment = {
+  //       displayName: userName,
+  //       uid: userId,
+  //       text: comment,
+  //       date: Date.now()
+  //     }
+
+  //     try {
+  //       firestore
+  //       .collection('teams')
+  //       .doc(teamId)
+  //       .collection('events')
+  //       .doc(eventId)
+  //       .collection('chat')
+  //       .set()
+
+  //     }catch(error) {
+  //       console.log(error)
+  //     }
+  // }
+    // export function addEventChatComment(eventId, comment, userId, userName) {
+    //   const newComment = {
+    //     displayName: userName,
+    //     uid: userId,
+    //     text: comment,
+    //     date: Date.now()
+    //   }
+    //   // return firebase.database('https://my-moments-8b034-default-rtdb.firebaseio.com/')
+    //   // .ref(`chat/${eventId}`).push(newComment);
+    //   return firebase.database().ref(`chat/${eventId}`).push(newComment);
+    // }

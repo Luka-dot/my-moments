@@ -19,7 +19,7 @@ import {
     
   // eslint-disable-next-line import/no-anonymous-default-export
   export default (state = initialState, action) => {
-    console.log(action.payload)
+    console.log(action.type, action.payload)
     switch (action.type) {
       case SELECT_TEAM:
         return {

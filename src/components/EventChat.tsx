@@ -14,15 +14,14 @@ interface RouterParams {
 
 const EventChat: React.FC = (props: any) => {
     const { id } = useParams<RouterParams>();
-    console.log(id)
 
     useEffect(() => {
-        console.log('getting comments for ', id)
         getEventChatRef(id).on('value', snapshot => {
             if (!snapshot.exists()) return;
             props.listenToEventChat(firebaseObjectToArray(snapshot.val()))
         })
-    }, [id])
+
+    }, [])
 
     if (!props.currentUser) {
         return (
@@ -36,7 +35,6 @@ const EventChat: React.FC = (props: any) => {
     }
 
     return (
-
         <IonGrid>
             <IonRow>
                 <IonCol size='12'>
@@ -49,34 +47,6 @@ const EventChat: React.FC = (props: any) => {
                         {
                             props.eventComments.map((comment) => (
                                 <IonGrid key={comment.id}>
-
-                                    <IonItemSliding>
-                                        <IonItemOptions side="start" onClick={() => deleteMessage(comment.id, comment.uid)}>
-                                            <IonItemOption color="danger" expandable>
-                                                Delete
-                                            </IonItemOption>
-                                        </IonItemOptions>
-                                        <IonRow>
-                                            <IonItem className='chatItem'  >
-                                                <IonAvatar className='avatar' slot='start'>
-                                                    <img className='avatarImg' src="/avatar-grey.png" />
-                                                </IonAvatar>
-                                                <IonLabel>
-                                                    <IonRow className='messageTitleRow'>
-                                                        <h3>{comment.displayName}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <h5 className='posted'>{formatDistance(comment.date, new Date())}</h5>
-                                                    </IonRow>
-                                                    <IonText><p className='ion-text-wrap'>{comment.text}</p></IonText>
-                                                </IonLabel>
-                                            </IonItem>
-                                        </IonRow>
-                                        <IonItemOptions side="end">
-                                            <IonItemOption color="tertiary" expandable>
-                                                Archive
-                                            </IonItemOption>
-                                        </IonItemOptions>
-                                    </IonItemSliding>
-
                                     <IonItemSliding>
                                         <IonItemOptions side="start" onClick={() => deleteMessage(comment.id, comment.uid)}>
                                             <IonItemOption color="danger" expandable>

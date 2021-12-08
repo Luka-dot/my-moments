@@ -1,16 +1,10 @@
 import {
-    IonCard,
     IonCol,
     IonGrid,
-    IonIcon,
-    IonItem,
-    IonLabel,
     IonRow,
     IonText,
 } from "@ionic/react";
-import { radioButtonOff as circleIcon } from "ionicons/icons";
-import React, { useState, useEffect } from "react";
-import { formatDate } from '../utils/helpers';
+import React from "react";
 import { connect } from "react-redux";
 
 import './entriesItem.css';

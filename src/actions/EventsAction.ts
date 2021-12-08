@@ -23,7 +23,6 @@ export const getEventsForUser = (uid) => async dispatch => {
 }
 
 export const getSingleEvent = (teamId, eventId) => async dispatch => {
-  console.log('inside action ', teamId, eventId)
       try {
       const entriesRef = await firestore
       .collection("teams")
@@ -56,7 +55,6 @@ export const getSingleEvent = (teamId, eventId) => async dispatch => {
 // }
 
 export const resetSingleEntry = () => async dispatch => {
-  console.log('RESETING single Entry ')
     try {
       dispatch({
         type: RESET_SINGLE_EVENT,

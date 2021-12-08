@@ -1,0 +1,9 @@
+.enterTextField {
+    position: absolute;
+      bottom: 0;
+      color: red;
+}
+
+.myMessage {
+    float:right
+}
