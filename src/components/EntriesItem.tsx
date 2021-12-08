@@ -39,7 +39,7 @@ const EntriesItem = (props: any) => {
         <div>
             {
                 events.map((event) => (
-                    <IonCard className="entryCard" key={event.id}>
+                    <IonCard className={event.isMatch ? "entryCardMatch" : "entryCard"} key={event.id}>
                         <IonItem
                             lines="none"
                             button
