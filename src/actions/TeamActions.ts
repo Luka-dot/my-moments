@@ -1,5 +1,5 @@
-import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM
-} from './types';
+import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM,
+  GET_ALL_MEMBERS } from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
@@ -85,6 +85,23 @@ export const getTeamMembers = (uid) => async dispatch => {
     await entriesRef
       .onSnapshot(({ docs }) => dispatch ({
         type: GET_MEMEBRS,
+        payload: docs.map(toEntry),
+      }));
+   
+    }catch(error) {
+        console.log(error)
+    }
+   
+}
+
+export const getAllMembers = () => async dispatch => {
+  console.log('GETTING THEM ALL')
+    try {
+        const entriesRef = firestore
+      .collection("users");
+    await entriesRef
+      .onSnapshot(({ docs }) => dispatch ({
+        type: GET_ALL_MEMBERS,
         payload: docs.map(toEntry),
       }));
    

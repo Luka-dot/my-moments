@@ -10,6 +10,7 @@ import {
     GET_ATTENDANCE,
     GET_ALL_ATTENDEES,
     LISTEN_TO_EVENT_CHAT,
+    GET_ALL_MEMBERS,
   } from "../actions/types";
   
 
@@ -49,6 +50,12 @@ import {
             return {
                 ...state,
                 members: action.payload,
+            }
+
+        case GET_ALL_MEMBERS:
+            return {
+                ...state,
+                allMembers: action.payload,
             }
 
             case GET_SINGLE_EVENT:

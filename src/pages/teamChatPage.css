@@ -4,6 +4,19 @@
       color: red;
 }
 
+.message {
+    border-radius: 5px;
+    border: 3px solid blue;
+    margin-left: 15px;
+    margin-right: 35px;
+    margin-top: 5px
+}
+
 .myMessage {
-    float:right
+    float:right;
+    border-radius: 5px;
+    border: 3px solid green;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-top: 5px
 }

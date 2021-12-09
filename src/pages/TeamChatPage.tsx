@@ -17,12 +17,12 @@ export const TeamChatPage = (props) => {
             <IonContent>
                 <IonList>
                     <IonCol size='12'>
-                        <IonItem lines="none" >
+                        <IonItem className='message' lines="none" >
                             <IonText>message</IonText>
                         </IonItem>
                     </IonCol>
                     <IonCol size='12'>
-                        <IonItem lines="none" >
+                        <IonItem className='message' lines="none" >
                             <IonText>message</IonText>
                         </IonItem>
                     </IonCol>
@@ -32,7 +32,7 @@ export const TeamChatPage = (props) => {
                         </IonItem>
                     </IonCol>
                     <IonCol size='12'>
-                        <IonItem lines="none" >
+                        <IonItem className='message' lines="none" >
                             <IonText>message</IonText>
                         </IonItem>
                     </IonCol>
