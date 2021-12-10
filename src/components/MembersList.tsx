@@ -1,11 +1,14 @@
 import { IonAvatar, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonRow, IonText } from '@ionic/react'
 import React from 'react'
 import { connect } from "react-redux";
+import { removeMemberToSpecificTeam, removeMemberToSpecificTeamColection } from '../firebase';
 
 const MembersList: React.FC = (props: any) => {
 
-    function handleRemovingMember(memberID) {
-        console.log('removing member from a team ', memberID)
+    function handleRemovingMember(memberId) {
+        console.log('removing member from a team ', memberId)
+        removeMemberToSpecificTeam(props.selectedTeam, memberId)
+        removeMemberToSpecificTeamColection(props.selectedTeam, memberId)
     }
 
     return (

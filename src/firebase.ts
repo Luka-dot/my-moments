@@ -3,6 +3,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/database';
+import { toEntry, toAccount } from './Models';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -121,13 +122,51 @@ export function addMemberToSpecificTeam(teamId, memberId) {
     memberOfTeam: firebase.firestore.FieldValue.arrayUnion(teamId)
   })
 }
-export function addMemberToSpecificTeamColection(teamId, newMember) {
+export function removeMemberToSpecificTeam(teamId, memberId) {
   firestore
+      .collection('users')
+      .doc(memberId)
+      .update({
+    memberOfTeam: firebase.firestore.FieldValue.arrayRemove(teamId)
+  })
+}
+export async function addMemberToSpecificTeamColection(teamId, newMember) {
+  try {
+  const teamRef = firestore
       .collection('teams')
       .doc(teamId)
-      .collection('members')
-      .add(newMember)
+      .collection('members') 
+      
+      await teamRef.add(newMember)
+  }
+
+catch(error) {
+  console.log(error)
 }
+}
+export async function removeMemberToSpecificTeamColection(teamId, memberId) {
+  try {
+    const userRef = firestore
+      .collection('teams')
+      .doc(teamId)
+      .collection('members');
+await userRef.onSnapshot(({docs}) => {
+  docs.map(toEntry => {
+    if (toEntry.data().id === memberId) {
+      console.log(toEntry.data().id)
+      console.log('found ', toEntry.id)
+      userRef.doc(toEntry.id).delete()
+    }
+  })
+})
+
+}catch(error) {
+    console.log(error)
+}
+}
+
+
+
 /*
 
 rules_version = '2';
