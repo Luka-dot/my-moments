@@ -1,13 +1,33 @@
 import { IonAvatar, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonRow, IonText } from '@ionic/react'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 
+import './membersListShared.css';
+
 const AllMembersList: React.FC = (props: any) => {
+
+    const [availableMembers, setAvailableMembers] = useState<any>([])
+
+    useEffect(() => {
+        setAvailableMembers(props.allMembers.filter(member => {
+            return member.memberOfTeam.includes(props.selectedTeam)
+        }))
+        console.log(availableMembers, props.selectedTeam)
+    }, [props.allMembers])
+
+    function handleAddMember(memberId) {
+        console.log('adding member to a team ', memberId)
+    }
+
+    function handleDeleteMember(memberId) {
+        console.log('DELETEING member to a team ', memberId)
+    }
+
     return (
-        props.allMembers.map((member) => (
+        availableMembers.map((member) => (
             <IonItem key={member.id} lines="none">
                 <IonItemSliding>
-                    <IonItemOptions side="start" onClick={() => { }}>
+                    <IonItemOptions side="start" onClick={() => handleDeleteMember(member.id)}>
                         <IonItemOption color="danger" expandable>
                             Delete
                         </IonItemOption>
@@ -19,11 +39,12 @@ const AllMembersList: React.FC = (props: any) => {
                             </IonAvatar>
                             <IonLabel>
                                 <IonText><p className='ion-text-wrap'>{member.userName}</p></IonText>
+                                <IonText><p className='email-text'>{member.email}</p></IonText>
                             </IonLabel>
                         </IonItem>
                     </IonRow>
                     <IonItemOptions side="end" onClick={() => { }}>
-                        <IonItemOption color="tertiary" expandable>
+                        <IonItemOption color="tertiary" expandable onClick={() => handleAddMember(member.id)}>
                             Add to {props.teamName.name}
                         </IonItemOption>
                     </IonItemOptions>

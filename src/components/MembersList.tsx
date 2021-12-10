@@ -3,11 +3,16 @@ import React from 'react'
 import { connect } from "react-redux";
 
 const MembersList: React.FC = (props: any) => {
+
+    function handleRemovingMember(memberID) {
+        console.log('removing member from a team ', memberID)
+    }
+
     return (
         props.members.map((member) => (
             <IonItem key={member.id} lines="none">
                 <IonItemSliding>
-                    <IonItemOptions side="start" onClick={() => { }}>
+                    <IonItemOptions side="start" onClick={() => handleRemovingMember(member.id)}>
                         <IonItemOption color="danger" expandable>
                             Remove from {props.teamName.name}
                         </IonItemOption>
@@ -19,6 +24,7 @@ const MembersList: React.FC = (props: any) => {
                             </IonAvatar>
                             <IonLabel>
                                 <IonText><p className='ion-text-wrap'>{member.name}</p></IonText>
+                                <IonText><p className='email-text'>{member.email}</p></IonText>
                             </IonLabel>
                         </IonItem>
                     </IonRow>
