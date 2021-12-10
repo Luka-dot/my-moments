@@ -121,6 +121,13 @@ export function addMemberToSpecificTeam(teamId, memberId) {
     memberOfTeam: firebase.firestore.FieldValue.arrayUnion(teamId)
   })
 }
+export function addMemberToSpecificTeamColection(teamId, newMember) {
+  firestore
+      .collection('teams')
+      .doc(teamId)
+      .collection('members')
+      .add(newMember)
+}
 /*
 
 rules_version = '2';

@@ -20,10 +20,10 @@ const MembersList: React.FC = (props: any) => {
                     <IonRow>
                         <IonItem className='chatItem'  >
                             <IonAvatar className='avatar' slot='start'>
-                                <img className='avatarImg' src="/avatar-grey.png" />
+                                <img className='avatarImg' src={member.pictureUrl ? member.pictureUrl : "/avatar-grey.png"} />
                             </IonAvatar>
                             <IonLabel>
-                                <IonText><p className='ion-text-wrap'>{member.name}</p></IonText>
+                                <IonText><p className='ion-text-wrap'>{member.userName}</p></IonText>
                                 <IonText><p className='email-text'>{member.email}</p></IonText>
                             </IonLabel>
                         </IonItem>

@@ -23,7 +23,7 @@ const MembersPage: React.FC = (props: any) => {
       <IonContent className="ion-padding">
         <IonRow>
           <IonCol>
-            <IonText>Team Members</IonText>
+            <IonText color='tertiary'>{props.teamName.name}</IonText><IonText> team members</IonText>
             <IonList>
               <MembersList />
             </IonList>

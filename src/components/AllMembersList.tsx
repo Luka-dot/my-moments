@@ -2,6 +2,7 @@ import { IonAvatar, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonL
 import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
 import { addMemberToTeam } from '../actions/TeamActions';
+import { addMemberToSpecificTeamColection } from '../firebase'
 
 import './membersListShared.css';
 
@@ -11,16 +12,14 @@ const AllMembersList: React.FC = (props: any) => {
 
     useEffect(() => {
         setAvailableMembers(props.allMembers.filter(member => {
-            return member.memberOfTeam.includes(props.selectedTeam)
+            return !member.memberOfTeam.includes(props.selectedTeam)
         }))
         console.log(availableMembers, props.selectedTeam)
     }, [props.allMembers])
 
     function handleAddMember(memberId, member) {
-        console.log('adding member to a team ', memberId, props.selectedTeam)
-
         props.addMemberToTeam(props.selectedTeam, memberId)
-
+        addMemberToSpecificTeamColection(props.selectedTeam, member)
     }
 
     function handleDeleteMember(memberId) {
@@ -39,7 +38,7 @@ const AllMembersList: React.FC = (props: any) => {
                     <IonRow>
                         <IonItem className='chatItem'  >
                             <IonAvatar className='avatar' slot='start'>
-                                <img className='avatarImg' src="/avatar-grey.png" />
+                                <img className='avatarImg' src={member.pictureUrl ? member.pictureUrl : "/avatar-grey.png"} />
                             </IonAvatar>
                             <IonLabel>
                                 <IonText><p className='ion-text-wrap'>{member.userName}</p></IonText>

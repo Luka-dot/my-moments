@@ -114,13 +114,6 @@ export const getAllMembers = () => async dispatch => {
 export const addMemberToTeam = (teamId, memberId) => async dispatch => {
   console.log(teamId, memberId)
   try {
-    // const entriesRef = firestore
-    //   .collection('teams')
-    //   .doc(teamId)
-    //   .collection('members')
-    //   .add(newMember);
-
-    
     
       addMemberToSpecificTeam(teamId, memberId)
   }
