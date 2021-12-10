@@ -112,6 +112,15 @@ export function firebaseObjectToArray(snaphot) {
 export function getEventChatRef(eventId) {
   return firebase.database().ref(`chat/${eventId}`).orderByKey()
 }
+
+export function addMemberToSpecificTeam(teamId, memberId) {
+  firestore
+      .collection('users')
+      .doc(memberId)
+      .update({
+    memberOfTeam: firebase.firestore.FieldValue.arrayUnion(teamId)
+  })
+}
 /*
 
 rules_version = '2';

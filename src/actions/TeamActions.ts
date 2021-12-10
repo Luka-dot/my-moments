@@ -1,6 +1,6 @@
 import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM,
-  GET_ALL_MEMBERS } from './types';
-import { firestore } from '../firebase';
+  GET_ALL_MEMBERS, ADD_MEMBER_TO_TEAM } from './types';
+import { addMemberToSpecificTeam, firestore } from '../firebase';
 import { toEntry } from '../Models';
 
 export const userSelectedTeam = (uid) => async dispatch => {
@@ -111,6 +111,25 @@ export const getAllMembers = () => async dispatch => {
    
 }
 
+export const addMemberToTeam = (teamId, memberId) => async dispatch => {
+  console.log(teamId, memberId)
+  try {
+    // const entriesRef = firestore
+    //   .collection('teams')
+    //   .doc(teamId)
+    //   .collection('members')
+    //   .add(newMember);
+
+    
+    
+      addMemberToSpecificTeam(teamId, memberId)
+  }
+  
+  catch(error) {
+  console.log(error)
+  }
+}
+
 export const getAllAttendees = (teamId, eventId) => async dispatch => {
     try {
       const entriesRef = firestore
@@ -125,7 +144,6 @@ export const getAllAttendees = (teamId, eventId) => async dispatch => {
         payload: docs.map(toEntry)
     }));
 
-      // .onSnapshot((doc) => 
     }catch(error) {
         console.log(error)
     }
@@ -172,36 +190,3 @@ export const getAttendance = (teamId, eventId, userId) => async dispatch => {
         console.log(error)
       }
     }
-
-  // export const addEventChatMessage = (eventId, comment, userId, userName) => async disppatch => {
-  //     const newComment = {
-  //       displayName: userName,
-  //       uid: userId,
-  //       text: comment,
-  //       date: Date.now()
-  //     }
-
-  //     try {
-  //       firestore
-  //       .collection('teams')
-  //       .doc(teamId)
-  //       .collection('events')
-  //       .doc(eventId)
-  //       .collection('chat')
-  //       .set()
-
-  //     }catch(error) {
-  //       console.log(error)
-  //     }
-  // }
-    // export function addEventChatComment(eventId, comment, userId, userName) {
-    //   const newComment = {
-    //     displayName: userName,
-    //     uid: userId,
-    //     text: comment,
-    //     date: Date.now()
-    //   }
-    //   // return firebase.database('https://my-moments-8b034-default-rtdb.firebaseio.com/')
-    //   // .ref(`chat/${eventId}`).push(newComment);
-    //   return firebase.database().ref(`chat/${eventId}`).push(newComment);
-    // }

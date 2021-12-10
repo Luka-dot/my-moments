@@ -1,6 +1,7 @@
 import { IonAvatar, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonRow, IonText } from '@ionic/react'
 import React, { useState, useEffect } from 'react'
 import { connect } from "react-redux";
+import { addMemberToTeam } from '../actions/TeamActions';
 
 import './membersListShared.css';
 
@@ -15,8 +16,11 @@ const AllMembersList: React.FC = (props: any) => {
         console.log(availableMembers, props.selectedTeam)
     }, [props.allMembers])
 
-    function handleAddMember(memberId) {
-        console.log('adding member to a team ', memberId)
+    function handleAddMember(memberId, member) {
+        console.log('adding member to a team ', memberId, props.selectedTeam)
+
+        props.addMemberToTeam(props.selectedTeam, memberId)
+
     }
 
     function handleDeleteMember(memberId) {
@@ -44,7 +48,7 @@ const AllMembersList: React.FC = (props: any) => {
                         </IonItem>
                     </IonRow>
                     <IonItemOptions side="end" onClick={() => { }}>
-                        <IonItemOption color="tertiary" expandable onClick={() => handleAddMember(member.id)}>
+                        <IonItemOption color="tertiary" expandable onClick={() => handleAddMember(member.id, member)}>
                             Add to {props.teamName.name}
                         </IonItemOption>
                     </IonItemOptions>
@@ -62,4 +66,4 @@ const mapStateToProps = (state) => ({
     allMembers: state.team.allMembers
 });
 
-export default connect(mapStateToProps, {})(AllMembersList);
+export default connect(mapStateToProps, { addMemberToTeam })(AllMembersList);
