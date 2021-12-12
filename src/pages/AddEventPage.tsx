@@ -29,7 +29,6 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 
 import { firestore } from "../firebase";
-import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
 
 const AddEventPage: React.FC = (props: any) => {

@@ -5,7 +5,7 @@ import { removeMemberToSpecificTeam, removeMemberToSpecificTeamColection } from 
 
 const MembersList: React.FC = (props: any) => {
 
-    function handleRemovingMember(memberId) {
+    const handleRemovingMember = (memberId) => {
         console.log('removing member from a team ', memberId)
         removeMemberToSpecificTeam(props.selectedTeam, memberId)
         removeMemberToSpecificTeamColection(props.selectedTeam, memberId)

@@ -17,7 +17,6 @@ import { Modal } from '../shared/Modal';
 import { toAccount, Account } from '../Models';
 import { connect } from "react-redux";
 import { logoutUser } from '../actions/AuthActions';
-import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import './settingsPage.css'
 

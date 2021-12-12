@@ -145,6 +145,7 @@ catch(error) {
 }
 }
 export async function removeMemberToSpecificTeamColection(teamId, memberId) {
+  console.log('TRIGGGGEEEEERRR')
   try {
     const userRef = firestore
       .collection('teams')
@@ -154,7 +155,7 @@ await userRef.onSnapshot(({docs}) => {
   docs.map(toEntry => {
     if (toEntry.data().id === memberId) {
       console.log(toEntry.data().id)
-      console.log('found ', toEntry.id)
+      console.log('found QIUYUIYIYUIYIUYIYUIYYYUIYUIYUIYUIY ', toEntry.id)
       userRef.doc(toEntry.id).delete()
     }
   })
@@ -164,6 +165,16 @@ await userRef.onSnapshot(({docs}) => {
     console.log(error)
 }
 }
+
+
+// await userRef.onSnapshot(({docs}) => {
+//   docs.map(toEntry => {
+//     if (toEntry.data().id === memberId) {
+//       console.log(toEntry.data().id)
+//       console.log('found QIUYUIYIYUIYIUYIYUIYYYUIYUIYUIYUIY ', toEntry.id)
+//       userRef.doc(toEntry.id).delete()
+//     }
+//   })
 
 
 

@@ -12,11 +12,10 @@ import {
   IonText,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { formatDate, formatTime, formatLongDate } from "../utils/helpers";
+import { formatTime, formatLongDate } from "../utils/helpers";
 import { trash as trashIcon, create as createIcon, chevronDown as downArrow, chevronUp as upArrow } from "ionicons/icons";
 import { Modal } from '../shared/Modal';
 import { connect } from "react-redux";
@@ -29,7 +28,6 @@ import AttendingDetails from "../components/AttendingDetails";
 import { getAllAttendees } from './../actions/TeamActions';
 import MapComponent from "../components/MapComponent";
 import EventChat from "../components/EventChat";
-import { WeaterComponent } from "../components/WeatherComponent";
 
 interface RouterParams {
   id: string;
@@ -194,11 +192,6 @@ const EntryPage: React.FC = (props: any) => {
               }
             </IonCol>
           </IonRow>
-          {/* <IonRow className="descriptionRow">
-            <IonCol >
-
-            </IonCol>
-          </IonRow> */}
           <br />
           <IonRow className='timesRow'>
             <IonCol size='12'>

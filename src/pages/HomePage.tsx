@@ -1,10 +1,7 @@
 import {
   IonContent,
-  IonHeader,
   IonList,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonFab,
   IonFabButton,
   IonIcon,

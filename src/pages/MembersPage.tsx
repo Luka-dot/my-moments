@@ -1,4 +1,4 @@
-import { IonContent, IonList, IonPage, IonText, IonItem, IonRow, IonCol, IonItemSliding, IonAvatar, IonLabel, IonItemOptions, IonItemOption } from "@ionic/react";
+import { IonContent, IonList, IonPage, IonText, IonRow, IonCol } from "@ionic/react";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTeamMembers, getAllMembers } from '../actions/TeamActions'

@@ -5,7 +5,6 @@ import {
     IonCheckbox,
     IonCol,
     IonContent,
-    IonDatetime,
     IonHeader,
     IonInput,
     IonItem,
@@ -19,10 +18,6 @@ import {
     IonToolbar,
 } from "@ionic/react";
 import React, { useState } from "react";
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-} from 'react-places-autocomplete';
 //import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
 // import { useAuth } from "../Auth";

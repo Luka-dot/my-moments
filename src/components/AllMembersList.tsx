@@ -17,12 +17,12 @@ const AllMembersList: React.FC = (props: any) => {
         console.log(availableMembers, props.selectedTeam)
     }, [props.allMembers])
 
-    function handleAddMember(memberId, member) {
+    const handleAddMember = (memberId, member) => {
         props.addMemberToTeam(props.selectedTeam, memberId)
         addMemberToSpecificTeamColection(props.selectedTeam, member)
     }
 
-    function handleDeleteMember(memberId) {
+    const handleDeleteMember = (memberId) => {
         console.log('DELETEING member to a team ', memberId)
     }
 
