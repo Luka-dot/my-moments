@@ -137,7 +137,7 @@ const AddEventPage: React.FC = (props: any) => {
 
                     <IonItem lines="none">
                         <IonLabel position="stacked">Location</IonLabel>
-                        <IonText>{location}</IonText>
+                        <IonText >{location}</IonText>
                         <PlacesAutocomplete
                             value={location}
                             onChange={handleChange}
@@ -167,7 +167,6 @@ const AddEventPage: React.FC = (props: any) => {
                                                     {...getSuggestionItemProps(suggestion, {
                                                         className,
                                                         style,
-
                                                     })}
                                                     key={suggestion.placeId}
                                                 >
