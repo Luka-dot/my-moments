@@ -114,7 +114,6 @@ export const getAllMembers = () => async dispatch => {
 export const addMemberToTeam = (teamId, memberId) => async dispatch => {
   console.log(teamId, memberId)
   try {
-    
       addMemberToSpecificTeam(teamId, memberId)
   }
   
