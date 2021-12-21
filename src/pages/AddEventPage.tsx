@@ -171,7 +171,6 @@ const AddEventPage: React.FC = (props: any) => {
                                                     key={suggestion.placeId}
                                                 >
                                                     <span>{suggestion.description}</span>
-
                                                 </div>
                                             );
                                         })}
