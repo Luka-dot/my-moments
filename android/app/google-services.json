@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "704066582118",
+    "firebase_url": "https://my-moments-8b034-default-rtdb.firebaseio.com",
+    "project_id": "my-moments-8b034",
+    "storage_bucket": "my-moments-8b034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704066582118:android:f4ed1694817c40cc455fa7",
+        "android_client_info": {
+          "package_name": "org.example.dailymoments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704066582118-ft73g5gm1mdd0jr2diiic2u0h807idmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9KKwx1m8DaWz1Hr4Ddz4fjhsHUq_STJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704066582118-ft73g5gm1mdd0jr2diiic2u0h807idmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

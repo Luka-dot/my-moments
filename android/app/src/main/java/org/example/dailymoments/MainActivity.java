@@ -1,6 +1,7 @@
 package org.example.dailymoments;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
@@ -16,6 +17,12 @@ public class MainActivity extends BridgeActivity {
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
+
+    //  registerPlugin(PluginInMyApp.class);
+     add(com.capacitorjs.plugins.pushnotifications.PushNotificationsPlugin.class);
+   //  registerPlugin(com.capacitorjs.plugins.toast.Toast.class);
+    // registerPlugin(com.capacitorjs.Toast.class );
+     add(com.capacitorjs.plugins.toast.ToastPlugin.class);
     }});
   }
 }

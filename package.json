@@ -8,9 +8,12 @@
     "build": "ionic build"
   },
   "dependencies": {
-    "@capacitor/android": "^2.4.9",
-    "@capacitor/core": "2.4.7",
-    "@capacitor/ios": "2.4.7",
+    "@capacitor/android": "^3.3.3",
+    "@capacitor/camera": "^1.2.2",
+    "@capacitor/core": "^3.3.3",
+    "@capacitor/ios": "^3.3.3",
+    "@capacitor/push-notifications": "^1.0.7",
+    "@capacitor/toast": "^1.0.6",
     "@firebase/auth": "^0.16.5",
     "@ionic/react": "^5.6.0",
     "@ionic/react-router": "^5.6.0",
@@ -36,7 +39,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.7",
+    "@capacitor/cli": "^3.3.3",
     "@ionic/cli": "6.13.1",
     "@types/node": "^14.14.33",
     "@types/react": "^17.0.3",

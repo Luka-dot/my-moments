@@ -16,11 +16,11 @@ import {
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
+import { CameraResultType, CameraSource, Camera } from "@capacitor/camera";
 import { auth, createUserProfileDocument2, storage } from "../firebase";
 import { logInUser } from "../actions/AuthActions";
 
-const { Camera } = Plugins;
+//const { Camera } = Plugins;
 
 async function savePicture(blobUrl, userId) {
 
