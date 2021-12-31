@@ -4,6 +4,8 @@ import PlacesAutocomplete, {
     getLatLng,
 } from 'react-places-autocomplete';
 
+import './placesInput.css';
+
 export function TestPlaceInput() {
     const [address, setAddress] = useState('')
     const [coordinance, setCoordinance] = useState()
@@ -27,8 +29,10 @@ export function TestPlaceInput() {
             onSelect={handleSelect}
         >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                <div>
+                <div >
+                    <p>hey</p>
                     <input
+
                         {...getInputProps({
                             placeholder: 'Search Places ...',
                             className: 'location-search-input',

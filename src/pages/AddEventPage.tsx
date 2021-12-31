@@ -135,7 +135,7 @@ const AddEventPage: React.FC = (props: any) => {
                         />
                     </IonItem>
 
-                    <IonItem lines="none">
+                    <IonItem lines="none" id="placesContainer">
                         <IonLabel position="stacked">Location</IonLabel>
                         <IonText>{location}</IonText>
                         <PlacesAutocomplete
