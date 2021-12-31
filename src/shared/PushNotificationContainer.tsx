@@ -6,6 +6,7 @@ import { Toast } from '@capacitor/toast';
 export default function PushNotificationsContainer() {
     const nullEntry: any[] = []
     const [notifications, setnotifications] = useState(nullEntry);
+    const [newToken, setNewToken] = useState<any>()
 
     useEffect(() => {
         PushNotifications.checkPermissions().then((res) => {
@@ -35,6 +36,7 @@ export default function PushNotificationsContainer() {
         // On success, we should be able to receive notifications
         PushNotifications.addListener('registration',
             (token: Token) => {
+                setNewToken(token)
                 showToast('Push registration success');
             }
         );
@@ -71,29 +73,14 @@ export default function PushNotificationsContainer() {
         <IonPage id='main'>
             <IonHeader>
                 <IonToolbar color="primary">
-                    <IonTitle slot="start"> Push Notifications TEST FOURRRR</IonTitle>
-                </IonToolbar>
-                <IonToolbar color="light">
-                    <IonTitle slot="start">By Enappd Team</IonTitle>
+                    <IonTitle slot="start"> Push Notifications TEST Five</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                <div>
-                    <IonList>
-                        <IonCard>
-                            <IonCardContent>
-                                1. Register for Push by clicking the footer button.<br></br>
-                                2. Once registered, you can send push from the Firebase console. <br></br>
-                                <a href="https://enappd.gitbook.io/ionic-5-react-capacitor-full-app/features/push-notifications" target="_blank">Check documentation</a><br></br>
-                                3. Once your app receives notifications, you'll see the data here in the list
-                            </IonCardContent>
-                        </IonCard>
-                    </IonList>
-
-                </div>
                 <IonListHeader mode="ios" lines="full">
                     <IonLabel>Notifications</IonLabel>
                 </IonListHeader>
+                <IonText>{newToken}</IonText>
                 {notifications.length !== 0 &&
                     <IonList>
 

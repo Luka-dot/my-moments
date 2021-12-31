@@ -33,6 +33,7 @@ import EditPage from "./shared/EditPage";
 import './appTab.css';
 import AddTeamPage from "./pages/AddTeamPage";
 import TeamChatPage from "./pages/TeamChatPage";
+import PushNotificationsContainer from "./shared/PushNotificationContainer";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -81,7 +82,8 @@ const AppTab: React.FC = (props: any) => {
             <AddTeamPage />
           </Route>
           <Route path="/my/teams/account">
-            <TeamChatPage />
+            {/* <TeamChatPage /> */}
+            <PushNotificationsContainer />
           </Route>
           <Route exact path="/my/teams/settings" component={SettingsPage} />
           <Route exact path="/my/teams/team/:id/entries/view/:id">

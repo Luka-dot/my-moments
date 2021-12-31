@@ -22,8 +22,31 @@ const App: React.FC = (props: any) => {
 
   return (
     <IonApp>
+      <IonReactRouter >
+        <Switch>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+          <Route path="/teams">
+            <TeamSelectionPage />
+          </Route>
+          <Route path="/my/teams/:id">
+            <AppTabs />
+          </Route>
+          {loggedIn ?
+            <Redirect exact path="/" to="/teams" />
+            :
+            <Redirect to="/login" />
+          }
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
+      </IonReactRouter>
 
-      <PushNotificationsContainer />
     </IonApp>
   );
 };
@@ -34,7 +57,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, null)(App);
 
-
+//   <PushNotificationsContainer />
 //  targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 29
 {/* {!props.selectedTeamName ?
         <IonHeader>
@@ -46,27 +69,3 @@ export default connect(mapStateToProps, null)(App);
         </IonHeader>
       } */}
 
-      // <IonReactRouter >
-      //   <Switch>
-      //     <Route path="/login">
-      //       <LoginPage />
-      //     </Route>
-      //     <Route path="/register">
-      //       <RegisterPage />
-      //     </Route>
-      //     <Route path="/teams">
-      //       <TeamSelectionPage />
-      //     </Route>
-      //     <Route path="/my/teams/:id">
-      //       <AppTabs />
-      //     </Route>
-      //     {loggedIn ?
-      //       <Redirect exact path="/" to="/teams" />
-      //       :
-      //       <Redirect to="/login" />
-      //     }
-      //     <Route>
-      //       <NotFoundPage />
-      //     </Route>
-      //   </Switch>
-      // </IonReactRouter>
