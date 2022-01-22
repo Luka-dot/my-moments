@@ -3,6 +3,8 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/database';
+import 'firebase/firebase-functions';
+
 import { toEntry, toAccount } from './Models';
 
 const firebaseConfig = {
@@ -19,6 +21,7 @@ const app = firebase.initializeApp(firebaseConfig);
 export const auth = app.auth();
 export const firestore = app.firestore();
 export const storage = app.storage();
+export const functions = firebase.functions();
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;

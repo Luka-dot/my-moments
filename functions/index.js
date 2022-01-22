@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -24,3 +24,14 @@ exports.contacts = functions.https.onRequest(async (request, response) => {
         result: `${addContact.id}`
     })
 })
+
+//TRIGGERS
+exports.addDate = functions.firestore.document(`contacts/{contactId}`)
+    .onCreate((snapshot, context) => {
+        const timestamp = admin.firestore.FieldValue.serverTimestamp();
+
+        return admin.firestore().doc(`contacts/${context.params.contactId}`)
+            .update({
+                dateAdded: timestamp,
+            })
+    })
