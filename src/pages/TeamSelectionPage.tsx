@@ -17,10 +17,32 @@ import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, crea
 import { Redirect } from "react-router";
 import { firestore } from "../firebase";
 import { TestPlaceInput } from '../shared/testPlaceInput'
+import OneSignal from 'onesignal-cordova-plugin';
 
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
+import { isPlatform } from '@ionic/react';
+
+if (isPlatform('ios') && isPlatform("android")) {
+    const runOneSignal = function OneSignalInit(): void {
+        // Uncomment to set OneSignal device logging to VERBOSE  
+        // OneSignal.setLogLevel(6, 0);
+
+        // NOTE: Update the setAppId value below with your OneSignal AppId.
+        OneSignal.setAppId("fb954bfe-7d60-443d-a7dd-695ffd616880");
+        OneSignal.setNotificationOpenedHandler(function (jsonData) {
+            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        });
+
+        // iOS - Prompts the user for notification permissions.
+        //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
+        OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+            console.log("User accepted notifications: " + accepted);
+        });
+    }
+    runOneSignal()
+}
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])

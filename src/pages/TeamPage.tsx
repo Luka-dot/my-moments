@@ -19,9 +19,16 @@ import { getTeamEvents } from '../actions/TeamActions';
 import { getTeamMembers, userSelectedTeam, getAttendance } from './../actions/TeamActions';
 import { resetSingleEntry } from './../actions/EventsAction';
 
+import OneSignal from 'onesignal-cordova-plugin';
+import { isPlatform } from '@ionic/react';
+
 import './teamPage.css';
 
 const TeamPage: React.FC = (props: any) => {
+
+    if (isPlatform('ios') && isPlatform("android")) {
+        OneSignal.setExternalUserId(props.currentUserId)
+    }
 
     function isUserAdminCheck() {
         const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
