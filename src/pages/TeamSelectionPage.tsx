@@ -24,7 +24,13 @@ import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
 import { isPlatform } from '@ionic/react';
 
-if (isPlatform('ios') && isPlatform("android")) {
+
+
+const TeamSelectionPage: React.FC = (props: any) => {
+    const [teams, setTeams] = useState([])
+    const [creatingTeam, setCreatingTeam] = useState(false)
+
+    //  if (isPlatform('ios') && isPlatform("android")) {
     const runOneSignal = function OneSignalInit(): void {
         // Uncomment to set OneSignal device logging to VERBOSE  
         // OneSignal.setLogLevel(6, 0);
@@ -42,11 +48,8 @@ if (isPlatform('ios') && isPlatform("android")) {
         });
     }
     runOneSignal()
-}
-
-const TeamSelectionPage: React.FC = (props: any) => {
-    const [teams, setTeams] = useState([])
-    const [creatingTeam, setCreatingTeam] = useState(false)
+    OneSignal.setExternalUserId(props.currentUserId)
+    //   }
 
     const gettingTeamsList = () => {
         const docRef = firestore.collection('teams');

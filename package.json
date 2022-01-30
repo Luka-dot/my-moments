@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.7",
+    "@ionic/app-scripts": "^3.2.4",
     "@ionic/cli": "6.13.1",
     "@types/node": "^14.14.33",
     "@types/react": "^17.0.3",

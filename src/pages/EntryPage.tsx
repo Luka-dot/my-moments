@@ -46,7 +46,7 @@ const EntryPage: React.FC = (props: any) => {
   function isUserAdminCheck() {
     const checkingMember = props.teamMembers.filter(member => member.id === props.currentUser.userId)
 
-    if (checkingMember[0].isAdmin === true) {
+    if (checkingMember[0]?.isAdmin === true) {
       return true
     }
   }
