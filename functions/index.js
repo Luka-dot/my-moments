@@ -35,3 +35,55 @@ exports.addDate = functions.firestore.document(`contacts/{contactId}`)
                 dateAdded: timestamp,
             })
     })
+
+exports.setToTriggerNotification = functions.firestore.document(`teams/evzgZALsibxzoiufIApG/events/{eventId}`)
+    .onCreate((snapshot, context) => {
+
+
+        var sendNotification = function (data) {
+            var headers = {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Basic Y2MzOWZhOWEtYTlmZi00ZDNkLThkYmItZmViNWE2M2IyNzNl"
+            };
+
+            var options = {
+                host: "onesignal.com",
+                port: 443,
+                path: "/api/v1/notifications",
+                method: "POST",
+                headers: headers
+            };
+
+            var https = require('https');
+            var req = https.request(options, function (res) {
+                res.on('data', function (data) {
+                    console.log("Response:");
+                    console.log(JSON.parse(data));
+                });
+            });
+
+            req.on('error', function (e) {
+                console.log("ERROR:");
+                console.log(e);
+            });
+
+            req.write(JSON.stringify(data));
+            req.end();
+        };
+
+        var message = {
+            app_id: "fb954bfe-7d60-443d-a7dd-695ffd616880",
+            contents: {
+                "en": "English Message"
+            },
+            channel_for_external_user_ids: "push",
+            include_external_user_ids: ["yjsI329VY3P8NX0VXT5ACnX8m1b2", "FTbSwdpPhTSXmEZTFi0t4KDXGZA3"]
+        };
+
+        return sendNotification(message);
+
+        // return admin.firestore().doc(`teams/evzgZALsibxzoiufIApG/events/${context.params.eventId}`)
+        //     .update({
+        //         testinFunctions: 'KURVAAA',
+        //     })
+    })

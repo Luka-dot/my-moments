@@ -117,6 +117,14 @@ export function getEventChatRef(eventId) {
   return firebase.database().ref(`chat/${eventId}`).orderByKey()
 }
 
+export function deleteEvent(teamId, eventId) {
+  return firestore.collection('teams')
+  .doc(teamId)
+  .collection('events')
+  .doc(eventId)
+  .delete()
+}
+
 export function addMemberToSpecificTeam(teamId, memberId) {
   firestore
       .collection('users')

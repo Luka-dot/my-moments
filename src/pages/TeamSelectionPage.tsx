@@ -30,26 +30,26 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState([])
     const [creatingTeam, setCreatingTeam] = useState(false)
 
-    //  if (isPlatform('ios') && isPlatform("android")) {
-    const runOneSignal = function OneSignalInit(): void {
-        // Uncomment to set OneSignal device logging to VERBOSE  
-        // OneSignal.setLogLevel(6, 0);
+    if (isPlatform('ios') && isPlatform("android")) {
+        const runOneSignal = function OneSignalInit(): void {
+            // Uncomment to set OneSignal device logging to VERBOSE  
+            // OneSignal.setLogLevel(6, 0);
 
-        // NOTE: Update the setAppId value below with your OneSignal AppId.
-        OneSignal.setAppId("fb954bfe-7d60-443d-a7dd-695ffd616880");
-        OneSignal.setNotificationOpenedHandler(function (jsonData) {
-            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-        });
+            // NOTE: Update the setAppId value below with your OneSignal AppId.
+            OneSignal.setAppId("fb954bfe-7d60-443d-a7dd-695ffd616880");
+            OneSignal.setNotificationOpenedHandler(function (jsonData) {
+                console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+            });
 
-        // iOS - Prompts the user for notification permissions.
-        //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
-        OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
-            console.log("User accepted notifications: " + accepted);
-        });
+            // iOS - Prompts the user for notification permissions.
+            //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
+            OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+                console.log("User accepted notifications: " + accepted);
+            });
+        }
+        runOneSignal()
+        OneSignal.setExternalUserId(props.currentUserId)
     }
-    runOneSignal()
-    OneSignal.setExternalUserId(props.currentUserId)
-    //   }
 
     const gettingTeamsList = () => {
         const docRef = firestore.collection('teams');

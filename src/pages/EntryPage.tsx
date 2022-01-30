@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import { getSingleEvent } from "../actions/EventsAction";
 import { resetSingleEntry } from '../actions/EventsAction';
 import { addAttendanceResponse, getAttendance } from '../actions/TeamActions'
+import { deleteEvent } from '../firebase';
 
 import './entryPage.css'
 import AttendingDetails from "../components/AttendingDetails";
@@ -87,6 +88,7 @@ const EntryPage: React.FC = (props: any) => {
   const handleDelete = async () => {
     console.log('handle delete')
     setDeleting(true)
+    deleteEvent(props.teamId, id)
     setDeleting(false);
     history.goBack();
   };
