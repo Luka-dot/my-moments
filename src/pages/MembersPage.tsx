@@ -13,6 +13,7 @@ const MembersPage: React.FC = (props: any) => {
   }, [])
 
   if (!props.allMembers) {
+    console.log('we dont have it yet!')
     return (
       <div> ... Loading </div>
     )

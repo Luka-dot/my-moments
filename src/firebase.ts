@@ -118,7 +118,8 @@ export function getEventChatRef(eventId) {
 }
 
 export function deleteEvent(teamId, eventId) {
-  return firestore.collection('teams')
+  return firestore
+  .collection('teams')
   .doc(teamId)
   .collection('events')
   .doc(eventId)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { firestore } from "../firebase";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router";
-import { IonModal, IonButton, IonRow, IonCol, IonText, IonCheckbox, IonItem, IonList, IonContent, IonTextarea, IonLabel, IonInput, IonDatetime, IonPage } from '@ionic/react';
+import { IonButton, IonRow, IonCol, IonText, IonCheckbox, IonItem, IonList, IonContent, IonTextarea, IonLabel, IonInput, IonDatetime, IonPage } from '@ionic/react';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -36,7 +36,7 @@ const EditPage: React.FC = (props: any) => {
     const [isMatch, setIsMatch] = useState(Boolean)
     const [result, setResult] = useState('')
     const [location, setLocation] = useState("")
-    const [coordinance, setCoordinance] = useState()
+    const [coordinance, setCoordinance] = useState(null)
 
     useEffect(() => {
         setTitle(eventDetails?.title);
@@ -63,17 +63,19 @@ const EditPage: React.FC = (props: any) => {
 
     const handleSave = async () => {
         const entriesRef = firestore
-            .collection("teams")
+            .collection('teams')
             .doc(props.selectedTeam)
-            .collection("events")
+            .collection('events')
             .doc(id);
+
         let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, coordinance };
         await entriesRef.update(entryData);
+        history.goBack()
         // onCancel();
     };
     const onConfirm = () => {
         handleSave()
-        history.goBack()
+
     }
     const onCancel = () => {
         history.goBack()

@@ -8,14 +8,15 @@ import './membersListShared.css';
 
 const AllMembersList: React.FC = (props: any) => {
 
-    const [availableMembers, setAvailableMembers] = useState<any>([])
+    const [availableMembers, setAvailableMembers] = useState<any>()
 
     useEffect(() => {
+        console.log('ALLL MEMBERS ', props.allMembers)
         setAvailableMembers(props.allMembers.filter(member => {
             return !member.memberOfTeam.includes(props.selectedTeam)
         }))
         console.log(availableMembers, props.selectedTeam)
-    }, [props.allMembers])
+    }, [props.allMembers, props.selectedTeam])
 
     const handleAddMember = (memberId, member) => {
         props.addMemberToTeam(props.selectedTeam, memberId)
@@ -24,6 +25,10 @@ const AllMembersList: React.FC = (props: any) => {
 
     const handleDeleteMember = (memberId) => {
         console.log('DELETEING member to a team ', memberId)
+    }
+
+    if (!availableMembers) {
+        return (<div>...Loading</div>)
     }
 
     return (
