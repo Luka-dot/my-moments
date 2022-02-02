@@ -13,12 +13,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 
-<<<<<<< HEAD
-// Call this function when your app starts
-
-=======
 import PushNotificationsContainer from './shared/PushNotificationContainer'
->>>>>>> master
 
 const App: React.FC = (props: any) => {
 
