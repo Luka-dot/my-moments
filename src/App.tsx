@@ -5,14 +5,20 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import OneSignal from 'onesignal-cordova-plugin';
 
+
+
 import LoginPage from "./pages/LoginPage";
 import AppTabs from "./AppTabs";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 
+<<<<<<< HEAD
 // Call this function when your app starts
 
+=======
+import PushNotificationsContainer from './shared/PushNotificationContainer'
+>>>>>>> master
 
 const App: React.FC = (props: any) => {
 
@@ -24,16 +30,6 @@ const App: React.FC = (props: any) => {
 
   return (
     <IonApp>
-      {/* {!props.selectedTeamName ?
-        <IonHeader>
-          <p></p>
-        </IonHeader>
-        :
-        <IonHeader>
-          <p>Current Team is: {props.selectedTeamName}</p>
-        </IonHeader>
-      } */}
-
       <IonReactRouter >
         <Switch>
           <Route path="/login">
@@ -58,6 +54,7 @@ const App: React.FC = (props: any) => {
           </Route>
         </Switch>
       </IonReactRouter>
+
     </IonApp>
   );
 };
@@ -67,3 +64,16 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, null)(App);
+
+//   <PushNotificationsContainer />
+//  targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 29
+{/* {!props.selectedTeamName ?
+        <IonHeader>
+          <p></p>
+        </IonHeader>
+        :
+        <IonHeader>
+          <p>Current Team is: {props.selectedTeamName}</p>
+        </IonHeader>
+      } */}
+

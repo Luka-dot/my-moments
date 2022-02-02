@@ -1,6 +1,8 @@
 #pac-container {
     padding-bottom: 12px;
     margin-right: 12px;
+    width: 60%;
+    border: none;
   }
   
   .pac-controls {
@@ -21,16 +23,24 @@
     font-weight: 300;
     margin-left: 12px;
     padding: 0 11px 0 13px;
+<<<<<<< HEAD
     text-overflow: ellipsis;
     width: 100%;
     border:none;
     border-bottom: 1px solid #4d90fe;
+=======
+    width: 150%;
+>>>>>>> master
   }
   
+  .location-search-input {
+    border: none;
+  }
   #pac-input:focus {
     border-color: #4d90fe;
   }
 
+<<<<<<< HEAD
   #placesContainer {
     max-width: 80%;
   }
@@ -41,4 +51,9 @@
 
   .suggestion-item {
     color:#4d90fe
+=======
+  .pac-input {
+    border: 1px;
+    border-color: #4d90fe;
+>>>>>>> master
   }

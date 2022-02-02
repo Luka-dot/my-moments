@@ -16,14 +16,14 @@ import {
   isPlatform,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
-import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
+import { CameraResultType, CameraSource, Camera } from "@capacitor/camera";
 import { useHistory } from "react-router";
 // import { useAuth } from "../Auth";
 import { connect } from "react-redux";
 
 import { firestore, storage } from "../firebase";
 
-const { Camera } = Plugins;
+//const { Camera } = Plugins;
 
 async function savePicture(blobUrl, userId) {
   const pictureRef = storage.ref(`/users/${userId}/pictures/${Date.now()}`);

@@ -28,7 +28,7 @@ const AllMembersList: React.FC = (props: any) => {
     }
 
     if (!availableMembers) {
-        return (<div>... Loading Members ...</div>)
+        return (<div>... <p>Loading</p> ... </div>)
     }
 
     return (

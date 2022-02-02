@@ -1,12 +1,8 @@
 import {
   IonButton,
   IonContent,
-  IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonCard,
-  IonCardHeader,
   IonCardTitle,
   IonCardContent,
 } from "@ionic/react";
@@ -53,26 +49,21 @@ const SettingsPage: React.FC = (props: any) => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Settings</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+
       <Modal
         modalText={"Please confirm you wish to log out."}
         onConfirm={logOutHandler}
         onCancel={logOutCancel}
         displayModal={loggingout}
       />
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>User: {props.currentUser.email}</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <img src={pictureUrl} alt={userName} />
-        </IonCardContent>
-      </IonCard>
+
       <IonContent className="ion-padding">
+        <IonCard>
+          <IonCardContent>
+            <IonCardTitle>User: {props.currentUser.email}</IonCardTitle>
+            <img src={pictureUrl} alt={userName} />
+          </IonCardContent>
+        </IonCard>
         <IonButton color="medium" expand="block" onClick={() => setLoggingout(true)}>
           Logout
         </IonButton>
