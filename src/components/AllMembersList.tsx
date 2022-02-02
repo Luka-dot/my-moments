@@ -26,6 +26,10 @@ const AllMembersList: React.FC = (props: any) => {
         console.log('DELETEING member to a team ', memberId)
     }
 
+    if (!availableMembers) {
+        return (<div>... <p>Loading</p> ... </div>)
+    }
+
     return (
         availableMembers.map((member) => (
             <IonItem key={member.id} lines="none">
