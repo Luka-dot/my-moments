@@ -5,7 +5,6 @@ import {
     IonButton,
     IonCard,
     IonItem,
-    useIonViewWillEnter,
     IonText,
     IonRow,
     IonCol,

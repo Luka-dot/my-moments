@@ -23,14 +23,7 @@
     font-weight: 300;
     margin-left: 12px;
     padding: 0 11px 0 13px;
-<<<<<<< HEAD
-    text-overflow: ellipsis;
-    width: 100%;
-    border:none;
-    border-bottom: 1px solid #4d90fe;
-=======
     width: 150%;
->>>>>>> master
   }
   
   .location-search-input {
@@ -40,20 +33,7 @@
     border-color: #4d90fe;
   }
 
-<<<<<<< HEAD
-  #placesContainer {
-    max-width: 80%;
-  }
-
-  .suggestion-item--active {
-    color: blue;
-  }
-
-  .suggestion-item {
-    color:#4d90fe
-=======
   .pac-input {
     border: 1px;
     border-color: #4d90fe;
->>>>>>> master
   }

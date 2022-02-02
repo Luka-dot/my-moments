@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^3.3.3",
-    "@capacitor/camera": "^1.2.2",
+    "@capacitor/camera": "^1.2.4",
     "@capacitor/core": "^3.3.3",
     "@capacitor/ios": "^3.3.3",
     "@capacitor/push-notifications": "^1.0.7",
