@@ -8,7 +8,12 @@ import {
     IonText,
     IonRow,
     IonCol,
-    IonHeader
+    IonHeader,
+    IonInput,
+    IonLabel,
+    IonItemDivider,
+    useIonPopover,
+    IonListHeader
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -21,15 +26,22 @@ import OneSignal from 'onesignal-cordova-plugin';
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
+import CreatePopOverComponent from "../components/CreatePopOverComponent";
+import { PopoverExample } from '../components/PopoverExample';
 import { isPlatform } from '@ionic/react';
-import { length } from './../../functions/node_modules/@protobufjs/utf8/index.d';
-
-
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState<any>()
     const [creatingTeam, setCreatingTeam] = useState(false)
-    const [myTeams, setMyTeams] = useState<any>()
+    const [teamCode, setTeamCode] = useState<any>()
+    const [popoverState, setShowPopover] = useState({
+        showPopover: false,
+        event: undefined,
+    });
+
+    const [present, dismiss] = useIonPopover(CreatePopOverComponent, {
+        onHide: () => dismiss(),
+    });
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -124,6 +136,10 @@ const TeamSelectionPage: React.FC = (props: any) => {
         firestore.collection('teams')
         setCreatingTeam(!creatingTeam)
     }
+
+    const handleJoinTeam = () => {
+        console.log('joining team ', teamCode)
+    }
     // const teamsToDisplay = teams.filter((team) => {
 
     //     props.currentUser.curentUserDetails.memberOfTeam.forEach(userTeam => {
@@ -141,8 +157,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
             };
         });
     });
-
-    console.log(teamsListFiltered);
 
     return (
         <IonPage>
@@ -188,16 +202,40 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     )}
                 </IonList>
                 <br />
-                {props.currentUser.curentUserDetails?.isAdmin === true ?
-                    <div>
-                        <p>Maybe start one?</p>
-                        <IonButton onClick={handleCreate} >Create Team</IonButton>
-                    </div>
-                    :
-                    <div></div>
-                }
-                <p>Join existing team</p>
-                <IonButton onClick={handleCreate}>Join Team</IonButton>
+
+                <IonRow >
+                    {/* <IonText>Create a new Team or Club</IonText>
+                    <IonButton
+                        color="tertiary"
+                        size="small"
+                        onClick={(e) =>
+                            present({
+                                event: e.nativeEvent,
+                            })
+                        }
+                    // onClick={handleCreate} 
+                    >+</IonButton> */}
+                    <PopoverExample />
+                </IonRow>
+
+                <IonItemDivider color="white" />
+                <IonList>
+                    <IonLabel>Join existing team</IonLabel>
+                    <IonRow>
+                        <IonInput
+                            placeholder="enter invite code"
+                            value={teamCode}
+                            onIonChange={(e) => { setTeamCode(e.detail.value) }}
+                            clearInput
+                        />
+                        <IonButton
+                            onClick={handleJoinTeam}
+                            size="small"
+                            color="tertiary"
+                        >Join Team</IonButton>
+
+                    </IonRow>
+                </IonList>
             </IonContent>
         </IonPage>
     );

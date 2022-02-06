@@ -6,7 +6,6 @@ import {
 } from "@ionic/react";
 import { formatDate } from '../utils/helpers';
 import { Entry } from '../Models';
-
 interface EntriesProps {
     entries: Entry[]
 }
