@@ -1,6 +1,6 @@
 import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RESPONSE, GET_ATTENDANCE, GET_ALL_ATTENDEES, CREATE_TEAM,
-  GET_ALL_MEMBERS, ADD_MEMBER_TO_TEAM } from './types';
-import { addMemberToSpecificTeam, firestore } from '../firebase';
+  GET_ALL_MEMBERS, ADD_MEMBER_TO_TEAM, GET_USER_AVAILABLE_TEAMS } from './types';
+import { addMemberToSpecificTeam, firestore, functions } from '../firebase';
 import { toEntry } from '../Models';
 
 export const userSelectedTeam = (uid) => async dispatch => {
@@ -182,3 +182,22 @@ export const getAttendance = (teamId, eventId, userId) => async dispatch => {
         console.log(error)
       }
     }
+
+
+export const getUserAvailableTeams = (userId) => async dispatch => {
+ // const funcCall = functions.httpsCallable('getAvailableTeamsForUser')
+  try {
+    const teamsRef = firestore
+    .collection('teams')
+    
+    await teamsRef
+    .onSnapshot(({docs}) => dispatch ({
+      type:GET_USER_AVAILABLE_TEAMS,
+      payload: docs.map(toEntry)
+    }))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+

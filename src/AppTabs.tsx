@@ -82,8 +82,8 @@ const AppTab: React.FC = (props: any) => {
             <AddTeamPage />
           </Route>
           <Route path="/my/teams/account">
-            {/* <TeamChatPage /> */}
-            <PushNotificationsContainer />
+            <TeamChatPage />
+            {/* <PushNotificationsContainer /> */}
           </Route>
           <Route exact path="/my/teams/settings" component={SettingsPage} />
           <Route exact path="/my/teams/team/:id/entries/view/:id">

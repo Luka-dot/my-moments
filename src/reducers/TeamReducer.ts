@@ -12,6 +12,7 @@ import {
     LISTEN_TO_EVENT_CHAT,
     GET_ALL_MEMBERS,
     ADD_MEMBER_TO_TEAM,
+    GET_USER_AVAILABLE_TEAMS
   } from "../actions/types";
   
 
@@ -98,6 +99,12 @@ import {
                 ...state,
                 comments: action.payload
               }
+
+              case GET_USER_AVAILABLE_TEAMS:
+                return {
+                  ...state,
+                  userAvaileTeams: action.payload
+                }
   
     //   case ADD_TECH:
     //     return {

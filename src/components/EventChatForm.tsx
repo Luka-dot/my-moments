@@ -44,6 +44,7 @@ const EventChatForm: React.FC = (props: any) => {
                     className='chatAreaButton'
                     onClick={handleEnterComment}
                     color='tertiary'
+                    fill='outline'
                 >
                     <IonIcon className='sentIcon' icon={sendIcon} size='small' slot="icon-only" ></IonIcon>
                 </IonButton>

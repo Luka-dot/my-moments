@@ -25,6 +25,30 @@ exports.contacts = functions.https.onRequest(async (request, response) => {
     })
 })
 
+// const gettingTeamsList = () => {
+//     const docRef = firestore.collection('teams');
+//     docRef.get().then((snapshot) => {
+//         const teamsList = snapshot.docs.map((doc) => ({
+//             id: doc.id,
+//             ...doc.data(),
+//         }))
+
+//         setTeams(teamsList)
+//     }) //  !member.memberOfTeam.includes(props.selectedTeam)
+// }
+
+exports.getAvailableTeamsForUser = functions.https.onCall(async (userId, context) => {
+    console.log(context)
+    const docRef = admin.firestore().collection('teams');
+    const availableTeams = await docRef.get().then((snapshot) => {
+        snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+    })
+    return availableTeams
+})
+
 //TRIGGERS
 exports.addDate = functions.firestore.document(`contacts/{contactId}`)
     .onCreate((snapshot, context) => {
@@ -36,6 +60,7 @@ exports.addDate = functions.firestore.document(`contacts/{contactId}`)
             })
     })
 
+//  - ********** PUSH NOTIFICATION ************
 exports.setToTriggerNotification = functions.firestore.document(`teams/evzgZALsibxzoiufIApG/events/{eventId}`)
     .onCreate((snapshot, context) => {
 

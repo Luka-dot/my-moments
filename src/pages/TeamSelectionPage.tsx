@@ -12,9 +12,9 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, createTeam } from '../actions/TeamActions';
+import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, createTeam, getUserAvailableTeams } from '../actions/TeamActions';
 import { Redirect } from "react-router";
-import { firestore } from "../firebase";
+import { firestore, functions } from "../firebase";
 import { TestPlaceInput } from '../shared/testPlaceInput'
 import OneSignal from 'onesignal-cordova-plugin';
 
@@ -22,12 +22,14 @@ import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
 import { isPlatform } from '@ionic/react';
+import { length } from './../../functions/node_modules/@protobufjs/utf8/index.d';
 
 
 
 const TeamSelectionPage: React.FC = (props: any) => {
-    const [teams, setTeams] = useState([])
+    const [teams, setTeams] = useState<any>()
     const [creatingTeam, setCreatingTeam] = useState(false)
+    const [myTeams, setMyTeams] = useState<any>()
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -50,27 +52,40 @@ const TeamSelectionPage: React.FC = (props: any) => {
         OneSignal.setExternalUserId(props.currentUserId)
     }
 
-    const gettingTeamsList = () => {
-        const docRef = firestore.collection('teams');
-        docRef.get().then((snapshot) => {
-            const teamsList = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }))
-
-            setTeams(teamsList)
-        })
-    }
+    // const gettingTeamsList = async () => {
+    //     // const docRef = firestore.collection('teams');
+    //     // docRef.get().then((snapshot) => {
+    //     //     const teamsList = snapshot.docs.map((doc) => ({
+    //     //         id: doc.id,
+    //     //         ...doc.data(),
+    //     //     }))
+    //     //     const filteredTeamsList = teamsList.filter((team) => {
+    //     //         return team.id === props.currentUser.curentUserDetails.memberOfTeam[0]
+    //     //     })
+    //     //     setTeams(filteredTeamsList)
+    //     // })
+    // }
 
     useEffect(() => {
         console.log('TEAM SELECTION')
-        gettingTeamsList()
         props.getCurrentUserDetails(props.currentUserId)
+        //   const funcCall = functions.httpsCallable('getAvailableTeamsForUser')
+        //    setMyTeams(funcCall())
+        // getUserAvailableTeams(props.currentUserId)
     }, []);
 
     useEffect(() => {
-        gettingTeamsList()
-    }, [creatingTeam])
+        props.getUserAvailableTeams(props.currentUserId)
+    }, [props.currentUserId])
+
+    useEffect(() => {
+        setTeams(props.availableTeams)
+    }, [props.availableTeams])
+
+    // useEffect(() => {
+    //     console.log(teams)
+
+    // }, [teams])
 
     if (!props.userLoggedIn) {
         return (
@@ -109,6 +124,25 @@ const TeamSelectionPage: React.FC = (props: any) => {
         firestore.collection('teams')
         setCreatingTeam(!creatingTeam)
     }
+    // const teamsToDisplay = teams.filter((team) => {
+
+    //     props.currentUser.curentUserDetails.memberOfTeam.forEach(userTeam => {
+    //         if (team.id === userTeam) {
+    //             console.log('FOUND IT  ', team)
+    //         }
+    //     })
+    // })
+
+    const teamsListFiltered = teams.filter((el) => {
+        return props.currentUser.curentUserDetails.memberOfTeam.some((f) => {
+            //    console.log('/*/*/*/* ', f, el.id)
+            if (f === el.id) {
+                return el
+            };
+        });
+    });
+
+    console.log(teamsListFiltered);
 
     return (
         <IonPage>
@@ -117,6 +151,12 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     <IonRow className="teamSelectionTitle">
                         <IonCol className="teamSelectionTitleCol" >
                             <IonText>You are logged in as: {props.currentUser.user.email} </IonText>
+                        </IonCol>
+                        <br />
+                    </IonRow>
+                    <IonRow className="teamSelectionTitle">
+                        <IonCol className="teamSelectionTitleCol" >
+                            <IonText>Member of: </IonText>
                         </IonCol>
                         <br />
                     </IonRow>
@@ -134,7 +174,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
                 </IonHeader>
                 <br />
                 <IonList>
-                    {teams.map((team) =>
+                    {teamsListFiltered.map((team) =>
                         <IonCard key={team.id}>
                             <IonItem
                                 lines="none"
@@ -168,7 +208,11 @@ const mapStateToProps = (state) => ({
     currentUserId: state.auth.user.uid,
     selectedTeam: state.team.team,
     userLoggedIn: state.auth.loggedIn,
+    availableTeams: state.team.userAvaileTeams,
 });
 
 export default connect(mapStateToProps,
-    { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, getCurrentUserDetails, createTeam })(TeamSelectionPage);
+    {
+        userSelectedTeam, getTeamMembers, selectedTeamData,
+        getAttendance, getCurrentUserDetails, createTeam, getUserAvailableTeams
+    })(TeamSelectionPage);
