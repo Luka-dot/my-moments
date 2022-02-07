@@ -26,22 +26,13 @@ import OneSignal from 'onesignal-cordova-plugin';
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
-import CreatePopOverComponent from "../components/CreatePopOverComponent";
-import { PopoverExample } from '../components/PopoverExample';
+import { CreationPopover } from '../components/CreationPopover';
 import { isPlatform } from '@ionic/react';
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState<any>()
     const [creatingTeam, setCreatingTeam] = useState(false)
     const [teamCode, setTeamCode] = useState<any>()
-    const [popoverState, setShowPopover] = useState({
-        showPopover: false,
-        event: undefined,
-    });
-
-    const [present, dismiss] = useIonPopover(CreatePopOverComponent, {
-        onHide: () => dismiss(),
-    });
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -215,7 +206,10 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         }
                     // onClick={handleCreate} 
                     >+</IonButton> */}
-                    <PopoverExample />
+                    <IonButton
+                        routerLink={`addTeam`}
+                    >Add</IonButton>
+                    <CreationPopover />
                 </IonRow>
 
                 <IonItemDivider color="white" />

@@ -78,12 +78,9 @@ const AppTab: React.FC = (props: any) => {
           <Route path="/teams">
             <TeamSelectionPage />
           </Route>
-          <Route path="/teams/addTeam">
-            <AddTeamPage />
-          </Route>
+          <Route exact path="/addTeam" component={AddTeamPage} />
           <Route path="/my/teams/account">
             <TeamChatPage />
-            {/* <PushNotificationsContainer /> */}
           </Route>
           <Route exact path="/my/teams/settings" component={SettingsPage} />
           <Route exact path="/my/teams/team/:id/entries/view/:id">
@@ -99,6 +96,9 @@ const AppTab: React.FC = (props: any) => {
           <Route exact path="/my/teams/team/:id/events/add">
             <AddEventPage />
           </Route>
+          {/* <Route exact path="/my/teams/add">
+            <AddTeamPage />
+          </Route> */}
           <Route exact path="/my/teams/team/:id/entries/:id/edit">
             <EditPage />
           </Route>

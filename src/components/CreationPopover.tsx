@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IonPopover, IonButton, IonList, IonListHeader, IonItem } from '@ionic/react';
+import { IonPopover, IonButton, IonList, IonListHeader, IonItem, IonText } from '@ionic/react';
 
-export const PopoverExample: React.FC = () => {
+export const CreationPopover: React.FC = () => {
     const [popoverState, setShowPopover] = useState({
         showPopover: false,
         event: undefined,
@@ -15,22 +15,24 @@ export const PopoverExample: React.FC = () => {
                 onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}
             >
                 <IonList>
-                    <IonListHeader>BLAAAA</IonListHeader>
+                    <IonItem button
+                        onClick={() => console.log('button Club')}
+                    >Creat a new Cub</IonItem>
                     <IonItem button
                         onClick={() => console.log('buttonTeam')}
-                    >Create a new Team</IonItem>
-                    <IonItem button>Creat a new Cub</IonItem>
+                    >Add Team to a Club</IonItem>
+
                 </IonList>
             </IonPopover>
-            <IonButton
+            <IonText
                 color="tertiary"
                 onClick={(e: any) => {
                     e.persist();
                     setShowPopover({ showPopover: true, event: e });
                 }}
             >
-                Add Team/Club
-            </IonButton>
+                Click to Add Team/Club
+            </IonText>
         </>
     );
 };

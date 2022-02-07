@@ -14,6 +14,7 @@ import RegisterPage from "./pages/RegisterPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 
 import PushNotificationsContainer from './shared/PushNotificationContainer'
+import AddTeamPage from "./pages/AddTeamPage";
 
 const App: React.FC = (props: any) => {
 
@@ -35,6 +36,9 @@ const App: React.FC = (props: any) => {
           </Route>
           <Route path="/teams">
             <TeamSelectionPage />
+          </Route>
+          <Route path="/addTeam">
+            <AddTeamPage />
           </Route>
           <Route path="/my/teams/:id">
             <AppTabs />
