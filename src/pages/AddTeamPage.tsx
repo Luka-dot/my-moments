@@ -75,19 +75,14 @@ const AddTeamPage: React.FC = (props: any) => {
 
     return (
         <IonPage>
-            <IonRow>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButton
-                            color='none'
-                            routerLink={'/teams'}
-                        >
-                            <IonIcon color="primary" className='sentIcon' icon={backIcon} size='small' slot="icon-only" ></IonIcon>
-                        </IonButton>
-                        <IonTitle>Adding a TEAM</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-            </IonRow>
+            <IonHeader>
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="teams" />
+                    </IonButtons>
+                    <IonTitle>Adding a TEAM</IonTitle>
+                </IonToolbar>
+            </IonHeader>
             <IonContent className="ion-padding">
                 <IonText>
                     Do you want to add this team to an existing club or organization or create a new one?
@@ -101,6 +96,10 @@ const AddTeamPage: React.FC = (props: any) => {
                     </p>
                 </IonText>
                 <IonList>
+                    <IonItem>
+                        <IonLabel>You are Admin of Clayton Youth Rugby</IonLabel>
+                    </IonItem>
+
                     <IonItem>
                         <IonLabel>Create a Club?</IonLabel>
                         <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />

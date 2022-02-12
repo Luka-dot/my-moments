@@ -13,7 +13,9 @@ import {
     IonLabel,
     IonItemDivider,
     useIonPopover,
-    IonListHeader
+    IonListHeader,
+    IonFooter,
+    IonToolbar
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -150,88 +152,76 @@ const TeamSelectionPage: React.FC = (props: any) => {
     });
 
     return (
-        <IonPage>
+        <>
             <IonContent className="ion-padding" >
-                <IonHeader>
-                    <IonRow className="teamSelectionTitle">
-                        <IonCol className="teamSelectionTitleCol" >
+                {/* <IonRow className="teamSelectionTitle">
+                     <IonCol className="teamSelectionTitleCol" >
                             <IonText>You are logged in as: {props.currentUser.user.email} </IonText>
-                        </IonCol>
-                        <br />
-                    </IonRow>
-                    <IonRow className="teamSelectionTitle">
-                        <IonCol className="teamSelectionTitleCol" >
                             <IonText>Member of: </IonText>
+                        </IonCol> 
+                    <br />
+                </IonRow> */}
+                <AddTeamModal
+                    modalText={"Adding TEAM !!!"}
+                    displayModal={creatingTeam}
+                    onCancel={cancelCreating}
+                    onConfirm={handleCreating}
+                />
+                <IonCol>
+                    <IonRow >
+                        <IonCol >
+                            <IonCard  >
+                                <IonLabel className="label">Join existing team</IonLabel>
+                                <IonRow>
+                                    <IonInput
+                                        placeholder="enter invite code"
+                                        value={teamCode}
+                                        onIonChange={(e) => { setTeamCode(e.detail.value) }}
+                                        clearInput
+                                    />
+                                    <IonButton
+                                        onClick={handleJoinTeam}
+                                        size="small"
+                                        color="tertiary"
+                                    >Join Team</IonButton>
+                                </IonRow>
+                            </IonCard>
+                            <br />
+                            <IonRow>
+                                <IonCol className="teamSelectionTitleCol"  >
+                                    <IonText >Or select a team.</IonText>
+                                </IonCol>
+                            </IonRow>
                         </IonCol>
-                        <br />
                     </IonRow>
-                    <AddTeamModal
-                        modalText={"Adding TEAM !!!"}
-                        displayModal={creatingTeam}
-                        onCancel={cancelCreating}
-                        onConfirm={handleCreating}
-                    />
-                    <IonRow>
-                        <IonCol className="teamSelectionTitleCol"  >
-                            <IonText >Select a team.</IonText>
-                        </IonCol>
-                    </IonRow>
-                </IonHeader>
+                    <IonList>
+                        {teamsListFiltered.map((team) =>
+                            <IonCard key={team.id}>
+                                <IonItem
+                                    lines="none"
+                                    button
+                                    onClick={() => handleSelectTeam(team.id)}
+                                    routerLink={`/my/teams/team/${team.id}`}
+                                >
+                                    <p>{team.name}</p>
+                                </IonItem>
+                            </IonCard>
+                        )}
+                    </IonList>
+                </IonCol>
                 <br />
-                <IonList>
-                    {teamsListFiltered.map((team) =>
-                        <IonCard key={team.id}>
-                            <IonItem
-                                lines="none"
-                                button
-                                onClick={() => handleSelectTeam(team.id)}
-                                routerLink={`/my/teams/team/${team.id}`}
-                            >
-                                <p>{team.name}</p>
-                            </IonItem>
-                        </IonCard>
-                    )}
-                </IonList>
-                <br />
-
-                <IonRow >
-                    {/* <IonText>Create a new Team or Club</IonText>
-                    <IonButton
-                        color="tertiary"
-                        size="small"
-                        onClick={(e) =>
-                            present({
-                                event: e.nativeEvent,
-                            })
-                        }
-                    // onClick={handleCreate} 
-                    >+</IonButton> */}
-                    <IonButton
-                        routerLink={`addTeam`}
-                    >Add</IonButton>
-                    <CreationPopover />
-                </IonRow>
-
-                <IonItemDivider color="white" />
-                <IonList>
-                    <IonLabel>Join existing team</IonLabel>
-                    <IonRow>
-                        <IonInput
-                            placeholder="enter invite code"
-                            value={teamCode}
-                            onIonChange={(e) => { setTeamCode(e.detail.value) }}
-                            clearInput
-                        />
-                        <IonButton
-                            onClick={handleJoinTeam}
-                            size="small"
-                            color="tertiary"
-                        >Join Team</IonButton>
-
-                    </IonRow>
-                </IonList>
             </IonContent>
-        </IonPage>
+            <IonFooter  >
+                <IonToolbar className="footerItem" >
+                    <IonRow id="footerButton" className="ion-justify-content-end" >
+                        <CreationPopover />
+                        <IonButton
+                            routerLink={`addTeam`}
+                        >Add</IonButton>
+                    </IonRow>
+                </IonToolbar>
+            </IonFooter>
+        </>
     );
 };
 

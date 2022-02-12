@@ -47,6 +47,10 @@ const SettingsPage: React.FC = (props: any) => {
     setLoggingout(false)
   };
 
+  const deactivateUser = () => {
+
+  }
+
   return (
     <IonPage>
 
@@ -71,6 +75,9 @@ const SettingsPage: React.FC = (props: any) => {
         <Link className='backLink' to={'/teams'}>
           <IonButton color="tertiary" fill='outline' expand="block" onClick={() => { }}>
             To Team Selection
+          </IonButton>
+          <IonButton color="tertiary" fill='outline' expand="block" onClick={() => deactivateUser}>
+            DEACTIVATE USER
           </IonButton>
         </Link>
       </IonContent>
