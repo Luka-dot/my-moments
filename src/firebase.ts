@@ -156,7 +156,20 @@ catch(error) {
   console.log(error)
 }
 }
+export async function addMemberToSpecificOrganizationColection(organizationId, newMember) {
+  try {
+  const teamRef = firestore
+      .collection('organization')
+      .doc(organizationId)
+      .collection('members') 
+      
+      await teamRef.add(newMember)
+  }
 
+catch(error) {
+  console.log(error)
+}
+}
 export async function removeMemberToSpecificTeamColection(teamId, memberId) {
   try {
     const userRef = firestore

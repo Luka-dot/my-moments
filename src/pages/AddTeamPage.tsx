@@ -29,7 +29,11 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import { arrowBackOutline as backIcon } from "ionicons/icons"
 
-import { addMemberToSpecificTeam, functions } from '../firebase';
+import {
+    addMemberToSpecificTeam,
+    addMemberToSpecificTeamColection,
+    addMemberToSpecificOrganizationColection
+} from '../firebase';
 
 import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
@@ -44,6 +48,7 @@ const AddTeamPage: React.FC = (props: any) => {
     const [clubName, setClubName] = useState("");
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
+    const [members, setMembers] = useState([]);
 
     const result = ''
 
@@ -65,28 +70,32 @@ const AddTeamPage: React.FC = (props: any) => {
         const teamRef = firestore
             .collection('teams')
 
-        const userRef = firestore
-            .collection('users')
-            .doc(props.currentUserId)
-
-        let teamData = { clubName, teamName, teamInviteCode };
+        let teamData = { clubName, teamName, teamInviteCode, members };
         console.log('Adding team and Org ', teamData)
         if (createClub) {
-            await organizationRef.add({ name: clubName }).then((res) => {
+            await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
+                //    const newOrgRef = firestore.collection("organization").doc(res.id)
+                addMemberToSpecificOrganizationColection(res.id, props.currentUser)
                 teamRef.add({
                     name: teamName, invitationCode: teamInviteCode, organization: {
                         id: res.id,
-                        name: clubName
+                        name: clubName,
+                        admin: props.currentUserId
                     }
                 }).then((res) => {
+                    console.log(res.id, props.currentUserId, props.currentUser)
                     addMemberToSpecificTeam(res.id, props.currentUserId)
+                    addMemberToSpecificTeamColection(res.id, props.currentUser)
+                    //    addMemberToSpecificOrganizationColection()
                 })
             })
         } else {
             await teamRef.add({
                 name: teamName, invitationCode: teamInviteCode
             }).then((res) => {
-                addMemberToSpecificTeam(res.id, props.currentUserId)
+                console.log(res.id, props.currentUserId, props.currentUser)
+                //  addMemberToSpecificTeam(res.id, props.currentUserId)
+                //   addMemberToSpecificTeamColection(res.id, props.currentUser)
             })
         }
 
@@ -165,6 +174,7 @@ const AddTeamPage: React.FC = (props: any) => {
 };
 
 const mapStateToProps = (state) => ({
+    currentUser: state.auth.curentUserDetails,
     currentUserId: state.auth.user.uid,
     selectedTeam: state.team.team,
 });

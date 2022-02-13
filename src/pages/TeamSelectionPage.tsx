@@ -21,15 +21,16 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, createTeam, getUserAvailableTeams } from '../actions/TeamActions';
 import { Redirect } from "react-router";
-import { firestore, functions } from "../firebase";
-import { TestPlaceInput } from '../shared/testPlaceInput'
+
 import OneSignal from 'onesignal-cordova-plugin';
+import { firestore, addMemberToSpecificTeam } from '../firebase';
 
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
 import { CreationPopover } from '../components/CreationPopover';
 import { isPlatform } from '@ionic/react';
+import { toEntry } from "../Models";
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState<any>()
@@ -84,7 +85,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }, [props.currentUserId])
 
     useEffect(() => {
-        console.log(' AVAILABLE TEAMS useEffect fired')
         setTeams(props.availableTeams)
     }, [props.availableTeams])
 
@@ -112,11 +112,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
         //    props.getAttendance(teamId, props.currentUser.uid)
     }
 
-    const handleCreate = () => {
-        console.log('add team')
-        setCreatingTeam(!creatingTeam)
-    }
-
     const cancelCreating = () => {
         setCreatingTeam(!creatingTeam)
     }
@@ -128,8 +123,29 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setCreatingTeam(!creatingTeam)
     }
 
-    const handleJoinTeam = () => {
+    const findTeamByCode = async (teamCode) => {
+        //    let locatedTeam = null;
+        const teamsRef = firestore.collection('teams')
+        const teamCodeQuery = teamsRef.where('invitationCode', "==", teamCode)
+        const locatedTeam = await teamCodeQuery.get().then((docRef) => { return (docRef.docs.map(toEntry)) })
+        return locatedTeam
+
+    }
+
+    const handleJoinTeam = async () => {
         console.log('joining team ', teamCode)
+
+        findTeamByCode(teamCode).then(data => {
+            if (data.length > 0) {
+                console.log(data[0].id)
+                addMemberToSpecificTeam(data[0].id, props.currentUserId)
+            } else {
+                console.log('Team Not Found')
+            }
+
+        })
+
+
     }
 
     const teamsListFiltered = teams.filter((el) => {
@@ -144,13 +160,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     return (
         <>
             <IonContent className="ion-padding" >
-                {/* <IonRow className="teamSelectionTitle">
-                     <IonCol className="teamSelectionTitleCol" >
-                            <IonText>You are logged in as: {props.currentUser.user.email} </IonText>
-                            <IonText>Member of: </IonText>
-                        </IonCol> 
-                    <br />
-                </IonRow> */}
+
                 <AddTeamModal
                     modalText={"Adding TEAM !!!"}
                     displayModal={creatingTeam}

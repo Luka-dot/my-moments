@@ -6,7 +6,7 @@ export const CreationPopover: React.FC = () => {
         showPopover: false,
         event: undefined,
     });
-    console.log(popoverState)
+
     return (
         <>
             <IonPopover
