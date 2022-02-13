@@ -84,6 +84,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }, [props.currentUserId])
 
     useEffect(() => {
+        console.log(' AVAILABLE TEAMS useEffect fired')
         setTeams(props.availableTeams)
     }, [props.availableTeams])
 
@@ -123,9 +124,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const handleCreating = (name) => {
         console.log('creating')
         props.createTeam(props.currentUserId, name, props.currentUser.curentUserDetails)
-        // firestore.collection('teams').add({
-        //     name: name, admin: props.currentUserId,
-        // })
         firestore.collection('teams')
         setCreatingTeam(!creatingTeam)
     }
@@ -133,14 +131,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const handleJoinTeam = () => {
         console.log('joining team ', teamCode)
     }
-    // const teamsToDisplay = teams.filter((team) => {
-
-    //     props.currentUser.curentUserDetails.memberOfTeam.forEach(userTeam => {
-    //         if (team.id === userTeam) {
-    //             console.log('FOUND IT  ', team)
-    //         }
-    //     })
-    // })
 
     const teamsListFiltered = teams.filter((el) => {
         return props.currentUser.curentUserDetails.memberOfTeam.some((f) => {

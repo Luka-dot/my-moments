@@ -29,6 +29,8 @@ import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import { arrowBackOutline as backIcon } from "ionicons/icons"
 
+import { addMemberToSpecificTeam, functions } from '../firebase';
+
 import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
@@ -37,17 +39,11 @@ import AccountPage from './AccountPage';
 const AddTeamPage: React.FC = (props: any) => {
     //  const { userId } = useAuth() as any;
     const history = useHistory();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState("")
-    const [attendanceRequired, setAttendanceRequired] = useState(false)
-    const [isMatch, setIsMatch] = useState(false)
-    const [location, setLocation] = useState("")
-    const [coordinance, setCoordinance] = useState()
-    const attendingMembers = []
+
     const [createClub, setCreateClub] = useState(false);
+    const [clubName, setClubName] = useState("");
+    const [teamName, setTeamName] = useState("");
+    const [teamInviteCode, setTeamInviteCode] = useState("");
 
     const result = ''
 
@@ -63,13 +59,37 @@ const AddTeamPage: React.FC = (props: any) => {
     // }, [pictureUrl]);
 
     const handleSave = async () => {
-        const entriesRef = firestore
-            .collection("teams")
-            .doc(props.selectedTeam)
-            .collection("events");
-        let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, attendingMembers, coordinance };
-        console.log(entryData)
-        await entriesRef.add(entryData);
+        const organizationRef = firestore
+            .collection("organization")
+
+        const teamRef = firestore
+            .collection('teams')
+
+        const userRef = firestore
+            .collection('users')
+            .doc(props.currentUserId)
+
+        let teamData = { clubName, teamName, teamInviteCode };
+        console.log('Adding team and Org ', teamData)
+        if (createClub) {
+            await organizationRef.add({ name: clubName }).then((res) => {
+                teamRef.add({
+                    name: teamName, invitationCode: teamInviteCode, organization: {
+                        id: res.id,
+                        name: clubName
+                    }
+                }).then((res) => {
+                    addMemberToSpecificTeam(res.id, props.currentUserId)
+                })
+            })
+        } else {
+            await teamRef.add({
+                name: teamName, invitationCode: teamInviteCode
+            }).then((res) => {
+                addMemberToSpecificTeam(res.id, props.currentUserId)
+            })
+        }
+
         history.goBack();
     };
 
@@ -96,67 +116,45 @@ const AddTeamPage: React.FC = (props: any) => {
                     </p>
                 </IonText>
                 <IonList>
-                    <IonItem>
-                        <IonLabel>You are Admin of Clayton Youth Rugby</IonLabel>
+                    <IonItem lines="none">
+                        <IonLabel>You are Admin of: Clayton Youth Rugby</IonLabel>
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem lines="none">
                         <IonLabel>Create a Club?</IonLabel>
                         <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
                     </IonItem>
-
+                    {
+                        createClub ?
+                            <IonItem >
+                                <IonLabel position="stacked">Club/Organization Name</IonLabel>
+                                <IonInput
+                                    value={clubName}
+                                    onIonChange={(event) => setClubName(event.detail.value)}
+                                />
+                            </IonItem>
+                            :
+                            <div></div>
+                    }
+                    <br />
+                    <br />
+                    <IonTitle>Team Information</IonTitle>
                     <IonItem lines="none">
-                        <IonLabel position="stacked">Title</IonLabel>
+                        <IonLabel position="stacked">Team Name</IonLabel>
                         <IonInput
-                            value={title}
-                            onIonChange={(event) => setTitle(event.detail.value)}
+                            value={teamName}
+                            onIonChange={(event) => setTeamName(event.detail.value)}
                         />
                     </IonItem>
 
-
                     <IonItem lines="none">
-                        <IonLabel position="stacked">Description</IonLabel>
+                        <IonLabel position="stacked">Team Invitation Code</IonLabel>
                         <IonTextarea
-                            value={description}
-                            onIonChange={(event) => setDescription(event.detail.value)}
+                            value={teamInviteCode}
+                            onIonChange={(event) => setTeamInviteCode(event.detail.value)}
                         />
                     </IonItem>
 
-                    <IonItem lines="none">
-                        <IonCol>
-                            <IonRow>
-                                <IonCol size="10">
-                                    <IonText >
-                                        <h4>Attendance Required?</h4>
-                                    </IonText>
-                                </IonCol>
-                                <IonCol size="2">
-                                    <IonCheckbox
-                                        checked={attendanceRequired}
-                                        onIonChange={() => setAttendanceRequired(!attendanceRequired)}
-                                    />
-                                </IonCol>
-                            </IonRow>
-                        </IonCol>
-                    </IonItem>
-
-                    <IonItem lines="none">
-                        <IonCol>
-                            <IonRow>
-                                <IonCol size="10">
-                                    <IonText >
-                                        <h4>Is this a Match?</h4>
-                                    </IonText>
-                                </IonCol>
-                                <IonCol size="2">
-                                    <IonCheckbox
-                                        checked={isMatch}
-                                        onIonChange={() => setIsMatch(!isMatch)}
-                                    />
-                                </IonCol>
-                            </IonRow>
-                        </IonCol>
-                    </IonItem>
                     <IonButton expand="block" onClick={handleSave}>
                         Save
                     </IonButton>
