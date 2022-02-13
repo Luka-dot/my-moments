@@ -48,9 +48,6 @@ const AddTeamPage: React.FC = (props: any) => {
     const [clubName, setClubName] = useState("");
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
-    const [members, setMembers] = useState([]);
-
-    const result = ''
 
     // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
     // const fileInputRef = useRef<HTMLInputElement>();
@@ -70,11 +67,8 @@ const AddTeamPage: React.FC = (props: any) => {
         const teamRef = firestore
             .collection('teams')
 
-        let teamData = { clubName, teamName, teamInviteCode, members };
-        console.log('Adding team and Org ', teamData)
         if (createClub) {
             await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
-                //    const newOrgRef = firestore.collection("organization").doc(res.id)
                 addMemberToSpecificOrganizationColection(res.id, props.currentUser)
                 teamRef.add({
                     name: teamName, invitationCode: teamInviteCode, organization: {
@@ -86,7 +80,6 @@ const AddTeamPage: React.FC = (props: any) => {
                     console.log(res.id, props.currentUserId, props.currentUser)
                     addMemberToSpecificTeam(res.id, props.currentUserId)
                     addMemberToSpecificTeamColection(res.id, props.currentUser)
-                    //    addMemberToSpecificOrganizationColection()
                 })
             })
         } else {
@@ -94,8 +87,6 @@ const AddTeamPage: React.FC = (props: any) => {
                 name: teamName, invitationCode: teamInviteCode
             }).then((res) => {
                 console.log(res.id, props.currentUserId, props.currentUser)
-                //  addMemberToSpecificTeam(res.id, props.currentUserId)
-                //   addMemberToSpecificTeamColection(res.id, props.currentUser)
             })
         }
 

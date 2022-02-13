@@ -23,7 +23,12 @@ import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, crea
 import { Redirect } from "react-router";
 
 import OneSignal from 'onesignal-cordova-plugin';
-import { firestore, addMemberToSpecificTeam } from '../firebase';
+import {
+    firestore,
+    addMemberToSpecificTeam,
+    addMemberToSpecificOrganizationColection,
+    addMemberToSpecificTeamColection
+} from '../firebase';
 
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
@@ -36,6 +41,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const [teams, setTeams] = useState<any>()
     const [creatingTeam, setCreatingTeam] = useState(false)
     const [teamCode, setTeamCode] = useState<any>()
+    const [codeErrorMessage, setCodeErrorMessage] = useState('')
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -88,10 +94,9 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setTeams(props.availableTeams)
     }, [props.availableTeams])
 
-    // useEffect(() => {
-    //     console.log(teams)
-
-    // }, [teams])
+    useEffect(() => {
+        setCodeErrorMessage('')
+    }, [teamCode])
 
     if (!props.userLoggedIn) {
         return (
@@ -132,19 +137,37 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     }
 
+    const existingMemberCheck = (list, id) => {
+        const existingMember = list.find(el => el === id)
+        if (existingMember) return true
+    }
+
     const handleJoinTeam = async () => {
         console.log('joining team ', teamCode)
 
         findTeamByCode(teamCode).then(data => {
             if (data.length > 0) {
-                console.log(data[0].id)
-                addMemberToSpecificTeam(data[0].id, props.currentUserId)
-            } else {
-                console.log('Team Not Found')
+                console.log(data, data[0].organization.id, props.currentUser.curentUserDetails)
+                if (existingMemberCheck(props.currentUser.curentUserDetails.memberOfTeam, data[0].id) === true) {
+                    console.log('already a member')
+                    setCodeErrorMessage('Already a member')
+                    return
+                }
+
+
+                if (data[0].organization) {
+                    addMemberToSpecificTeam(data[0].id, props.currentUserId)
+                    addMemberToSpecificOrganizationColection(data[0].organization.id, props.currentUser.curentUserDetails)
+                }
+                console.log('ADDING MEMBER - JOIN - ', data[0].id, props.currentUser.curentUserDetails)
+                addMemberToSpecificTeamColection(data[0].id, props.currentUser.curentUserDetails)
+
             }
+            console.log('Team Not Found')
+            setCodeErrorMessage('Team Not Found')
 
         })
-
+        setTeamCode('')
 
     }
 
@@ -185,11 +208,12 @@ const TeamSelectionPage: React.FC = (props: any) => {
                                         color="tertiary"
                                     >Join Team</IonButton>
                                 </IonRow>
+                                <IonText className="label" color="danger">{codeErrorMessage}</IonText>
                             </IonCard>
                             <br />
                             <IonRow>
                                 <IonCol className="teamSelectionTitleCol"  >
-                                    <IonText >Or select a team.</IonText>
+                                    <IonText>Or select a team.</IonText>
                                 </IonCol>
                             </IonRow>
                         </IonCol>
