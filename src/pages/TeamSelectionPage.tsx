@@ -1,19 +1,14 @@
 import {
     IonContent,
     IonList,
-    IonPage,
     IonButton,
     IonCard,
     IonItem,
     IonText,
     IonRow,
     IonCol,
-    IonHeader,
     IonInput,
     IonLabel,
-    IonItemDivider,
-    useIonPopover,
-    IonListHeader,
     IonFooter,
     IonToolbar
 } from "@ionic/react";
@@ -34,7 +29,7 @@ import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
 import { CreationPopover } from '../components/CreationPopover';
-import { isPlatform } from '@ionic/react';
+import { isPlatform, IonPage } from '@ionic/react';
 import { toEntry } from "../Models";
 
 const TeamSelectionPage: React.FC = (props: any) => {
@@ -64,26 +59,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
         OneSignal.setExternalUserId(props.currentUserId)
     }
 
-    // const gettingTeamsList = async () => {
-    //     // const docRef = firestore.collection('teams');
-    //     // docRef.get().then((snapshot) => {
-    //     //     const teamsList = snapshot.docs.map((doc) => ({
-    //     //         id: doc.id,
-    //     //         ...doc.data(),
-    //     //     }))
-    //     //     const filteredTeamsList = teamsList.filter((team) => {
-    //     //         return team.id === props.currentUser.curentUserDetails.memberOfTeam[0]
-    //     //     })
-    //     //     setTeams(filteredTeamsList)
-    //     // })
-    // }
-
     useEffect(() => {
-        console.log('TEAM SELECTION')
         props.getCurrentUserDetails(props.currentUserId)
-        //   const funcCall = functions.httpsCallable('getAvailableTeamsForUser')
-        //    setMyTeams(funcCall())
-        // getUserAvailableTeams(props.currentUserId)
     }, []);
 
     useEffect(() => {
@@ -111,10 +88,9 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }
 
     const handleSelectTeam = (teamId) => {
-        props.userSelectedTeam(teamId);
+        props.userSelectedTeam(teamId)
         props.getTeamMembers(teamId)
         props.selectedTeamData(teamId)
-        //    props.getAttendance(teamId, props.currentUser.uid)
     }
 
     const cancelCreating = () => {
@@ -122,19 +98,16 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }
 
     const handleCreating = (name) => {
-        console.log('creating')
         props.createTeam(props.currentUserId, name, props.currentUser.curentUserDetails)
         firestore.collection('teams')
         setCreatingTeam(!creatingTeam)
     }
 
     const findTeamByCode = async (teamCode) => {
-        //    let locatedTeam = null;
         const teamsRef = firestore.collection('teams')
         const teamCodeQuery = teamsRef.where('invitationCode', "==", teamCode)
         const locatedTeam = await teamCodeQuery.get().then((docRef) => { return (docRef.docs.map(toEntry)) })
         return locatedTeam
-
     }
 
     const existingMemberCheck = (list, id) => {
@@ -143,29 +116,24 @@ const TeamSelectionPage: React.FC = (props: any) => {
     }
 
     const handleJoinTeam = async () => {
-        console.log('joining team ', teamCode)
-
         findTeamByCode(teamCode).then(data => {
             if (data.length > 0) {
-                console.log(data, data[0].organization.id, props.currentUser.curentUserDetails)
+                // check if this user is already a member
                 if (existingMemberCheck(props.currentUser.curentUserDetails.memberOfTeam, data[0].id) === true) {
                     console.log('already a member')
                     setCodeErrorMessage('Already a member')
                     return
                 }
 
-
+                // check if the team is part of the organization
                 if (data[0].organization) {
                     addMemberToSpecificTeam(data[0].id, props.currentUserId)
                     addMemberToSpecificOrganizationColection(data[0].organization.id, props.currentUser.curentUserDetails)
                 }
-                console.log('ADDING MEMBER - JOIN - ', data[0].id, props.currentUser.curentUserDetails)
+                // adding member to a team
                 addMemberToSpecificTeamColection(data[0].id, props.currentUser.curentUserDetails)
-
             }
-            console.log('Team Not Found')
             setCodeErrorMessage('Team Not Found')
-
         })
         setTeamCode('')
 
@@ -181,7 +149,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     });
 
     return (
-        <>
+        <IonPage>
             <IonContent className="ion-padding" >
 
                 <AddTeamModal
@@ -194,7 +162,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     <IonRow >
                         <IonCol >
                             <IonCard  >
-                                <IonLabel className="label">Join existing team</IonLabel>
+                                <IonLabel className="label" color="tertiary" >Join existing team</IonLabel>
                                 <IonRow>
                                     <IonInput
                                         placeholder="enter invite code"
@@ -245,7 +213,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     </IonRow>
                 </IonToolbar>
             </IonFooter>
-        </>
+        </IonPage>
     );
 };
 
