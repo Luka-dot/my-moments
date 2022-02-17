@@ -38,12 +38,15 @@ export const selectedTeamData = (uid) => async dispatch => {
 }
 
 export const createTeam = (uid, name, userData) => async dispatch => {
+  console.log('addDDING')
+  let teamId = ''
   try {
     const teamRef = firestore.collection('teams').add({
-      name: name
-  }).then(data => (
-    firestore.collection('teams').doc(data.id).collection('members').add({...userData, id: uid})
-  ))
+      name: name, ...userData, id: uid
+  }).then(function (docRef) {
+    teamId = docRef.id
+    console.log('I DDDDDDDDDDDD ', docRef.id)
+  })
   await teamRef.then(() => dispatch({
     type: CREATE_TEAM,
     payload: { name: name }
@@ -52,12 +55,6 @@ export const createTeam = (uid, name, userData) => async dispatch => {
       console.log(error)
   }
   }
-
-  // await teamRef.then(() => dispatch({
-  //   type: CREATE_TEAM,
-  //   payload: { name: name, admin: uid }
-  // })  )
-
 
 export const getTeamEvents = (uid) => async dispatch => {
     try {

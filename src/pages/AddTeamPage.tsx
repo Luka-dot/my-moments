@@ -78,6 +78,8 @@ const AddTeamPage: React.FC = (props: any) => {
                     }
                 }).then((res) => {
                     console.log(res.id, props.currentUserId, props.currentUser)
+                    // res.id is an id of new team, need to be added to this doc
+                    teamRef.doc(res.id).update({ uid: res.id })
                     addMemberToSpecificTeam(res.id, props.currentUserId)
                     addMemberToSpecificTeamColection(res.id, props.currentUser)
                 })

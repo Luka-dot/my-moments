@@ -14,7 +14,14 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { userSelectedTeam, getTeamMembers, selectedTeamData, getAttendance, createTeam, getUserAvailableTeams } from '../actions/TeamActions';
+import {
+    userSelectedTeam,
+    getTeamMembers,
+    selectedTeamData,
+    getAttendance,
+    createTeam,
+    getUserAvailableTeams
+} from '../actions/TeamActions';
 import { Redirect } from "react-router";
 
 import OneSignal from 'onesignal-cordova-plugin';
@@ -37,6 +44,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
     const [creatingTeam, setCreatingTeam] = useState(false)
     const [teamCode, setTeamCode] = useState<any>()
     const [codeErrorMessage, setCodeErrorMessage] = useState('')
+    const [teamsFiltered, setTeamsFiltered] = useState<any>()
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -75,6 +83,11 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setCodeErrorMessage('')
     }, [teamCode])
 
+    useEffect(() => {
+        console.log('SETTTTTTTTTTTTTTTTTIIIIINNNG')
+        setTeams(props.availableTeams)
+    }, [])
+
     if (!props.userLoggedIn) {
         return (
             <Redirect to="/" />
@@ -86,6 +99,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
             <div>Loading....</div>
         )
     }
+
+    //   getUserSpecificTeams()
 
     const handleSelectTeam = (teamId) => {
         props.userSelectedTeam(teamId)
@@ -124,19 +139,17 @@ const TeamSelectionPage: React.FC = (props: any) => {
                     setCodeErrorMessage('Already a member')
                     return
                 }
-
+                // adding member to a team
+                addMemberToSpecificTeamColection(data[0].id, props.currentUser.curentUserDetails)
                 // check if the team is part of the organization
                 if (data[0].organization) {
                     addMemberToSpecificTeam(data[0].id, props.currentUserId)
                     addMemberToSpecificOrganizationColection(data[0].organization.id, props.currentUser.curentUserDetails)
                 }
-                // adding member to a team
-                addMemberToSpecificTeamColection(data[0].id, props.currentUser.curentUserDetails)
             }
             setCodeErrorMessage('Team Not Found')
         })
         setTeamCode('')
-
     }
 
     const teamsListFiltered = teams.filter((el) => {
