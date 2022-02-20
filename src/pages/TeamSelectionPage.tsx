@@ -10,7 +10,8 @@ import {
     IonInput,
     IonLabel,
     IonFooter,
-    IonToolbar
+    IonToolbar,
+    useIonViewWillEnter
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -38,13 +39,14 @@ import { AddTeamModal } from "../shared/AddTeamModal";
 import { CreationPopover } from '../components/CreationPopover';
 import { isPlatform, IonPage } from '@ionic/react';
 import { toEntry } from "../Models";
+import TeamCard from "../components/teamCard";
 
 const TeamSelectionPage: React.FC = (props: any) => {
-    const [teams, setTeams] = useState<any>()
+    const [teams, setTeams] = useState<any>([])
     const [creatingTeam, setCreatingTeam] = useState(false)
     const [teamCode, setTeamCode] = useState<any>()
     const [codeErrorMessage, setCodeErrorMessage] = useState('')
-    const [teamsFiltered, setTeamsFiltered] = useState<any>()
+    const [teamsFiltered, setTeamsFiltered] = useState<any>([{}])
 
     if (isPlatform('ios') && isPlatform("android")) {
         const runOneSignal = function OneSignalInit(): void {
@@ -69,15 +71,28 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     useEffect(() => {
         props.getCurrentUserDetails(props.currentUserId)
+        setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
     }, []);
 
-    useEffect(() => {
-        props.getUserAvailableTeams(props.currentUserId)
-    }, [props.currentUserId])
+    // useEffect(() => {
+    //     const fetchingData = async () => {
+    //         try {
+    //             const response = getUserAvailableTeams(props.currentUser.curentUserDetails.memberOfTeam)
+    //         } catch (err) {
+    //             console.log(err)
+    //         }
+    //     }
 
-    useEffect(() => {
-        setTeams(props.availableTeams)
-    }, [props.availableTeams])
+    //     fetchingData()
+    // }, [props.currentUser.curentUserDetails.memberOfTeam])
+
+    // useEffect(async () => {
+    //     props.getUserAvailableTeams(props.currentUser.curentUserDetails.memberOfTeam)
+    // }, [props.currentUser.curentUserDetails.memberOfTeam])
+
+    // useEffect(() => {
+    //     setTeams(props.availableTeams)
+    // }, [props.availableTeams])
 
     useEffect(() => {
         setCodeErrorMessage('')
@@ -85,8 +100,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     useEffect(() => {
         console.log('SETTTTTTTTTTTTTTTTTIIIIINNNG')
-        setTeams(props.availableTeams)
-    }, [])
+        // setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
+    }, [props.availableTeams])
 
     if (!props.userLoggedIn) {
         return (
@@ -94,11 +109,16 @@ const TeamSelectionPage: React.FC = (props: any) => {
         )
     }
 
-    if (!teams) {
-        return (
-            <div>Loading....</div>
-        )
-    }
+    // if (!teams) {
+    //     return (
+    //         <div>Loading....</div>
+    //     )
+    // }
+    // else if (!teamsFiltered || teamsFiltered.length === 0) {
+    //     return (
+    //         <div>Loading....filtered</div>
+    //     )
+    // }
 
     //   getUserSpecificTeams()
 
@@ -152,19 +172,9 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setTeamCode('')
     }
 
-    const teamsListFiltered = teams.filter((el) => {
-        return props.currentUser.curentUserDetails.memberOfTeam.some((f) => {
-            //    console.log('/*/*/*/* ', f, el.id)
-            if (f === el.id) {
-                return el
-            };
-        });
-    });
-
     return (
         <IonPage>
             <IonContent className="ion-padding" >
-
                 <AddTeamModal
                     modalText={"Adding TEAM !!!"}
                     displayModal={creatingTeam}
@@ -199,8 +209,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
                             </IonRow>
                         </IonCol>
                     </IonRow>
-                    <IonList>
-                        {teamsListFiltered.map((team) =>
+                    <TeamCard handleSelectTeam={handleSelectTeam} />
+                    {/* {teamsFiltered.map((team) =>
                             <IonCard key={team.id}>
                                 <IonItem
                                     lines="none"
@@ -211,8 +221,21 @@ const TeamSelectionPage: React.FC = (props: any) => {
                                     <p>{team.name}</p>
                                 </IonItem>
                             </IonCard>
-                        )}
-                    </IonList>
+                        )} */}
+                    {/* {teamsFiltered.map((team, index) => {
+                            return (
+                                <IonCard key={team.id}>
+                                    <IonItem
+                                        lines="none"
+                                        button
+                                        onClick={() => handleSelectTeam(team.id)}
+                                        routerLink={`/my/teams/team/${team.id}`}
+                                    >
+                                        <p>{team.name}</p>
+                                    </IonItem>
+                                </IonCard>)
+                        }
+                        )} */}
                 </IonCol>
                 <br />
             </IonContent>

@@ -13,9 +13,6 @@ import {
     IonLabel,
     IonList,
     IonPage,
-    IonRadio,
-    IonRadioGroup,
-    IonRow,
     IonText,
     IonTextarea,
     IonTitle,
@@ -39,9 +36,9 @@ import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
 import AccountPage from './AccountPage';
+import { Link } from "react-router-dom";
 
 const AddTeamPage: React.FC = (props: any) => {
-    //  const { userId } = useAuth() as any;
     const history = useHistory();
 
     const [createClub, setCreateClub] = useState(false);
@@ -70,6 +67,7 @@ const AddTeamPage: React.FC = (props: any) => {
         if (createClub) {
             await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
                 addMemberToSpecificOrganizationColection(res.id, props.currentUser)
+                organizationRef.doc(res.id).update({ uid: res.id })
                 teamRef.add({
                     name: teamName, invitationCode: teamInviteCode, organization: {
                         id: res.id,
@@ -82,7 +80,7 @@ const AddTeamPage: React.FC = (props: any) => {
                     teamRef.doc(res.id).update({ uid: res.id })
                     addMemberToSpecificTeam(res.id, props.currentUserId)
                     addMemberToSpecificTeamColection(res.id, props.currentUser)
-                })
+                })   //.then(() => props.getUserAvailableTeams(props.currentUserId))
             })
         } else {
             await teamRef.add({
@@ -91,8 +89,6 @@ const AddTeamPage: React.FC = (props: any) => {
                 console.log(res.id, props.currentUserId, props.currentUser)
             })
         }
-
-        history.goBack();
     };
 
     return (

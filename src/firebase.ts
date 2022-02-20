@@ -82,6 +82,8 @@ if (!snapShot.exists) {
       createdAt: createdAt,
       pictureUrl: additionalData.newUser.pictureUrl,
       isAdmin: additionalData.newUser.isAdmin,
+      uid: userAuth.uid,
+      memberOfTeam: []
     })
   } catch (error) {
     console.log('error creating user', error.message);
@@ -112,6 +114,9 @@ export function firebaseObjectToArray(snaphot) {
   return Object.entries(snaphot).map(e => Object.assign({}, e[1], {id: e[0]}))
 }
 
+export function getTeamsForUser(userId) {
+
+}
 
 export function getEventChatRef(eventId) {
   return firebase.database().ref(`chat/${eventId}`).orderByKey()
@@ -151,7 +156,6 @@ export async function addMemberToSpecificTeamColection(teamId, newMember) {
       
       await teamRef.add(newMember)
   }
-
 catch(error) {
   console.log(error)
 }

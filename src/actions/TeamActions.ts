@@ -2,6 +2,7 @@ import { SELECT_TEAM, GET_EVENTS, GET_MEMEBRS, GET_TEAM_DATA, ADD_ATTENDANCE_RES
   GET_ALL_MEMBERS, ADD_MEMBER_TO_TEAM, GET_USER_AVAILABLE_TEAMS } from './types';
 import { addMemberToSpecificTeam, firestore, functions } from '../firebase';
 import { toEntry } from '../Models';
+import { getFirestore } from 'redux-firestore';
 
 export const userSelectedTeam = (uid) => async dispatch => {
 
@@ -183,15 +184,32 @@ export const getAttendance = (teamId, eventId, userId) => async dispatch => {
 
 export const getUserAvailableTeams = (userId) => async dispatch => {
  // const funcCall = functions.httpsCallable('getAvailableTeamsForUser')
+ console.log('TTT ', userId)
   try {
     const teamsRef = firestore
     .collection('teams')
+
+    const userRef = firestore
+      .collection('users')
+      .doc(userId)
+
+    await userRef.get().then(snapshot => {
+      console.log(snapshot.data().memberOfTeam)
+      teamsRef
+      .onSnapshot(({docs}) => dispatch ({
+        type:GET_USER_AVAILABLE_TEAMS,
+        payload: docs.map(toEntry).filter((el) => {
+          return snapshot.data().memberOfTeam.some((f) => {
+              //    console.log('/*/*/*/* ', f, el.id)
+              if (f === el.id) {
+                  return el
+              };
+          });
+      })
+      }))
+    })
     
-    await teamsRef
-    .onSnapshot(({docs}) => dispatch ({
-      type:GET_USER_AVAILABLE_TEAMS,
-      payload: docs.map(toEntry)
-    }))
+    
   }
   catch(error) {
     console.log(error)

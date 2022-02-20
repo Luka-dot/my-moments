@@ -77,7 +77,9 @@ const AddEventPage: React.FC = (props: any) => {
             .collection("events");
         let entryData = { date, title, description, startTime, endTime, attendanceRequired, isMatch, result, location, attendingMembers, coordinance };
         console.log(entryData)
-        await entriesRef.add(entryData);
+        await entriesRef.add(entryData).then((res) => {
+            entriesRef.doc(res.id).update({ uid: res.id })
+        })
         history.goBack();
     };
 

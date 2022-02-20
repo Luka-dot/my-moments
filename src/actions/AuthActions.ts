@@ -16,17 +16,19 @@ export const logInUser = (email, password) => async dispatch => {
     try {
         const returnCredentials = await auth.signInWithEmailAndPassword(email, password)
     //    const returnCredentials = await auth.signInWithEmailAndPassword("NewRugbyTest@test.com", "123456")
-     
+
+     console.log(returnCredentials.user.uid)
         dispatch ({
             type: LOG_IN,
             payload: returnCredentials.user,
-        })
+        })       
     }catch(error) {
         console.log(error)
     }
 }
 
 export const getCurrentUserDetails = (uid) => async dispatch => {
+    console.log('get user details ', uid)
     try {
       firestore
       .collection("users")
