@@ -17,7 +17,11 @@ import {
   
 
   const initialState = {
-    comments: []
+    comments: [],
+    teamName: {
+      invitationCode: '',
+      organization: { name: '', id: '', admin: '',}
+    },
   };
     
   // eslint-disable-next-line import/no-anonymous-default-export

@@ -200,32 +200,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
                         </IonCol>
                     </IonRow>
                     <TeamCard handleSelectTeam={handleSelectTeam} />
-                    {/* {teamsFiltered.map((team) =>
-                            <IonCard key={team.id}>
-                                <IonItem
-                                    lines="none"
-                                    button
-                                    onClick={() => handleSelectTeam(team.id)}
-                                    routerLink={`/my/teams/team/${team.id}`}
-                                >
-                                    <p>{team.name}</p>
-                                </IonItem>
-                            </IonCard>
-                        )} */}
-                    {/* {teamsFiltered.map((team, index) => {
-                            return (
-                                <IonCard key={team.id}>
-                                    <IonItem
-                                        lines="none"
-                                        button
-                                        onClick={() => handleSelectTeam(team.id)}
-                                        routerLink={`/my/teams/team/${team.id}`}
-                                    >
-                                        <p>{team.name}</p>
-                                    </IonItem>
-                                </IonCard>)
-                        }
-                        )} */}
                 </IonCol>
                 <br />
             </IonContent>

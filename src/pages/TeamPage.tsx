@@ -25,6 +25,7 @@ import { isPlatform } from '@ionic/react';
 import './teamPage.css';
 
 const TeamPage: React.FC = (props: any) => {
+    const [userIsAdmin, setUserIsAdmin] = useState<any>()
 
     if (isPlatform('ios') && isPlatform("android")) {
         OneSignal.setExternalUserId(props.currentUserId)
@@ -37,14 +38,26 @@ const TeamPage: React.FC = (props: any) => {
         }
     }
 
-    useIonViewWillEnter(() => {
-        console.log('I O N VIEW HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ', props.selectedTeam)
-        // props.resetSingleEntry()
-    })
+    // *********** New check for admin  **************************
+    function isUserAdminCheck2() {
+        console.log(props.teamOrganization.teamName.organization.admin, ' - ', props.currentUser.userId)
+        const admins = props.teamOrganization.teamName.organization.admin
+        const userIs = props.currentUser.userId
+        if (admins === userIs) {
+            return true
+        }
+    }
+
+    // useEffect(() => {
+    //     console.log(' ENTERED ENTERED ', props.teamOrganization.teamName.organization.admin)
+    //     // props.resetSingleEntry()
+    //     setUserIsAdmin(isUserAdminCheck2())
+    // }, [])
 
     useEffect(() => {
         console.log('useEffect HAS  ENTERED ENTERED  ENTERED  ENTERED  ENTERED ENTERED ', props.selectedTeam)
         props.getTeamEvents(props.selectedTeam)
+
         //   props.getAttendance(props.userSelectedTeam, , props.currentUserId)
     }, [props.selectedTeam]);
 
@@ -67,15 +80,16 @@ const TeamPage: React.FC = (props: any) => {
                 </IonToolbar>
             </IonHeader> */}
             <IonContent className="ion-padding">
+                {console.log(userIsAdmin)}
                 {
-                    isUserAdminCheck() ?
+                    isUserAdminCheck2() ?
                         <IonFab vertical="bottom" horizontal="end">
                             <IonFabButton routerLink={`/my/teams/team/${props.selectedTeam}/events/add`}>
                                 <IonIcon icon={addIcon} />
                             </IonFabButton>
                         </IonFab>
                         :
-                        <div></div>
+                        <div><p>no admin button?</p></div>
                 }
                 <IonList className="entryList">
                     <EntriesItem />
@@ -92,6 +106,7 @@ const mapStateToProps = (state) => ({
     selectedTeamName: state.team.teamName,
     teamEvents: state.team.events,
     teamMembers: state.team.members,
+    teamOrganization: state.team,
 });
 
 export default connect(mapStateToProps, { getTeamEvents, getTeamMembers, resetSingleEntry, getAttendance })(TeamPage);

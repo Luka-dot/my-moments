@@ -7,6 +7,15 @@ import MembersList from "../components/MembersList";
 
 const MembersPage: React.FC = (props: any) => {
 
+  // *********** New check for admin  **************************
+  function isUserAdminCheck2() {
+    const admins = props.teamName.organization.admin
+    const userIs = props.currentUser.userId
+    if (admins === userIs) {
+      return true
+    }
+  }
+
   useEffect(() => {
     props.getTeamMembers(props.selectedTeam)
     props.getAllMembers()
@@ -30,7 +39,7 @@ const MembersPage: React.FC = (props: any) => {
             </IonList>
           </IonCol>
         </IonRow>
-        {props.currentUser.curentUserDetails.isAdmin ?
+        {isUserAdminCheck2() ?
           <IonRow>
             <IonCol size='12'>
               <IonText>All Clayton Rugby members list</IonText>
