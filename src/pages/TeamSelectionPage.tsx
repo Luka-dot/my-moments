@@ -42,7 +42,6 @@ import { toEntry } from "../Models";
 import TeamCard from "../components/teamCard";
 
 const TeamSelectionPage: React.FC = (props: any) => {
-    const [teams, setTeams] = useState<any>([])
     const [creatingTeam, setCreatingTeam] = useState(false)
     const [teamCode, setTeamCode] = useState<any>()
     const [codeErrorMessage, setCodeErrorMessage] = useState('')
@@ -102,29 +101,11 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setCodeErrorMessage('')
     }, [teamCode])
 
-    // useEffect(() => {
-    //     console.log('SETTTTTTTTTTTTTTTTTIIIIINNNG')
-    //     // setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
-    // }, [props.availableTeams])
-
     if (!props.userLoggedIn) {
         return (
             <Redirect to="/" />
         )
     }
-
-    // if (!teams) {
-    //     return (
-    //         <div>Loading....</div>
-    //     )
-    // }
-    // else if (!teamsFiltered || teamsFiltered.length === 0) {
-    //     return (
-    //         <div>Loading....filtered</div>
-    //     )
-    // }
-
-    //   getUserSpecificTeams()
 
     const handleSelectTeam = (teamId) => {
         props.userSelectedTeam(teamId)
