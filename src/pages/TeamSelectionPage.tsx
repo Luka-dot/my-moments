@@ -1,9 +1,7 @@
 import {
     IonContent,
-    IonList,
     IonButton,
     IonCard,
-    IonItem,
     IonText,
     IonRow,
     IonCol,
@@ -11,7 +9,6 @@ import {
     IonLabel,
     IonFooter,
     IonToolbar,
-    useIonViewWillEnter
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -76,26 +73,6 @@ const TeamSelectionPage: React.FC = (props: any) => {
     useEffect(() => {
         setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
     }, [props.currentUser.curentUserDetails.memberOfTeam]);
-
-    // useEffect(() => {
-    //     const fetchingData = async () => {
-    //         try {
-    //             const response = getUserAvailableTeams(props.currentUser.curentUserDetails.memberOfTeam)
-    //         } catch (err) {
-    //             console.log(err)
-    //         }
-    //     }
-
-    //     fetchingData()
-    // }, [props.currentUser.curentUserDetails.memberOfTeam])
-
-    // useEffect(async () => {
-    //     props.getUserAvailableTeams(props.currentUser.curentUserDetails.memberOfTeam)
-    // }, [props.currentUser.curentUserDetails.memberOfTeam])
-
-    // useEffect(() => {
-    //     setTeams(props.availableTeams)
-    // }, [props.availableTeams])
 
     useEffect(() => {
         setCodeErrorMessage('')
