@@ -74,6 +74,10 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
     }, []);
 
+    useEffect(() => {
+        setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
+    }, [props.currentUser.curentUserDetails.memberOfTeam]);
+
     // useEffect(() => {
     //     const fetchingData = async () => {
     //         try {
@@ -98,10 +102,10 @@ const TeamSelectionPage: React.FC = (props: any) => {
         setCodeErrorMessage('')
     }, [teamCode])
 
-    useEffect(() => {
-        console.log('SETTTTTTTTTTTTTTTTTIIIIINNNG')
-        // setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
-    }, [props.availableTeams])
+    // useEffect(() => {
+    //     console.log('SETTTTTTTTTTTTTTTTTIIIIINNNG')
+    //     // setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
+    // }, [props.availableTeams])
 
     if (!props.userLoggedIn) {
         return (
@@ -152,22 +156,27 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     const handleJoinTeam = async () => {
         findTeamByCode(teamCode).then(data => {
+            console.log('joining team ', teamCode, data)
             if (data.length > 0) {
                 // check if this user is already a member
+                console.log('date.length is > 0')
                 if (existingMemberCheck(props.currentUser.curentUserDetails.memberOfTeam, data[0].id) === true) {
                     console.log('already a member')
                     setCodeErrorMessage('Already a member')
                     return
                 }
                 // adding member to a team
+                console.log('start adding to ', data[0].id)
                 addMemberToSpecificTeamColection(data[0].id, props.currentUser.curentUserDetails)
                 // check if the team is part of the organization
                 if (data[0].organization) {
                     addMemberToSpecificTeam(data[0].id, props.currentUserId)
                     addMemberToSpecificOrganizationColection(data[0].organization.id, props.currentUser.curentUserDetails)
                 }
+                setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
+            } else {
+                setCodeErrorMessage('Team Not Found')
             }
-            setCodeErrorMessage('Team Not Found')
         })
         setTeamCode('')
     }

@@ -46,6 +46,7 @@ const AddTeamPage: React.FC = (props: any) => {
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
 
+    // **************** Adding Pictures *********************
     // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
     // const fileInputRef = useRef<HTMLInputElement>();
 

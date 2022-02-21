@@ -14,19 +14,24 @@ function TeamCard(props: any) {
     }
     return (
         <IonList>
-            {console.log(teamsList)}
-            {teamsList.map((team) =>
-                <IonCard key={team.id}>
-                    <IonItem
-                        lines="none"
-                        button
-                        onClick={() => props.handleSelectTeam(team.id)}
-                        routerLink={`/my/teams/team/${team.id}`}
-                    >
-                        <p>{team.name}</p>
-                    </IonItem>
+            {teamsList.length === 0 ?
+                <IonCard>
+                    <IonText>You are not a membember of any team.</IonText>
+                    <IonText>Maybe create one?</IonText>
                 </IonCard>
-            )}
+                : teamsList.map((team) =>
+                    <IonCard key={team.id}>
+                        <IonItem
+                            lines="none"
+                            button
+                            onClick={() => props.handleSelectTeam(team.id)}
+                            routerLink={`/my/teams/team/${team.id}`}
+                        >
+                            <p>{team.name}</p>
+                        </IonItem>
+                    </IonCard>
+                )}
+
         </IonList>
     )
 }
