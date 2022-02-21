@@ -80,7 +80,6 @@ const TeamPage: React.FC = (props: any) => {
                 </IonToolbar>
             </IonHeader> */}
             <IonContent className="ion-padding">
-                {console.log(userIsAdmin)}
                 {
                     isUserAdminCheck2() ?
                         <IonFab vertical="bottom" horizontal="end">

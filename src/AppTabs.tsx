@@ -5,10 +5,6 @@ import {
   IonTabButton,
   IonTabs,
   IonIcon,
-  IonTitle,
-  IonHeader,
-  IonRow,
-  IonText,
 } from "@ionic/react";
 import {
   settings as settingsIcon,
@@ -22,7 +18,6 @@ import { Route, Redirect } from "react-router-dom";
 
 import SettingsPage from "./pages/SettingsPage";
 import EntryPage from "./pages/EntryPage";
-import AccountPage from "./pages/AccountPage";
 import { connect } from "react-redux";
 import MembersPage from "./pages/MembersPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
@@ -33,7 +28,6 @@ import EditPage from "./shared/EditPage";
 import './appTab.css';
 import AddTeamPage from "./pages/AddTeamPage";
 import TeamChatPage from "./pages/TeamChatPage";
-import PushNotificationsContainer from "./shared/PushNotificationContainer";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -62,17 +56,6 @@ const AppTab: React.FC = (props: any) => {
 
   return (
     <>
-      {/* <IonRow className="appMenu">
-        {!props.selectedTeam.teamName?.name ?
-          <IonHeader>
-            <p></p>
-          </IonHeader>
-          :
-          <IonHeader>
-            <IonText>{props.selectedTeam.teamName?.name}</IonText>
-          </IonHeader>
-        }
-      </IonRow> */}
       <IonTabs className="tabbBarMenu" >
         <IonRouterOutlet>
           <Route path="/teams">

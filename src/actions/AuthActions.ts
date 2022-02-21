@@ -1,7 +1,6 @@
 import { LOG_IN, LOG_OUT, GET_CURRENT_USER_DETAILS } from './types';
 import { auth } from '../firebase';
 import { firestore } from '../firebase';
-import { toEntry } from '../Models';
 
 // export const getMemories = (dispatch) => {
 //     const initialMemories = [{ title: 'new memory'}];

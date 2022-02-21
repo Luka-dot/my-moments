@@ -1,9 +1,8 @@
-import { IonApp, IonHeader, IonPage } from "@ionic/react";
+import { IonApp } from "@ionic/react";
 import React, { } from "react";
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
-import OneSignal from 'onesignal-cordova-plugin';
 
 
 
@@ -13,7 +12,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 import TeamSelectionPage from "./pages/TeamSelectionPage";
 
-import PushNotificationsContainer from './shared/PushNotificationContainer'
 import AddTeamPage from "./pages/AddTeamPage";
 
 const App: React.FC = (props: any) => {

@@ -7,7 +7,7 @@ function TeamCard(props: any) {
 
     if (teamsList == null) {
         return (
-            <IonItem> {console.log(teamsList)}
+            <IonItem>
                 <IonText> ... Loading ...</IonText>
             </IonItem>
         )
