@@ -16,7 +16,11 @@ const AllMembersList: React.FC = (props: any) => {
             return !member.memberOfTeam.includes(props.selectedTeam)
         }))
         console.log(availableMembers, props.selectedTeam)
-    }, [props.allMembers, props.selectedTeam])
+    }, [])
+
+    useEffect(() => {
+        console.log('render')
+    }, [])
 
     const handleAddMember = (memberId, member) => {
         props.addMemberToTeam(props.selectedTeam, memberId)
@@ -41,7 +45,7 @@ const AllMembersList: React.FC = (props: any) => {
                         </IonItemOption>
                     </IonItemOptions>
                     <IonRow>
-                        <IonItem className='chatItem'  >
+                        <IonItem className='chatItem' lines="none" >
                             <IonAvatar className='avatar' slot='start'>
                                 <img className='avatarImg' src={member.pictureUrl ? member.pictureUrl : "/avatar-grey.png"} />
                             </IonAvatar>

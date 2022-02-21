@@ -28,6 +28,7 @@ import EditPage from "./shared/EditPage";
 import './appTab.css';
 import AddTeamPage from "./pages/AddTeamPage";
 import TeamChatPage from "./pages/TeamChatPage";
+import ChatPage from "./components/chat/ChatPage";
 
 const AppTab: React.FC = (props: any) => {
   const { loggedIn } = props.currentUser;
@@ -72,6 +73,9 @@ const AppTab: React.FC = (props: any) => {
           </Route>
           <Route exact path="/my/teams/team/:id">
             <TeamPage />
+          </Route>
+          <Route exact path="/my/teams/:id/chatPage/:id">
+            <ChatPage />
           </Route>
           <Route exact path="/my/teams/members">
             <MembersPage />

@@ -20,8 +20,10 @@ import {
     comments: [],
     teamName: {
       invitationCode: '',
-      organization: { name: '', id: '', admin: '',}
+      organization: { name: '', id: '', admin: '',},
+      
     },
+    allMembers: [],
   };
     
   // eslint-disable-next-line import/no-anonymous-default-export

@@ -1,13 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { IonAvatar, IonCol, IonFooter, IonHeader, IonItem, IonList, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 
 import './teamChatPage.css';
 import ChatItem from '../components/chat/ChatItem';
+import ChatAllMembers from '../components/chat/ChatAllMembers';
+import { getAllMembers, getTeamMembers } from '../actions/TeamActions';
 
 export const TeamChatPage = (props: any) => {
     const [selectedTab, setSelectedTab] = useState(true)
-    console.log(selectedTab)
+
+    useEffect(() => {
+        props.getTeamMembers(props.selectedTeam)
+        props.getAllMembers()
+    }, [])
+
+    useEffect(() => {
+        console.log('render')
+    }, [])
+
 
     function toggleTabs() {
         console.log('setting')
@@ -21,7 +32,7 @@ export const TeamChatPage = (props: any) => {
                     <IonToolbar>
                         <IonRow >
                             <IonItem lines="none" >
-                                <IonTitle  >Chat</IonTitle>
+                                <IonTitle  >Team Chat</IonTitle>
                             </IonItem>
                             <IonItem lines="none" onClick={toggleTabs}>
                                 <IonText>Contacts</IonText>
@@ -29,24 +40,26 @@ export const TeamChatPage = (props: any) => {
                         </IonRow>
                     </IonToolbar>
                 </IonHeader>
-                <IonList>
-                    {
-                        props.team.members.map((member) => <ChatItem contact={member} />)
-                    }
-                </IonList>
+                <IonCol>
+                    <IonList>
+                        {
+                            props.team.members.map((member) => <ChatItem contact={member} />)
+                        }
+                    </IonList>
+                </IonCol>
                 <IonFooter >
                     <IonItem >chat text field</IonItem>
                 </IonFooter>
             </IonPage>
         )
-    } else if (selectedTab === false) {
+    } if (selectedTab === false) {
         return (
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
                         <IonRow >
                             <IonItem lines="none" onClick={toggleTabs}>
-                                <IonText>Chat</IonText>
+                                <IonText>Team Chat</IonText>
                             </IonItem>
                             <IonItem lines="none">
                                 <IonTitle >Contacts</IonTitle>
@@ -54,11 +67,14 @@ export const TeamChatPage = (props: any) => {
                         </IonRow>
                     </IonToolbar>
                 </IonHeader>
-                <IonList>
-                    {
-                        props.team.members.map((member) => <ChatItem contact={member} />)
-                    }
-                </IonList>
+                <IonCol>
+                    <IonList>
+                        {/* {
+                            props.team.members.map((member) => <ChatItem contact={member} />)
+                        } */}
+                        <ChatAllMembers />
+                    </IonList>
+                </IonCol>
             </IonPage>
         )
     }
@@ -67,9 +83,13 @@ export const TeamChatPage = (props: any) => {
 const mapStateToProps = (state) => ({
     team: state.team,
     currentUser: state.auth.curentUserDetails,
+    selectedTeam: state.team.team,
+    teamName: state.team.teamName,
+    members: state.team.members,
+    allMembers: state.team.allMembers
 })
 
-export default connect(mapStateToProps, {})(TeamChatPage)
+export default connect(mapStateToProps, { getTeamMembers, getAllMembers })(TeamChatPage)
 
 
 
