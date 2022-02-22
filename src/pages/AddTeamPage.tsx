@@ -90,6 +90,7 @@ const AddTeamPage: React.FC = (props: any) => {
                 console.log(res.id, props.currentUserId, props.currentUser)
             })
         }
+        history.goBack();
     };
 
     return (
