@@ -45,7 +45,7 @@ const AddTeamPage: React.FC = (props: any) => {
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
     const [checkingAdmin, setCheckingAdmin] = useState([])
-    const [checkingOrgAdmin, setCheckingOrgAdmin] = useState(null)
+    const [checkingOrgAdmin, setCheckingOrgAdmin] = useState([])
 
 
     let adminOf = [];
@@ -78,7 +78,7 @@ const AddTeamPage: React.FC = (props: any) => {
     }
 
     useEffect(() => {
-        checkAdminOf()
+        //    checkAdminOf()
         checkOrgAdmin()
     }, [])
 
@@ -147,7 +147,8 @@ const AddTeamPage: React.FC = (props: any) => {
                     </p>
                 </IonText>
                 <IonList>
-                    {!checkingOrgAdmin ?
+                    {console.log(checkingOrgAdmin)}
+                    {checkingOrgAdmin.length === 0 ?
                         <IonItem lines="none">
                             <IonLabel>Create a NEW Club?</IonLabel>
                             <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
