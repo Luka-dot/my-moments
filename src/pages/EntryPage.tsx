@@ -78,7 +78,7 @@ const EntryPage: React.FC = (props: any) => {
     renderAttendanceButtonMaybe()
   }, [props.attendanceRecord])
 
-
+  //  ***********  Need to add check for missing UserName in DB ***************
   const handleAttendingResponse = (responseValue) => {
     console.log('ATTedning response handler ', props.currentUser.curentUserDetails.userName)
     setAttending(responseValue)

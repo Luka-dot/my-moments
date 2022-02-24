@@ -72,7 +72,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
 
     useEffect(() => {
         setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
-    }, [props.currentUser.curentUserDetails.memberOfTeam]);
+    }, [props.currentUser.curentUserDetails?.memberOfTeam]);
 
     useEffect(() => {
         setCodeErrorMessage('')

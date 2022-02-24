@@ -19,7 +19,7 @@ import {
     IonToggle,
     IonToolbar,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
 // import { useAuth } from "../Auth";
@@ -35,8 +35,7 @@ import {
 import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
-import AccountPage from './AccountPage';
-import { Link } from "react-router-dom";
+import { toEntry } from "../Models";
 
 const AddTeamPage: React.FC = (props: any) => {
     const history = useHistory();
@@ -45,6 +44,11 @@ const AddTeamPage: React.FC = (props: any) => {
     const [clubName, setClubName] = useState("");
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
+    const [checkingAdmin, setCheckingAdmin] = useState([])
+    const [checkingOrgAdmin, setCheckingOrgAdmin] = useState(null)
+
+
+    let adminOf = [];
 
     // **************** Adding Pictures *********************
     // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
@@ -58,6 +62,27 @@ const AddTeamPage: React.FC = (props: any) => {
     //     };
     // }, [pictureUrl]);
 
+    const checkAdminOf = async () => {
+        const teamsRef = firestore.collection('teams')
+        console.log(teamsRef)
+        await teamsRef.where('teamAdmins', 'array-contains-any', [props.currentUserId]).get().then((docs) => {
+            return setCheckingAdmin(docs.docs.map(toEntry))
+        })
+    }
+
+    const checkOrgAdmin = async () => {
+        const orgRef = firestore.collection('organization')
+        await orgRef.where('orgAdmin', 'array-contains-any', [props.currentUserId]).get().then((docs) => {
+            return setCheckingOrgAdmin(docs.docs.map(toEntry))
+        })
+    }
+
+    useEffect(() => {
+        checkAdminOf()
+        checkOrgAdmin()
+    }, [])
+
+
     const handleSave = async () => {
         const organizationRef = firestore
             .collection("organization")
@@ -68,9 +93,10 @@ const AddTeamPage: React.FC = (props: any) => {
         if (createClub) {
             await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
                 addMemberToSpecificOrganizationColection(res.id, props.currentUser)
-                organizationRef.doc(res.id).update({ uid: res.id })
+                organizationRef.doc(res.id).update({ uid: res.id, orgAdmin: [props.currentUserId] })
                 teamRef.add({
-                    name: teamName, invitationCode: teamInviteCode, organization: {
+                    name: teamName, invitationCode: teamInviteCode,
+                    teamAdmins: [props.currentUserId], organization: {
                         id: res.id,
                         name: clubName,
                         admin: props.currentUserId
@@ -93,6 +119,11 @@ const AddTeamPage: React.FC = (props: any) => {
         history.goBack();
     };
 
+    const renderOrgList = () => {
+        return checkingOrgAdmin.map((org) => <IonText key={org.name}>{org.name}</IonText>)
+    }
+
+    // {checkingOrgAdmin[1]?.name}
     return (
         <IonPage>
             <IonHeader>
@@ -116,14 +147,21 @@ const AddTeamPage: React.FC = (props: any) => {
                     </p>
                 </IonText>
                 <IonList>
-                    <IonItem lines="none">
-                        <IonLabel>You are Admin of: Clayton Youth Rugby</IonLabel>
-                    </IonItem>
-
-                    <IonItem lines="none">
-                        <IonLabel>Create a Club?</IonLabel>
-                        <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
-                    </IonItem>
+                    {!checkingOrgAdmin ?
+                        <IonItem lines="none">
+                            <IonLabel>Create a NEW Club?</IonLabel>
+                            <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
+                        </IonItem>
+                        :
+                        <IonItem lines="none">
+                            <IonCol>
+                                <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
+                                {renderOrgList()}
+                                <br />
+                                <IonText className="description">Select an organization you want to add new team under. Or select "none" or "new"</IonText>
+                            </IonCol>
+                        </IonItem>
+                    }
                     {
                         createClub ?
                             <IonItem >
