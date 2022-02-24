@@ -120,7 +120,12 @@ const AddTeamPage: React.FC = (props: any) => {
     };
 
     const renderOrgList = () => {
-        return checkingOrgAdmin.map((org) => <IonText key={org.name}>{org.name}</IonText>)
+        return checkingOrgAdmin.map((org) =>
+            <IonItem lines="none">
+                <IonCheckbox key={org.name} color="secondary" value={org.name} checked={false} />
+                <IonText >{org.name}</IonText>
+            </IonItem>
+        )
     }
 
     // {checkingOrgAdmin[1]?.name}
@@ -136,8 +141,6 @@ const AddTeamPage: React.FC = (props: any) => {
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonText>
-                    Do you want to add this team to an existing club or organization or create a new one?
-                    <br />
                     <p>
                         Club can have a multiple teams, for example <IonText color="primary" >"New Town Rugby Club"</IonText>
                         can have
@@ -145,6 +148,7 @@ const AddTeamPage: React.FC = (props: any) => {
                         and
                         <IonText color="primary" > Girls </IonText>teams.
                     </p>
+                    <IonText className="description">Do you want to add this team to an existing club or organization or create a new one?</IonText>
                 </IonText>
                 <IonList>
                     {console.log(checkingOrgAdmin)}
@@ -158,6 +162,14 @@ const AddTeamPage: React.FC = (props: any) => {
                             <IonCol>
                                 <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
                                 {renderOrgList()}
+                                <IonItem lines="none">
+                                    <IonCheckbox key={'nullValue'} color="secondary" value={'nullValue'} checked={false} />
+                                    <IonText >None</IonText>
+                                </IonItem>
+                                <IonItem lines="none">
+                                    <IonCheckbox key={'newValue'} color="secondary" value={'newValue'} checked={false} />
+                                    <IonText >New Organization</IonText>
+                                </IonItem>
                                 <br />
                                 <IonText className="description">Select an organization you want to add new team under. Or select "none" or "new"</IonText>
                             </IonCol>
