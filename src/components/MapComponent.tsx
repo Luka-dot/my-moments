@@ -24,7 +24,7 @@ const MapComponent = (props: any) => {
         // Important! Always set the container height explicitly
         <div style={{ height: '30vh', width: '100%' }}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyCNAPGtVyQOHKP2A_tIHeWNQmnHcsLqt9Y' }}
+                bootstrapURLKeys={{ key: process.env.REACT_APP_G_MAPS }}
                 center={defaultProps.center}
                 zoom={defaultProps.zoom}
                 onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}

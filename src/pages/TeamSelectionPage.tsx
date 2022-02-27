@@ -50,7 +50,7 @@ const TeamSelectionPage: React.FC = (props: any) => {
             // OneSignal.setLogLevel(6, 0);
 
             // NOTE: Update the setAppId value below with your OneSignal AppId.
-            OneSignal.setAppId("fb954bfe-7d60-443d-a7dd-695ffd616880");
+            OneSignal.setAppId(process.env.REACT_APP_ONE_SIGNAL_APP);
             OneSignal.setNotificationOpenedHandler(function (jsonData) {
                 console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
             });

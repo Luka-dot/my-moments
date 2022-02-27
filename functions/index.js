@@ -68,7 +68,7 @@ exports.setToTriggerNotification = functions.firestore.document(`teams/evzgZALsi
         var sendNotification = function (data) {
             var headers = {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Basic Y2MzOWZhOWEtYTlmZi00ZDNkLThkYmItZmViNWE2M2IyNzNl"
+                "Authorization": "Basic " + process.env.REACT_APP_ONE_SYGNAL_REST_API
             };
 
             var options = {
