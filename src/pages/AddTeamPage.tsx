@@ -87,7 +87,7 @@ const AddTeamPage: React.FC = (props: any) => {
         checkOrgAdmin()
     }, [])
 
-    const handleSubmitting = () => {
+    const handleSubmitting = async () => {
         if (selectedOrgOption === '')
             return
         if (selectedOrgOption === 'noOrg') {
@@ -95,7 +95,8 @@ const AddTeamPage: React.FC = (props: any) => {
 
         } if (selectedOrgOption === 'newOrg') {
             console.log('New ORG')
-            handleSaveNewOrg(clubName, props.currentUserId, props.currentUser, teamName, teamInviteCode)
+            await handleSaveNewOrg(clubName, props.currentUserId, props.currentUser, teamName, teamInviteCode).then(() => history.goBack())
+
         } else if (selectedOrgOption !== 'noOrg' && 'newOrg') {
             console.log('adding to ORG ', selectedOrgOption)
         }

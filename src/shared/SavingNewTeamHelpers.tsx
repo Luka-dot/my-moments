@@ -1,8 +1,9 @@
-import { firestore } from "../firebase";
 import {
+    firestore,
     addMemberToSpecificTeam,
     addMemberToSpecificTeamColection,
-    addMemberToSpecificOrganizationColection
+    addMemberToSpecificOrganizationColection,
+    addTeamToOrganization
 } from '../firebase';
 
 export const handleSaveNewOrg = async (clubName, currentUserId, currentUser, teamName, teamInviteCode) => {
@@ -13,6 +14,7 @@ export const handleSaveNewOrg = async (clubName, currentUserId, currentUser, tea
         .collection('teams')
 
     await organizationRef.add({ name: clubName, admin: currentUserId }).then((res) => {
+        let newOrgId = res.id
         addMemberToSpecificOrganizationColection(res.id, currentUser)
         organizationRef.doc(res.id).update({ uid: res.id, orgAdmin: [currentUserId] })
         teamRef.add({
@@ -28,6 +30,7 @@ export const handleSaveNewOrg = async (clubName, currentUserId, currentUser, tea
             teamRef.doc(res.id).update({ uid: res.id })
             addMemberToSpecificTeam(res.id, currentUserId)
             addMemberToSpecificTeamColection(res.id, currentUser)
+            addTeamToOrganization(res.id, newOrgId)
         })   //.then(() => props.getUserAvailableTeams(props.currentUserId))
     })
 };

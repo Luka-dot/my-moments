@@ -174,6 +174,21 @@ catch(error) {
   console.log(error)
 }
 }
+
+export async function addTeamToOrganization(teamId, newOrgId) {
+  try {
+    const orgRef = firestore
+    .collection('organization')
+    .doc(newOrgId)
+    .collection('orgTeams')
+
+    await orgRef.add({teamId})
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
 export async function removeMemberToSpecificTeamColection(teamId, memberId) {
   try {
     const userRef = firestore
