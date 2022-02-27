@@ -37,3 +37,8 @@
     border: 1px;
     border-color: #4d90fe;
   }
+
+  .orgListItem {
+    margin-bottom: -1.8vh;
+    padding-bottom: 0px;
+  }

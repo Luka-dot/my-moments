@@ -13,6 +13,7 @@ import {
     IonLabel,
     IonList,
     IonPage,
+    IonRow,
     IonText,
     IonTextarea,
     IonTitle,
@@ -119,10 +120,14 @@ const AddTeamPage: React.FC = (props: any) => {
         history.goBack();
     };
 
+    const setOrgCreationOption = () => {
+
+    }
+
     const renderOrgList = () => {
         return checkingOrgAdmin.map((org) =>
-            <IonItem lines="none">
-                <IonCheckbox key={org.name} color="secondary" value={org.name} checked={false} />
+            <IonItem lines="none" key={org.name} className='orgListItem'>
+                <IonCheckbox color="secondary" value={org.name} checked={false} />
                 <IonText >{org.name}</IonText>
             </IonItem>
         )
@@ -161,17 +166,19 @@ const AddTeamPage: React.FC = (props: any) => {
                         <IonItem lines="none">
                             <IonCol>
                                 <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
-                                {renderOrgList()}
-                                <IonItem lines="none">
-                                    <IonCheckbox key={'nullValue'} color="secondary" value={'nullValue'} checked={false} />
-                                    <IonText >None</IonText>
-                                </IonItem>
-                                <IonItem lines="none">
-                                    <IonCheckbox key={'newValue'} color="secondary" value={'newValue'} checked={false} />
-                                    <IonText >New Organization</IonText>
-                                </IonItem>
-                                <br />
                                 <IonText className="description">Select an organization you want to add new team under. Or select "none" or "new"</IonText>
+                                {renderOrgList()}
+                                <IonRow>
+                                    <IonItem lines="none" className='orgListItem'>
+                                        <IonCheckbox key={'nullValue'} color="secondary" value={'nullValue'} checked={false} />
+                                        <IonText >None</IonText>
+                                    </IonItem>
+                                    <IonItem lines="none" className='orgListItem'>
+                                        <IonCheckbox key={'newValue'} color="secondary" value={'newValue'} checked={false} />
+                                        <IonText >New Organization</IonText>
+                                    </IonItem>
+                                </IonRow>
+                                <br />
                             </IonCol>
                         </IonItem>
                     }
@@ -187,8 +194,6 @@ const AddTeamPage: React.FC = (props: any) => {
                             :
                             <div></div>
                     }
-                    <br />
-                    <br />
                     <IonTitle>Team Information</IonTitle>
                     <IonItem lines="none">
                         <IonLabel position="stacked">Team Name</IonLabel>
