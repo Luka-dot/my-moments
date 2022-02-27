@@ -22,7 +22,7 @@ import {
     IonToggle,
     IonToolbar,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 //import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
 // import { useAuth } from "../Auth";
@@ -33,6 +33,7 @@ import {
     addMemberToSpecificTeam,
     addMemberToSpecificTeamColection,
     addMemberToSpecificOrganizationColection,
+    storage,
 } from '../firebase';
 
 import { firestore } from "../firebase";
@@ -40,6 +41,17 @@ import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
 import { toEntry } from "../Models";
 import { handleSaveNewOrg, handleSaveNewOrgNo } from "../shared/SavingNewTeamHelpers";
+
+async function savePicture(blobUrl, orgId) {
+
+    const pictureRef = storage.ref(`/organization/${orgId}/pictures/${Date.now()}`);
+    const response = await fetch(blobUrl);
+    const blob = await response.blob();
+    const snapshot = await pictureRef.put(blob);
+    const url = snapshot.ref.getDownloadURL();
+    URL.revokeObjectURL(blobUrl);
+    return url;
+}
 
 const AddTeamPage: React.FC = (props: any) => {
     const history = useHistory();
@@ -52,20 +64,17 @@ const AddTeamPage: React.FC = (props: any) => {
     const [checkingAdmin, setCheckingAdmin] = useState([])
     const [checkingOrgAdmin, setCheckingOrgAdmin] = useState([])
 
+    //  **************** Adding Pictures *********************
+    const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
+    const fileInputRef = useRef<HTMLInputElement>();
 
-    let adminOf = [];
-
-    // **************** Adding Pictures *********************
-    // const [pictureUrl, setPictureUrl] = useState("/assets/placeholder.png");
-    // const fileInputRef = useRef<HTMLInputElement>();
-
-    // useEffect(() => {
-    //     return () => {
-    //         if (pictureUrl.startsWith("blob:")) {
-    //             URL.revokeObjectURL(pictureUrl);
-    //         }
-    //     };
-    // }, [pictureUrl]);
+    useEffect(() => {
+        return () => {
+            if (pictureUrl.startsWith("blob:")) {
+                URL.revokeObjectURL(pictureUrl);
+            }
+        };
+    }, [pictureUrl]);
 
     const checkAdminOf = async () => {
         const teamsRef = firestore.collection('teams')
@@ -89,61 +98,80 @@ const AddTeamPage: React.FC = (props: any) => {
     }, [])
 
     const handleSubmitting = async () => {
-        if (selectedOrgOption === '')
-            return
-        if (selectedOrgOption === 'noOrg') {
-            console.log('submitting NO ORG')
-            await handleSaveNewOrgNo(props.currentUserId, props.currentUser, teamName, teamInviteCode).then(() => history.goBack())
+        let newPicture = null
+        console.log('saving ', pictureUrl)
 
-        } if (selectedOrgOption === 'newOrg') {
-            console.log('New ORG')
-            await handleSaveNewOrg(clubName, props.currentUserId, props.currentUser, teamName, teamInviteCode).then(() => history.goBack())
+        if (!pictureUrl.startsWith("/assets")) {
+            newPicture = await savePicture(pictureUrl, teamName)
+            if (selectedOrgOption === '' && checkingOrgAdmin.length > 0)
+                return
+            if (selectedOrgOption === 'noOrg' || (createClub === false && checkingOrgAdmin.length === 0)) {
+                console.log('submitting NO ORG')
+                await handleSaveNewOrgNo(props.currentUserId, props.currentUser, teamName, teamInviteCode, newPicture).then(() => history.goBack())
 
-        } else if (selectedOrgOption !== 'noOrg' && 'newOrg') {
-            console.log('adding to ORG ', selectedOrgOption)
+            } if (selectedOrgOption === 'newOrg' || (createClub === true && checkingOrgAdmin.length === 0)) {
+                console.log('New ORG')
+                await handleSaveNewOrg(clubName, props.currentUserId, props.currentUser, teamName, teamInviteCode, newPicture).then(() => history.goBack())
+
+            } else if (selectedOrgOption !== 'noOrg' && 'newOrg') {
+                console.log('adding to ORG ', selectedOrgOption)
+            }
         }
     }
 
     // ************** SAVING and ADDING new TEAM ******************
-    const handleSave = async () => {
-        const organizationRef = firestore
-            .collection("organization")
+    // const handleSave = async () => {
+    //     const organizationRef = firestore
+    //         .collection("organization")
 
-        const teamRef = firestore
-            .collection('teams')
+    //     const teamRef = firestore
+    //         .collection('teams')
 
-        if (createClub) {
-            await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
-                addMemberToSpecificOrganizationColection(res.id, props.currentUser)
-                organizationRef.doc(res.id).update({ uid: res.id, orgAdmin: [props.currentUserId] })
-                teamRef.add({
-                    name: teamName, invitationCode: teamInviteCode,
-                    teamAdmins: [props.currentUserId], organization: {
-                        id: res.id,
-                        name: clubName,
-                        admin: props.currentUserId
-                    }
-                }).then((res) => {
-                    console.log(res.id, props.currentUserId, props.currentUser)
-                    // res.id is an id of new team, need to be added to this doc
-                    teamRef.doc(res.id).update({ uid: res.id })
-                    addMemberToSpecificTeam(res.id, props.currentUserId)
-                    addMemberToSpecificTeamColection(res.id, props.currentUser)
-                })   //.then(() => props.getUserAvailableTeams(props.currentUserId))
-            })
-        } else {
-            await teamRef.add({
-                name: teamName, invitationCode: teamInviteCode
-            }).then((res) => {
-                console.log(res.id, props.currentUserId, props.currentUser)
-            })
-        }
-        history.goBack();
-    };
+    //     if (createClub) {
+    //         await organizationRef.add({ name: clubName, admin: props.currentUserId }).then((res) => {
+    //             addMemberToSpecificOrganizationColection(res.id, props.currentUser)
+    //             organizationRef.doc(res.id).update({ uid: res.id, orgAdmin: [props.currentUserId] })
+    //             teamRef.add({
+    //                 name: teamName, invitationCode: teamInviteCode,
+    //                 teamAdmins: [props.currentUserId], organization: {
+    //                     id: res.id,
+    //                     name: clubName,
+    //                     admin: props.currentUserId
+    //                 }
+    //             }).then((res) => {
+    //                 console.log(res.id, props.currentUserId, props.currentUser)
+    //                 // res.id is an id of new team, need to be added to this doc
+    //                 teamRef.doc(res.id).update({ uid: res.id })
+    //                 addMemberToSpecificTeam(res.id, props.currentUserId)
+    //                 addMemberToSpecificTeamColection(res.id, props.currentUser)
+    //             })   //.then(() => props.getUserAvailableTeams(props.currentUserId))
+    //         })
+    //     } else {
+    //         await teamRef.add({
+    //             name: teamName, invitationCode: teamInviteCode
+    //         }).then((res) => {
+    //             console.log(res.id, props.currentUserId, props.currentUser)
+    //         })
+    //     }
+    //     history.goBack();
+    // };
 
     const handleOrgSelection = (e) => {
         setSelectedOrgOption(e.detail.value)
     }
+
+    const handlePictureClick = async () => {
+        await fileInputRef.current.click();
+
+    };
+
+    const handleOnPictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files.length > 0) {
+            const file = event.target.files.item(0);
+            const pictureU = URL.createObjectURL(file);
+            setPictureUrl(pictureU);
+        }
+    };
 
     const renderOrgList = () => {
         return checkingOrgAdmin.map((org) =>
@@ -153,7 +181,7 @@ const AddTeamPage: React.FC = (props: any) => {
             </IonItem>
         )
     }
-    // {checkingOrgAdmin[1]?.name}
+
     return (
         <IonPage>
             <IonHeader>
@@ -173,37 +201,42 @@ const AddTeamPage: React.FC = (props: any) => {
                         and
                         <IonText color="primary" > Girls </IonText>teams.
                     </p>
-                    <IonText className="description">Do you want to add this team to an existing club or organization or create a new one?</IonText>
                 </IonText>
                 <IonList>
                     {checkingOrgAdmin.length === 0 ?
-                        <IonItem lines="none">
-                            <IonLabel>Create a NEW Club?</IonLabel>
-                            <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
-                        </IonItem>
+                        <>
+                            <IonText className="description">Create an independednt team or select a New Organization.</IonText>
+                            <IonItem lines="none">
+                                <IonLabel>Create a NEW Organization?</IonLabel>
+                                <IonToggle color="primary" checked={createClub} onIonChange={(e) => setCreateClub(e.detail.checked)} />
+                            </IonItem>
+                        </>
                         :
-                        <IonItem lines="none">
-                            <IonCol>
-                                <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
-                                <IonText className="description">
-                                    Select an organization you want to add new team under. Or select "none" or "new"
-                                </IonText>
-                                <IonRadioGroup allowEmptySelection={false} onIonChange={(e) => handleOrgSelection(e)} >
-                                    {renderOrgList()}
-                                    <IonRow>
-                                        <IonItem lines="none" className='orgListItem'>
-                                            <IonRadio key={'nullValue'} color="secondary" value={'noOrg'} />
-                                            <IonText >None</IonText>
-                                        </IonItem>
-                                        <IonItem lines="none" className='orgListItem'>
-                                            <IonRadio key={'newValue'} color="secondary" value={'newOrg'} />
-                                            <IonText >New Organization</IonText>
-                                        </IonItem>
-                                    </IonRow>
-                                </IonRadioGroup>
-                                <br />
-                            </IonCol>
-                        </IonItem>
+                        <>
+                            <IonText className="description">Do you want to add this team to an existing club or organization or create a new one?</IonText>
+                            <IonItem lines="none">
+                                <IonCol>
+                                    <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
+                                    <IonText className="description">
+                                        Select an organization you want to add new team under. Or select "none" or "new"
+                                    </IonText>
+                                    <IonRadioGroup allowEmptySelection={false} onIonChange={(e) => handleOrgSelection(e)} >
+                                        {renderOrgList()}
+                                        <IonRow>
+                                            <IonItem lines="none" className='orgListItem'>
+                                                <IonRadio key={'nullValue'} color="secondary" value={'noOrg'} />
+                                                <IonText >None</IonText>
+                                            </IonItem>
+                                            <IonItem lines="none" className='orgListItem'>
+                                                <IonRadio key={'newValue'} color="secondary" value={'newOrg'} />
+                                                <IonText >New Organization</IonText>
+                                            </IonItem>
+                                        </IonRow>
+                                    </IonRadioGroup>
+                                    <br />
+                                </IonCol>
+                            </IonItem>
+                        </>
                     }
                     <IonTitle>Team Information</IonTitle>
                     {
@@ -231,6 +264,24 @@ const AddTeamPage: React.FC = (props: any) => {
                         <IonTextarea
                             value={teamInviteCode}
                             onIonChange={(event) => setTeamInviteCode(event.detail.value)}
+                        />
+                    </IonItem>
+
+                    <IonItem lines="none">
+                        <IonLabel position="stacked">Picture</IonLabel>
+                        <br></br>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleOnPictureChange}
+                            hidden
+                            ref={fileInputRef}
+                        />
+                        <img
+                            src={pictureUrl}
+                            alt=""
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handlePictureClick()}
                         />
                     </IonItem>
 

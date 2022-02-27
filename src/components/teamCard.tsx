@@ -1,4 +1,4 @@
-import { IonCard, IonItem, IonList, IonText } from '@ionic/react';
+import { IonCard, IonItem, IonList, IonText, IonThumbnail } from '@ionic/react';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -28,6 +28,9 @@ function TeamCard(props: any) {
                             routerLink={`/my/teams/team/${team.id}`}
                         >
                             <p>{team.name}</p>
+                            <IonThumbnail slot="end">
+                                <img src={team?.teamPicture} alt="" />
+                            </IonThumbnail>
                         </IonItem>
                     </IonCard>
                 )}
