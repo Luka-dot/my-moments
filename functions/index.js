@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const config = functions.config();
 
 admin.initializeApp();
 
@@ -61,14 +62,14 @@ exports.addDate = functions.firestore.document(`contacts/{contactId}`)
     })
 
 //  - ********** PUSH NOTIFICATION ************
-exports.setToTriggerNotification = functions.firestore.document(`teams/evzgZALsibxzoiufIApG/events/{eventId}`)
+exports.setToTriggerNotification = functions.firestore.document(`teams/ChqpoDJN60KM14Lu7lX4/events/{eventId}`)
     .onCreate((snapshot, context) => {
 
 
         var sendNotification = function (data) {
             var headers = {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Basic " + process.env.REACT_APP_ONE_SYGNAL_REST_API
+                "Authorization": config.onesignal.key
             };
 
             var options = {
@@ -102,7 +103,7 @@ exports.setToTriggerNotification = functions.firestore.document(`teams/evzgZALsi
                 "en": "English Message"
             },
             channel_for_external_user_ids: "push",
-            include_external_user_ids: ["yjsI329VY3P8NX0VXT5ACnX8m1b2", "FTbSwdpPhTSXmEZTFi0t4KDXGZA3"]
+            include_external_user_ids: ["3mr5zzpwW5RvXfrY8Uen41h8Mtu1", "Am7UbLDeg4TOy5zdgRH89JwsNvx1"]
         };
 
         return sendNotification(message);
