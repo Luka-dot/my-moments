@@ -13,6 +13,8 @@ import {
     IonLabel,
     IonList,
     IonPage,
+    IonRadio,
+    IonRadioGroup,
     IonRow,
     IonText,
     IonTextarea,
@@ -37,6 +39,7 @@ import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
 import { toEntry } from "../Models";
+import { handleSaveNewOrg } from "../shared/SavingNewTeamHelpers";
 
 const AddTeamPage: React.FC = (props: any) => {
     const history = useHistory();
@@ -45,6 +48,7 @@ const AddTeamPage: React.FC = (props: any) => {
     const [clubName, setClubName] = useState("");
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
+    const [selectedOrgOption, setSelectedOrgOption] = useState("");
     const [checkingAdmin, setCheckingAdmin] = useState([])
     const [checkingOrgAdmin, setCheckingOrgAdmin] = useState([])
 
@@ -83,7 +87,21 @@ const AddTeamPage: React.FC = (props: any) => {
         checkOrgAdmin()
     }, [])
 
+    const handleSubmitting = () => {
+        if (selectedOrgOption === '')
+            return
+        if (selectedOrgOption === 'noOrg') {
+            console.log('submitting NO ORG')
 
+        } if (selectedOrgOption === 'newOrg') {
+            console.log('New ORG')
+            handleSaveNewOrg(clubName, props.currentUserId, props.currentUser, teamName, teamInviteCode)
+        } else if (selectedOrgOption !== 'noOrg' && 'newOrg') {
+            console.log('adding to ORG ', selectedOrgOption)
+        }
+    }
+
+    // ************** SAVING and ADDING new TEAM ******************
     const handleSave = async () => {
         const organizationRef = firestore
             .collection("organization")
@@ -120,19 +138,18 @@ const AddTeamPage: React.FC = (props: any) => {
         history.goBack();
     };
 
-    const setOrgCreationOption = () => {
-
+    const handleOrgSelection = (e) => {
+        setSelectedOrgOption(e.detail.value)
     }
 
     const renderOrgList = () => {
         return checkingOrgAdmin.map((org) =>
             <IonItem lines="none" key={org.name} className='orgListItem'>
-                <IonCheckbox color="secondary" value={org.name} checked={false} />
+                <IonRadio color="secondary" value={org.uid} />
                 <IonText >{org.name}</IonText>
             </IonItem>
         )
     }
-
     // {checkingOrgAdmin[1]?.name}
     return (
         <IonPage>
@@ -156,7 +173,6 @@ const AddTeamPage: React.FC = (props: any) => {
                     <IonText className="description">Do you want to add this team to an existing club or organization or create a new one?</IonText>
                 </IonText>
                 <IonList>
-                    {console.log(checkingOrgAdmin)}
                     {checkingOrgAdmin.length === 0 ?
                         <IonItem lines="none">
                             <IonLabel>Create a NEW Club?</IonLabel>
@@ -166,26 +182,31 @@ const AddTeamPage: React.FC = (props: any) => {
                         <IonItem lines="none">
                             <IonCol>
                                 <IonText><h5>You are Admin of: {checkingOrgAdmin.length} Organizations</h5></IonText>
-                                <IonText className="description">Select an organization you want to add new team under. Or select "none" or "new"</IonText>
-                                {renderOrgList()}
-                                <IonRow>
-                                    <IonItem lines="none" className='orgListItem'>
-                                        <IonCheckbox key={'nullValue'} color="secondary" value={'nullValue'} checked={false} />
-                                        <IonText >None</IonText>
-                                    </IonItem>
-                                    <IonItem lines="none" className='orgListItem'>
-                                        <IonCheckbox key={'newValue'} color="secondary" value={'newValue'} checked={false} />
-                                        <IonText >New Organization</IonText>
-                                    </IonItem>
-                                </IonRow>
+                                <IonText className="description">
+                                    Select an organization you want to add new team under. Or select "none" or "new"
+                                </IonText>
+                                <IonRadioGroup allowEmptySelection={false} onIonChange={(e) => handleOrgSelection(e)} >
+                                    {renderOrgList()}
+                                    <IonRow>
+                                        <IonItem lines="none" className='orgListItem'>
+                                            <IonRadio key={'nullValue'} color="secondary" value={'noOrg'} />
+                                            <IonText >None</IonText>
+                                        </IonItem>
+                                        <IonItem lines="none" className='orgListItem'>
+                                            <IonRadio key={'newValue'} color="secondary" value={'newOrg'} />
+                                            <IonText >New Organization</IonText>
+                                        </IonItem>
+                                    </IonRow>
+                                </IonRadioGroup>
                                 <br />
                             </IonCol>
                         </IonItem>
                     }
+                    <IonTitle>Team Information</IonTitle>
                     {
-                        createClub ?
-                            <IonItem >
-                                <IonLabel position="stacked">Club/Organization Name</IonLabel>
+                        createClub || selectedOrgOption === 'newOrg' ?
+                            <IonItem lines="none" >
+                                <IonLabel position="stacked">Organization/Club Name</IonLabel>
                                 <IonInput
                                     value={clubName}
                                     onIonChange={(event) => setClubName(event.detail.value)}
@@ -194,7 +215,6 @@ const AddTeamPage: React.FC = (props: any) => {
                             :
                             <div></div>
                     }
-                    <IonTitle>Team Information</IonTitle>
                     <IonItem lines="none">
                         <IonLabel position="stacked">Team Name</IonLabel>
                         <IonInput
@@ -211,7 +231,7 @@ const AddTeamPage: React.FC = (props: any) => {
                         />
                     </IonItem>
 
-                    <IonButton expand="block" onClick={handleSave}>
+                    <IonButton expand="block" onClick={handleSubmitting}>
                         Save
                     </IonButton>
                 </IonList>
