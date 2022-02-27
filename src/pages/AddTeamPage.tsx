@@ -32,14 +32,14 @@ import { arrowBackOutline as backIcon } from "ionicons/icons"
 import {
     addMemberToSpecificTeam,
     addMemberToSpecificTeamColection,
-    addMemberToSpecificOrganizationColection
+    addMemberToSpecificOrganizationColection,
 } from '../firebase';
 
 import { firestore } from "../firebase";
 import { TestPlaceInput } from "../shared/testPlaceInput";
 import './addEventPage.css'
 import { toEntry } from "../Models";
-import { handleSaveNewOrg } from "../shared/SavingNewTeamHelpers";
+import { handleSaveNewOrg, handleSaveNewOrgNo } from "../shared/SavingNewTeamHelpers";
 
 const AddTeamPage: React.FC = (props: any) => {
     const history = useHistory();
@@ -77,7 +77,8 @@ const AddTeamPage: React.FC = (props: any) => {
 
     const checkOrgAdmin = async () => {
         const orgRef = firestore.collection('organization')
-        await orgRef.where('orgAdmin', 'array-contains-any', [props.currentUserId]).get().then((docs) => {
+        const orgRefFiltered = orgRef.where('orgAdmin', 'array-contains-any', [props.currentUserId]).where('name', '!=', 'optedOut')
+        await orgRefFiltered.get().then((docs) => {
             return setCheckingOrgAdmin(docs.docs.map(toEntry))
         })
     }
@@ -92,6 +93,7 @@ const AddTeamPage: React.FC = (props: any) => {
             return
         if (selectedOrgOption === 'noOrg') {
             console.log('submitting NO ORG')
+            await handleSaveNewOrgNo(props.currentUserId, props.currentUser, teamName, teamInviteCode).then(() => history.goBack())
 
         } if (selectedOrgOption === 'newOrg') {
             console.log('New ORG')
