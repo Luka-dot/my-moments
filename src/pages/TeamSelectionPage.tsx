@@ -33,10 +33,9 @@ import {
 import "../appTab.css";
 import { getCurrentUserDetails } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
-import { CreationPopover } from '../components/CreationPopover';
 import { isPlatform, IonPage } from '@ionic/react';
 import { toEntry } from "../Models";
-import TeamCard from "../components/teamCard";
+import TeamCard from '../components/TeamCard'
 
 const TeamSelectionPage: React.FC = (props: any) => {
     const [creatingTeam, setCreatingTeam] = useState(false)
@@ -183,10 +182,9 @@ const TeamSelectionPage: React.FC = (props: any) => {
             <IonFooter  >
                 <IonToolbar className="footerItem" >
                     <IonRow id="footerButton" className="ion-justify-content-end" >
-                        <CreationPopover />
                         <IonButton
                             routerLink={`addTeam`}
-                        >Add</IonButton>
+                        >Add a Team</IonButton>
                     </IonRow>
                 </IonToolbar>
             </IonFooter>

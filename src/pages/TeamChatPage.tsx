@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { IonAvatar, IonCol, IonFooter, IonHeader, IonItem, IonList, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonCol, IonFooter, IonHeader, IonItem, IonList, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 
 import './teamChatPage.css';
 import ChatItem from '../components/chat/ChatItem';
@@ -9,6 +9,7 @@ import { getAllMembers, getTeamMembers } from '../actions/TeamActions';
 
 export const TeamChatPage = (props: any) => {
     const [selectedTab, setSelectedTab] = useState(true)
+    const [availableMembers, setAvailableMembers] = useState<any>()
 
     useEffect(() => {
         props.getTeamMembers(props.selectedTeam)
@@ -16,13 +17,18 @@ export const TeamChatPage = (props: any) => {
     }, [])
 
     useEffect(() => {
-        console.log('render')
-    }, [])
-
+        setAvailableMembers(props.members.filter(member => {
+            return member.id !== props.currentUser.uid // !member.memberOfTeam.includes(props.selectedTeam)
+        }))
+    }, [props.allMembers, props.selectedTeam])
 
     function toggleTabs() {
         console.log('setting')
         setSelectedTab(!selectedTab)
+    }
+
+    if (!availableMembers) {
+        return (<div>... <p>Loading</p> ... </div>)
     }
 
     if (selectedTab === true) {
@@ -43,7 +49,7 @@ export const TeamChatPage = (props: any) => {
                 <IonCol>
                     <IonList>
                         {
-                            props.team.members.map((member) => <ChatItem contact={member} />)
+                            availableMembers.map((member) => <ChatItem contact={member} />)
                         }
                     </IonList>
                 </IonCol>

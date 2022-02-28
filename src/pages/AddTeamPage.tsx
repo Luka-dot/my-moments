@@ -2,12 +2,9 @@ import {
     IonBackButton,
     IonButton,
     IonButtons,
-    IonCheckbox,
     IonCol,
     IonContent,
-    IonFabButton,
     IonHeader,
-    IonIcon,
     IonInput,
     IonItem,
     IonLabel,
@@ -23,21 +20,9 @@ import {
     IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useState, useRef } from "react";
-//import { CameraResultType, CameraSource, Plugins } from "@capacitor/core";
 import { useHistory } from "react-router";
-// import { useAuth } from "../Auth";
 import { connect } from "react-redux";
-import { arrowBackOutline as backIcon } from "ionicons/icons"
-
-import {
-    addMemberToSpecificTeam,
-    addMemberToSpecificTeamColection,
-    addMemberToSpecificOrganizationColection,
-    storage,
-} from '../firebase';
-
-import { firestore } from "../firebase";
-import { TestPlaceInput } from "../shared/testPlaceInput";
+import { firestore, storage } from "../firebase";
 import './addEventPage.css'
 import { toEntry } from "../Models";
 import { handleSaveNewOrg, handleSaveNewOrgNo } from "../shared/SavingNewTeamHelpers";
@@ -61,7 +46,7 @@ const AddTeamPage: React.FC = (props: any) => {
     const [teamName, setTeamName] = useState("");
     const [teamInviteCode, setTeamInviteCode] = useState("");
     const [selectedOrgOption, setSelectedOrgOption] = useState("");
-    const [checkingAdmin, setCheckingAdmin] = useState([])
+    //    const [checkingAdmin, setCheckingAdmin] = useState([])
     const [checkingOrgAdmin, setCheckingOrgAdmin] = useState([])
 
     //  **************** Adding Pictures *********************
@@ -76,13 +61,13 @@ const AddTeamPage: React.FC = (props: any) => {
         };
     }, [pictureUrl]);
 
-    const checkAdminOf = async () => {
-        const teamsRef = firestore.collection('teams')
-        console.log(teamsRef)
-        await teamsRef.where('teamAdmins', 'array-contains-any', [props.currentUserId]).get().then((docs) => {
-            return setCheckingAdmin(docs.docs.map(toEntry))
-        })
-    }
+    // const checkAdminOf = async () => {
+    //     const teamsRef = firestore.collection('teams')
+    //     console.log(teamsRef)
+    //     await teamsRef.where('teamAdmins', 'array-contains-any', [props.currentUserId]).get().then((docs) => {
+    //         return setCheckingAdmin(docs.docs.map(toEntry))
+    //     })
+    // }
 
     const checkOrgAdmin = async () => {
         const orgRef = firestore.collection('organization')
@@ -93,7 +78,6 @@ const AddTeamPage: React.FC = (props: any) => {
     }
 
     useEffect(() => {
-        //    checkAdminOf()
         checkOrgAdmin()
     }, [])
 

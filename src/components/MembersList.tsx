@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from "react-redux";
 import { removeMemberToSpecificTeam, removeMemberToSpecificTeamColection } from '../firebase';
 
-const MembersList: React.FC = (props: any) => {
+const MembersList: React.FC<{ isAdmin: boolean }> = (props: any) => {
 
     const handleRemovingMember = (memberId) => {
         console.log('removing member from a team ', memberId)
@@ -14,12 +14,26 @@ const MembersList: React.FC = (props: any) => {
     return (
         props.members.map((member) => (
             <IonItem key={member.id} lines="none">
-                <IonItemSliding>
-                    <IonItemOptions side="start" onClick={() => handleRemovingMember(member.id)}>
-                        <IonItemOption color="danger" expandable>
-                            Remove from {props.teamName.name}
-                        </IonItemOption>
-                    </IonItemOptions>
+                {props.isAdmin ?
+                    <IonItemSliding>
+                        <IonItemOptions side="start" onClick={() => handleRemovingMember(member.id)}>
+                            <IonItemOption color="danger" expandable>
+                                Remove from {props.teamName.name}
+                            </IonItemOption>
+                        </IonItemOptions>
+                        <IonRow>
+                            <IonItem className='chatItem'  >
+                                <IonAvatar className='avatar' slot='start'>
+                                    <img className='avatarImg' src={member.pictureUrl ? member.pictureUrl : "/avatar-grey.png"} />
+                                </IonAvatar>
+                                <IonLabel>
+                                    <IonText><p className='ion-text-wrap'>{member.userName}</p></IonText>
+                                    <IonText><p className='email-text'>{member.email}</p></IonText>
+                                </IonLabel>
+                            </IonItem>
+                        </IonRow>
+                    </IonItemSliding>
+                    :
                     <IonRow>
                         <IonItem className='chatItem'  >
                             <IonAvatar className='avatar' slot='start'>
@@ -31,9 +45,11 @@ const MembersList: React.FC = (props: any) => {
                             </IonLabel>
                         </IonItem>
                     </IonRow>
-                </IonItemSliding>
+                }
             </IonItem>
-        )))
+        ))
+
+    )
 }
 
 const mapStateToProps = (state) => ({

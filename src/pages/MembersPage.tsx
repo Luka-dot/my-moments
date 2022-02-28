@@ -8,12 +8,13 @@ import MembersList from "../components/MembersList";
 const MembersPage: React.FC = (props: any) => {
 
   // *********** New check for admin  **************************
-  function isUserAdminCheck2() {
+  const isUserAdminCheck2 = () => {
     const admins = props.teamName.organization.admin
     const userIs = props.currentUser.userId
     if (admins === userIs) {
       return true
     }
+    return false
   }
 
   useEffect(() => {
@@ -22,7 +23,6 @@ const MembersPage: React.FC = (props: any) => {
   }, [])
 
   if (!props.allMembers) {
-    console.log('we dont have it yet!')
     return (
       <div> ... Loading </div>
     )
@@ -35,7 +35,7 @@ const MembersPage: React.FC = (props: any) => {
           <IonCol>
             <IonText color='tertiary'>{props.teamName.name}</IonText><IonText> team members</IonText>
             <IonList>
-              <MembersList />
+              <MembersList isAdmin={isUserAdminCheck2()} />
             </IonList>
           </IonCol>
         </IonRow>
