@@ -1,4 +1,4 @@
-import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonItem, IonLabel, IonCard, IonIcon, IonButton, IonCardContent, IonList, IonItemSliding, IonItemOptions, IonItemOption } from '@ionic/react'
+import { IonGrid, IonRow, IonText, IonCol, IonAvatar, IonItem, IonLabel, IonList, IonItemSliding, IonItemOptions, IonItemOption } from '@ionic/react'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams } from "react-router";

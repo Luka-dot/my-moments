@@ -23,7 +23,6 @@ export const TeamChatPage = (props: any) => {
     }, [props.allMembers, props.selectedTeam])
 
     function toggleTabs() {
-        console.log('setting')
         setSelectedTab(!selectedTab)
     }
 

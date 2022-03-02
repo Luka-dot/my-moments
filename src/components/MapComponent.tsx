@@ -18,7 +18,7 @@ const MapComponent = (props: any) => {
         });
         return marker;
     };
-
+    console.log(process.env.REACT_APP_G_MAPS)
 
     return (
         // Important! Always set the container height explicitly
