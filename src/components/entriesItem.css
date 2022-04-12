@@ -13,6 +13,37 @@
 
 }
 
+.eventType {
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:end;
+    font-size: small;
+}
+
+.titleText {
+    font-weight: bolder;
+    margin-left: 4%;
+    color: black;
+}
+
+.eventText {
+    margin-left: 4%;
+    margin-right: 4%;
+    font-style: italic;
+}
+
+.locationText {
+    font-size: small;
+    color: blue;
+    white-space: nowrap;
+}
+
+.iconText {
+    margin-right: 4%;
+    margin-bottom: -1.4px;
+}
+
 .monthText {
     font-weight: bolder;
     color: lightslategrey;
