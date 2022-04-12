@@ -18,7 +18,7 @@ export const TeamChatPage = (props: any) => {
 
     useEffect(() => {
         setAvailableMembers(props.members.filter(member => {
-            return member.id !== props.currentUser.uid // !member.memberOfTeam.includes(props.selectedTeam)
+            return member.uid !== props.currentUser.uid // !member.memberOfTeam.includes(props.selectedTeam)
         }))
     }, [props.allMembers, props.selectedTeam])
 

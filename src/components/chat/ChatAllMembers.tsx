@@ -8,7 +8,7 @@ const ChatAllMembers: React.FC = (props: any) => {
     useEffect(() => {
         console.log('ALLL MEMBERS ', props.allMembers)
         setAvailableMembers(props.allMembers.filter(member => {
-            return member.id !== props.currentUser.userId // !member.memberOfTeam.includes(props.selectedTeam)
+            return member.uid !== props.currentUser.userId // !member.memberOfTeam.includes(props.selectedTeam)
         }))
         console.log(availableMembers, props.selectedTeam)
     }, [props.allMembers, props.selectedTeam])

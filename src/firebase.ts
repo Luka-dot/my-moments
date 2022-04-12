@@ -80,6 +80,7 @@ if (!snapShot.exists) {
       userName: additionalData.newUser.userName,
       email: additionalData.newUser.email,
       createdAt: createdAt,
+      userRole: additionalData.newUser.userRole,
       pictureUrl: additionalData.newUser.pictureUrl,
       isAdmin: additionalData.newUser.isAdmin,
       uid: userAuth.uid,

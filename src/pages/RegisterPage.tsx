@@ -12,7 +12,13 @@ import {
   IonText,
   IonLoading,
   isPlatform,
+  IonButtons,
+  IonBackButton,
+  IonSegment,
+  IonSegmentButton,
+  IonIcon,
 } from "@ionic/react";
+import { chevronBackCircleOutline as backIcon } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -39,13 +45,14 @@ const RegisterPage: React.FC = (props: any) => {
     email: '',
     password: '',
     userName: '',
+    userRole: 'Player',
     pictureUrl: "/assets/placeholder.png",
     isAdmin: false,
   });
 
   useEffect(() => {
-
-  }, [props.loggedIn])
+    console.log(newUser);
+  }, [newUser])
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files.length > 0) {
@@ -75,7 +82,7 @@ const RegisterPage: React.FC = (props: any) => {
   const fileInputRef = useRef<HTMLInputElement>();
 
   const handleRegister = async () => {
-    const { email, password, userName, pictureUrl } = newUser;
+    const { email, password, userName, userRole, isAdmin, pictureUrl } = newUser;
 
     try {
       setStatus({ loading: true, error: false });
@@ -113,6 +120,11 @@ const RegisterPage: React.FC = (props: any) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Register</IonTitle>
+          <IonButtons slot="start">
+            <IonButton routerLink="/login" >
+              <IonIcon icon={backIcon}></IonIcon>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -122,6 +134,7 @@ const RegisterPage: React.FC = (props: any) => {
             <IonInput
               name="email"
               type="email"
+              required={true}
               value={newUser.email}
               onIonChange={(e) => handleInputChange(e)}
             />
@@ -131,6 +144,7 @@ const RegisterPage: React.FC = (props: any) => {
             <IonInput
               name="password"
               type="password"
+              required={true}
               value={newUser.password}
               onIonChange={(e) => handleInputChange(e)}
             />
@@ -140,9 +154,19 @@ const RegisterPage: React.FC = (props: any) => {
             <IonInput
               name='userName'
               type="text"
+              pattern="text"
+              required={true}
               value={newUser.userName}
               onIonChange={(e) => handleInputChange(e)}
             />
+          </IonItem>
+          <IonItem lines="none">
+            <IonLabel position="stacked">Role</IonLabel>
+            <IonSegment value={newUser.userRole} onIonChange={(e) => setNewUser({ ...newUser, userRole: e.detail.value })}>
+              <IonSegmentButton value='Player' >Player</IonSegmentButton>
+              <IonSegmentButton value='Coach'>Coach</IonSegmentButton>
+              <IonSegmentButton value="Parent">Parent</IonSegmentButton>
+            </IonSegment>
           </IonItem>
           <IonItem lines="none">
             <IonLabel position="stacked">Picture</IonLabel>

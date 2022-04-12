@@ -56,7 +56,7 @@ const AddEventPage: React.FC = (props: any) => {
     //             URL.revokeObjectURL(pictureUrl);
     //         }
     //     };
-    // }, [pictureUrl]);
+    // }, [pictureUrl]);    wrs588fihz04
 
     function handleChange(location) {
         setLocation(location)
