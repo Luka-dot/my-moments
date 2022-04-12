@@ -12,6 +12,7 @@ import {
   IonText,
   IonTitle,
   IonToolbar,
+  useIonViewWillLeave,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
@@ -52,6 +53,21 @@ const EntryPage: React.FC = (props: any) => {
     }
   }
 
+  function showTab() {
+    const tabBar = document.getElementById('appTabBar');
+    if (tabBar !== null) {
+      console.log("enabled")
+      tabBar.style.display = 'flex';
+    }
+  }
+
+  function hideTab() {
+    const tabBar = document.getElementById('appTabBar');
+    if (tabBar !== null) {
+      tabBar.style.display = 'none';
+    }
+  }
+
   // async function weatherCheck() {
   //   await fetch(`${process.env.REACT_APP_API_URL}/weather/?lat=${props.singleEntry.coordinance.lat}&lon=${props.singleEntry.coordinance.lng}&units=metric&APPID=${process.env.REACT_APP_WEATER}`)
   //     .then(res => res.json())
@@ -69,7 +85,12 @@ const EntryPage: React.FC = (props: any) => {
     setAttending(props.getAttendance(props.teamId, id, props.currentUser.userId))
     props.getAllAttendees(props.teamId, id)
     setWeatherData(null)
+    hideTab()
   }, [])
+
+  useIonViewWillLeave(() => {
+    showTab()
+  })
 
   useEffect(() => {
     // will fire redux action to add to list of members attending
@@ -139,10 +160,7 @@ const EntryPage: React.FC = (props: any) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          {
+          {/* {
             userIsAdmin ?
               <IonButtons slot="end">
                 <IonButton onClick={() => { }} routerLink={`/my/teams/team/${props.teamId}/entries/${id}/edit`}>
@@ -154,12 +172,25 @@ const EntryPage: React.FC = (props: any) => {
               </IonButtons>
               :
               <div></div>
-          }
-          {
-            !props.singleEntry.isMatch ?
-              <IonTitle>Practice</IonTitle>
-              :
-              <IonTitle>Game</IonTitle>
+          } */}
+          {props.singleEntry.location ?
+            <IonRow className='locationRow'>
+              <IonCol size='6'>
+                <IonText className='descriptionText'>Location:</IonText>
+              </IonCol>
+              <IonCol size='6'>
+                <IonText> {props.singleEntry.location}</IonText>
+              </IonCol>
+              {!props.singleEntry.coordinance ?
+                <div></div>
+                :
+                <MapComponent coordinance={props.singleEntry.coordinance} isUserIsAdmin={isUserAdminCheck} />
+              }
+            </IonRow>
+            :
+            <IonRow className='locationRow'>
+              <div></div>
+            </IonRow>
           }
           {/* <IonTitle>Entry for {formatDate(props.singleEntry.date)}</IonTitle> */}
         </IonToolbar>
@@ -275,25 +306,7 @@ const EntryPage: React.FC = (props: any) => {
             :
             <div></div>
           }
-          {props.singleEntry.location ?
-            <IonRow className='locationRow'>
-              <IonCol size='6'>
-                <IonText className='descriptionText'>Location:</IonText>
-              </IonCol>
-              <IonCol size='6'>
-                <IonText> {props.singleEntry.location}</IonText>
-              </IonCol>
-              {!props.singleEntry.coordinance ?
-                <div></div>
-                :
-                <MapComponent coordinance={props.singleEntry.coordinance} />
-              }
-            </IonRow>
-            :
-            <IonRow className='locationRow'>
-              <div></div>
-            </IonRow>
-          }
+
           <IonRow>
             <IonCol size='12'>
               <EventChat />

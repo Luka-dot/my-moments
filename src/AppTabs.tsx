@@ -55,6 +55,21 @@ const AppTab: React.FC = (props: any) => {
 
   const pathToTeamEvents = `/my/teams/team/${props.selectedTeam.team}`
 
+  function showTab() {
+    const tabBar = document.getElementById('appTabBar');
+    if (tabBar !== null) {
+      console.log("enabled")
+      tabBar.style.display = 'flex';
+    }
+  }
+
+  function hideTab() {
+    const tabBar = document.getElementById('appTabBar');
+    if (tabBar !== null) {
+      tabBar.style.display = 'none';
+    }
+  }
+
   return (
     <>
       <IonTabs className="tabbBarMenu" >
@@ -91,7 +106,7 @@ const AppTab: React.FC = (props: any) => {
           </Route>
         </IonRouterOutlet>
 
-        <IonTabBar slot="top" className="tabMenu">
+        <IonTabBar slot="top" className="tabMenu" id="appTabBar">
           <IonTabButton className="tabButton" tab="events" href={pathToTeamEvents} >
             <IonIcon icon={calendarIcon} />
             <IonLabel>Events</IonLabel>

@@ -64,9 +64,18 @@ const TeamSelectionPage: React.FC = (props: any) => {
         OneSignal.setExternalUserId(props.currentUserId)
     }
 
+    function showTab() {
+        const tabBar = document.getElementById('appTabBar');
+        if (tabBar !== null) {
+            console.log("enabled")
+            tabBar.style.display = 'flex';
+        }
+    }
+
     useEffect(() => {
         props.getCurrentUserDetails(props.currentUserId)
         setTeamsFiltered(props.getUserAvailableTeams(props.currentUserId))
+
     }, []);
 
     useEffect(() => {
