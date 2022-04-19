@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { IonBackButton, IonButton, IonButtons, IonIcon } from '@ionic/react';
+import { IonButton, IonButtons, IonIcon, IonItem } from '@ionic/react';
 
-import { trash as trashIcon, create as createIcon, chevronDown as downArrow, chevronUp as upArrow } from "ionicons/icons";
+import { arrowBackOutline as backIcon, create as createIcon, chevronDown as downArrow, chevronUp as upArrow } from "ionicons/icons";
 
 import './mapComponent.css';
 
@@ -16,10 +16,19 @@ const MapComponent = (props: any) => {
         zoom: 15
     };
 
+    function showTab() {
+        const tabBar = document.getElementById('appTabBar');
+        if (tabBar !== null) {
+            console.log("enabled")
+            tabBar.style.display = 'flex';
+        }
+    }
+
     const [isAdmin, setIsAdmin] = useState();
 
     useEffect(() => {
         setIsAdmin(props.isUserIsAdmin());
+        console.log(process.env.REACT_APP_G_MAPS)
     }, [])
 
     const renderMarkers = (map, maps) => {
@@ -29,7 +38,12 @@ const MapComponent = (props: any) => {
         });
         return marker;
     };
-    console.log(process.env.REACT_APP_G_MAPS)
+
+
+    const handleGoingBack = () => {
+        console.log('erererer')
+        props.toggleNavigation()
+    }
 
     return (
         // Important! Always set the container height explicitly
@@ -40,9 +54,14 @@ const MapComponent = (props: any) => {
                 zoom={defaultProps.zoom}
                 onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
             >
-                <IonButtons >
-                    <IonBackButton className='backButton' />
-                </IonButtons>
+
+                <IonButton
+                    className='iconContainer'
+                    routerLink={`/my/teams/team/${props.currentTeam}`}
+                    onClick={() => handleGoingBack()}
+                    fill='clear' >
+                    <IonIcon className='backButton' icon={backIcon} slot="icon-only" />
+                </IonButton>
 
             </GoogleMapReact>
         </div>

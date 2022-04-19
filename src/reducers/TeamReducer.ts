@@ -12,7 +12,7 @@ import {
     LISTEN_TO_EVENT_CHAT,
     GET_ALL_MEMBERS,
     ADD_MEMBER_TO_TEAM,
-    GET_USER_AVAILABLE_TEAMS
+    GET_USER_AVAILABLE_TEAMS,
   } from "../actions/types";
   
 

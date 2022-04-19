@@ -9,6 +9,7 @@ import {
     IonLabel,
     IonFooter,
     IonToolbar,
+    useIonViewDidEnter,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -20,7 +21,7 @@ import {
     createTeam,
     getUserAvailableTeams
 } from '../actions/TeamActions';
-import { Redirect } from "react-router";
+import { Redirect, useLocation } from "react-router";
 
 import OneSignal from 'onesignal-cordova-plugin';
 import {
@@ -31,7 +32,7 @@ import {
 } from '../firebase';
 
 import "../appTab.css";
-import { getCurrentUserDetails } from "../actions/AuthActions";
+import { getCurrentUserDetails, toggleDisplayNavigation } from "../actions/AuthActions";
 import { AddTeamModal } from "../shared/AddTeamModal";
 import { isPlatform, IonPage } from '@ionic/react';
 import { toEntry } from "../Models";
@@ -64,11 +65,20 @@ const TeamSelectionPage: React.FC = (props: any) => {
         OneSignal.setExternalUserId(props.currentUserId)
     }
 
+    const location = useLocation()
+
     function showTab() {
         const tabBar = document.getElementById('appTabBar');
         if (tabBar !== null) {
             console.log("enabled")
             tabBar.style.display = 'flex';
+        }
+    }
+
+    function hideTab() {
+        const tabBar = document.getElementById('appTabBar');
+        if (tabBar !== null) {
+            tabBar.style.display = 'none';
         }
     }
 
@@ -85,6 +95,10 @@ const TeamSelectionPage: React.FC = (props: any) => {
     useEffect(() => {
         setCodeErrorMessage('')
     }, [teamCode])
+
+    useIonViewDidEnter(() => {
+        console.log('will ENTER will ENTER will ENTER will ENTER will ENTER will ENTER will ENTER')
+    })
 
     if (!props.userLoggedIn) {
         return (
@@ -146,6 +160,8 @@ const TeamSelectionPage: React.FC = (props: any) => {
         })
         setTeamCode('')
     }
+
+    props.currentUser.displayNavigation ? showTab() : hideTab()
 
     return (
         <IonPage>
@@ -212,5 +228,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps,
     {
         userSelectedTeam, getTeamMembers, selectedTeamData,
-        getAttendance, getCurrentUserDetails, createTeam, getUserAvailableTeams
+        getAttendance, getCurrentUserDetails, createTeam, getUserAvailableTeams, toggleDisplayNavigation,
     })(TeamSelectionPage);

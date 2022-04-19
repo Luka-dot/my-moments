@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT, GET_CURRENT_USER_DETAILS } from './types';
+import { LOG_IN, LOG_OUT, GET_CURRENT_USER_DETAILS, SHOW_NAVIGATION, HIDE_NAVIGATION } from './types';
 import { auth } from '../firebase';
 import { firestore } from '../firebase';
 
@@ -48,3 +48,23 @@ export const logoutUser = () => async dispatch => {
             type: LOG_OUT
         })
 }
+
+export const toggleDisplayNavigation = () => dispatch => {
+    try {
+      dispatch({ 
+        type: SHOW_NAVIGATION
+      })
+    }catch(error) {
+      console.log(error)
+    }
+  }
+  
+  export const toggleHideNavigation = () => dispatch => {
+    try {
+      dispatch({ 
+        type: HIDE_NAVIGATION
+      })
+    }catch(error) {
+      console.log(error)
+    }
+  }

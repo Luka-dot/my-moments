@@ -1,11 +1,14 @@
+.iconContainer {
+    margin-left: -40%;
+    margin-top: -48%;
+}
+
 .backButton {
     position: absolute;
     color: blue;
-    margin-left: -44%;
-    margin-top: -42%;
     background-color: #fff;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     border-radius: 50px;
-    opacity: 0.7;
+   
 }
 

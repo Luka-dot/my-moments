@@ -1,4 +1,11 @@
-import { GET_MEMORIES, GET_SINGLE_EVENT, RESET_SINGLE_EVENT, LISTEN_TO_EVENT_CHAT } from './types';
+import { 
+  GET_MEMORIES, 
+  GET_SINGLE_EVENT, 
+  RESET_SINGLE_EVENT, 
+  LISTEN_TO_EVENT_CHAT, 
+  SHOW_NAVIGATION,
+  HIDE_NAVIGATION,
+} from './types';
 import { firestore } from '../firebase';
 import { toEntry } from '../Models';
 
